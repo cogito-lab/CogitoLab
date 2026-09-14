@@ -37,19 +37,30 @@ const alternate = lang === 'en' ? 'pt' : 'en';
 <script is:inline>
   (() => {
     const root = document.documentElement;
-    const saved = localStorage.getItem('cogito-theme');
+    let saved;
+    try { saved = localStorage.getItem('cogito-theme'); } catch {}
     if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme: dark)').matches)) root.dataset.theme = 'dark';
     document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
       root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('cogito-theme', root.dataset.theme);
+      try { localStorage.setItem('cogito-theme', root.dataset.theme); } catch {}
     });
     const panel = document.querySelector('[data-mobile-panel]');
     const opener = document.querySelector('[data-menu-open]');
-    const close = () => { if (panel) panel.hidden = true; opener?.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+    const close = () => { const wasOpen = panel && !panel.hidden; if (panel) panel.hidden = true; opener?.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; if (wasOpen) opener?.focus(); };
     opener?.addEventListener('click', () => { if (panel) panel.hidden = false; opener.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; panel?.querySelector('a')?.focus(); });
     document.querySelector('[data-menu-close]')?.addEventListener('click', close);
     panel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
-    addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
+    addEventListener('keydown', (event) => {
+      if (!panel || panel.hidden) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'Tab') {
+        const controls = [...panel.querySelectorAll('a, button')];
+        const first = controls[0], last = controls.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    });
+    matchMedia('(min-width: 981px)').addEventListener('change', (event) => { if (event.matches) close(); });
   })();
 </script>
 <style>
@@ -65,7 +76,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
   .icon-button svg { width: 1.1rem; height: 1.1rem; }
   .language:hover, .icon-button:hover { background: var(--surface); }
   .menu-button { display: none; }
-  .mobile-panel { position: fixed; inset: 0; z-index: 60; overflow-y: auto; color: var(--ink); background: var(--paper); }
+  .mobile-panel { position: fixed; inset: 0; height: 100dvh; z-index: 60; overflow-y: auto; color: var(--ink); background: var(--paper); }
   .mobile-panel__top { display: flex; min-height: 4.7rem; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
   .mobile-nav { display: grid; padding-block: 2rem; }
   .mobile-nav a { display: flex; align-items: center; justify-content: space-between; padding-block: 1rem; border-bottom: 1px solid var(--line); font-family: Georgia, serif; font-size: clamp(1.6rem, 8vw, 2.7rem); text-decoration: none; }
