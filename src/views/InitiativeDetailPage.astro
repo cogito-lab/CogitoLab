@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import MemberCard from '@/components/MemberCard.astro';
+import OpportunityCard from '@/components/OpportunityCard.astro';
+import Icon from '@/components/Icon.astro';
+import type { Initiative } from '@/utils/content';
+import { entrySlug, getOpportunities, getPeople } from '@/utils/content';
+import { getArea } from '@/data/areas';
+import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang; initiative: Initiative }
+const { lang, initiative } = Astro.props;
+const copy = t(lang);
+const slug = entrySlug(initiative.id);
+const [allPeople, allOpportunities] = await Promise.all([getPeople(), getOpportunities()]);
+const people = allPeople.filter((person) => initiative.data.people.includes(entrySlug(person.id)));
+const opportunities = allOpportunities.filter((opportunity) => opportunity.data.initiative === slug);
+const path = `/initiatives/${slug}`;
+const { Content } = await render(initiative);
+---
+<BaseLayout lang={lang} title={pick(initiative.data.title, lang)} description={pick(initiative.data.summary, lang)} path={path}>
+  <header class="initiative-hero">
+    <div class="container">
+      <a class="back-link" href={withBase(localizedPath('/initiatives', lang))}>← {copy.initiatives}</a>
+      <div class="hero-meta"><span class="tag"><i class="status-dot"></i>{pick(initiative.data.statusLabel, lang)}</span><span class="tag">{pick(initiative.data.kindLabel, lang)}</span>{initiative.data.funding && <span class="tag">{initiative.data.funding.agency} · {initiative.data.funding.process}</span>}</div>
+      <h1>{pick(initiative.data.title, lang)}</h1><p class="lede">{pick(initiative.data.summary, lang)}</p>
+    </div>
+  </header>
+  <section class="section container detail-layout">
+    <article class="prose">
+      <Content />
+      <h2>{copy.defined}</h2><ul>{pick(initiative.data.defined, lang).map((item) => <li>{item}</li>)}</ul>
+      <h2>{copy.work}</h2><ol>{pick(initiative.data.work, lang).map((item) => <li>{item}</li>)}</ol>
+      <h2>{copy.deliverables}</h2><ul>{pick(initiative.data.deliverables, lang).map((item) => <li>{item}</li>)}</ul>
+    </article>
+    <aside class="detail-aside">
+      <dl><div><dt>{copy.status}</dt><dd>{pick(initiative.data.statusLabel, lang)}</dd></div><div><dt>{copy.type}</dt><dd>{pick(initiative.data.kindLabel, lang)}</dd></div>{initiative.data.funding && <div><dt>{copy.funded}</dt><dd>{initiative.data.funding.agency}<br/>{initiative.data.funding.process}{initiative.data.funding.period && <><br/>{initiative.data.funding.period}</>}</dd></div>}<div><dt>{copy.relatedPeople}</dt><dd>{people.length || (lang === 'en' ? 'To be defined' : 'A definir')}</dd></div></dl>
+      <hr class="rule"/><p class="eyebrow">{copy.skills}</p><ul class="tag-list">{initiative.data.skills.map((skill) => <li class="tag">{skill}</li>)}</ul>
+      <hr class="rule"/><p class="eyebrow">{copy.participation}</p><ul class="aside-list">{pick(initiative.data.participation, lang).map((item) => <li>{item}</li>)}</ul>
+    </aside>
+  </section>
+  <section class="section connections"><div class="container"><p class="eyebrow">{lang === 'en' ? 'Connected research' : 'Pesquisa relacionada'}</p><div class="connection-list">{initiative.data.areas.map((id) => { const area = getArea(id); return area && <a href={withBase(localizedPath(`/research#${id}`, lang))}><span>{area.number}</span><strong>{pick(area.title, lang)}</strong><Icon name="arrow" /></a>; })}</div></div></section>
+  {people.length > 0 && <section class="section container"><div class="section-heading"><div><p class="eyebrow">{copy.relatedPeople}</p><h2>{lang === 'en' ? 'People behind the work' : 'Pessoas por trás do trabalho'}</h2></div></div><div class="card-grid">{people.map((person) => <MemberCard person={person} lang={lang} />)}</div></section>}
+  {opportunities.length > 0 && <section class="section opportunities"><div class="container"><div class="section-heading"><div><p class="eyebrow">{copy.relatedOpportunities}</p><h2>{lang === 'en' ? 'There is room to contribute' : 'Há espaço para contribuir'}</h2></div></div><div class="card-grid">{opportunities.map((opportunity) => <OpportunityCard opportunity={opportunity} lang={lang} />)}</div></div></section>}
+</BaseLayout>
+<style>
+  .initiative-hero { padding-block: clamp(4rem, 9vw, 8rem); border-bottom: 1px solid var(--line); background: linear-gradient(135deg, color-mix(in srgb, var(--mint) 25%, transparent), transparent 55%); }.initiative-hero h1 { max-width: 1100px; margin-block: 1.5rem; font-size: clamp(3rem, 7.5vw, 6.8rem); }.back-link { display: inline-block; margin-bottom: 2rem; color: var(--ink-soft); font-size: .8rem; font-weight: 700; }.hero-meta { display: flex; flex-wrap: wrap; gap: .5rem; }.aside-list { padding-left: 1.1rem; color: var(--ink-soft); font-size: .86rem; }.aside-list li + li { margin-top: .4rem; }.connections { color: var(--paper); background: var(--ink); }.connections .eyebrow { color: color-mix(in srgb, var(--paper) 65%, transparent); }.connection-list { display: grid; border-top: 1px solid color-mix(in srgb, var(--paper) 20%, transparent); }.connection-list a { display: grid; grid-template-columns: 4rem 1fr 2rem; gap: 1rem; align-items: center; padding-block: 1.3rem; border-bottom: 1px solid color-mix(in srgb, var(--paper) 20%, transparent); text-decoration: none; }.connection-list span { font-family: Georgia, serif; font-style: italic; }.connection-list strong { font-family: Georgia, serif; font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 500; }.connection-list svg { width: 1.1rem; }.opportunities { background: var(--paper-2); }
+</style>

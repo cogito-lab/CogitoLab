@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const description = lang === 'en' ? 'Cogito Lab is a distributed research community working across software engineering, AI, quality, IoT, and innovation.' : 'O Cogito Lab é uma comunidade de pesquisa distribuída que atua em engenharia de software, IA, qualidade, IoT e inovação.';
+const principles = lang === 'en' ? [
+  ['Evidence before assumption', 'We frame questions carefully, make methods inspectable, and let results challenge our expectations.'],
+  ['Useful rigor', 'We connect scholarly depth with software, datasets, methods, and lessons that others can use.'],
+  ['Research is collaborative', 'Students and partners are participants in inquiry—not merely hands assigned to tasks.'],
+  ['Open by default', 'We make our work and opportunities visible whenever ethics, privacy, and partnerships allow.'],
+] : [
+  ['Evidência antes da suposição', 'Formulamos perguntas com cuidado, tornamos os métodos examináveis e deixamos os resultados desafiarem nossas expectativas.'],
+  ['Rigor útil', 'Conectamos profundidade acadêmica a software, dados, métodos e aprendizados que outras pessoas possam usar.'],
+  ['Pesquisa é colaboração', 'Estudantes e parceiros participam da investigação — não são apenas mãos designadas para tarefas.'],
+  ['Aberto por padrão', 'Tornamos nosso trabalho e oportunidades visíveis sempre que ética, privacidade e parcerias permitirem.'],
+];
+---
+<BaseLayout lang={lang} title={lang === 'en' ? 'About' : 'Sobre'} description={description} path="/about">
+  <PageHero eyebrow={lang === 'en' ? 'About Cogito Lab' : 'Sobre o Cogito Lab'} title={lang === 'en' ? 'A place to think carefully and build responsibly' : 'Um lugar para pensar com cuidado e construir com responsabilidade'} description={description} />
+  <section class="section container about-grid">
+    <div><p class="eyebrow">{lang === 'en' ? 'Why Cogito' : 'Por que Cogito'}</p><h2>{lang === 'en' ? 'Thought becomes method. Method becomes impact.' : 'Pensamento vira método. Método vira impacto.'}</h2></div>
+    <div class="prose"><p>{lang === 'en' ? 'Cogito evokes the act of thinking. For us, thinking is active: questioning assumptions, making systems, collecting evidence, and learning with the people affected by technology.' : 'Cogito evoca o ato de pensar. Para nós, pensar é uma ação: questionar suposições, construir sistemas, coletar evidências e aprender com as pessoas afetadas pela tecnologia.'}</p><p>{lang === 'en' ? 'Our group connects researchers and students across institutions. This distributed character lets us combine perspectives from academic research, software practice, agriculture, entrepreneurship, and public-interest technology.' : 'Nosso grupo conecta pesquisadores e estudantes de diferentes instituições. Esse caráter distribuído nos permite combinar perspectivas da pesquisa acadêmica, prática de software, agricultura, empreendedorismo e tecnologia de interesse público.'}</p></div>
+  </section>
+  <section class="section principles"><div class="container"><div class="section-heading"><div><p class="eyebrow">{lang === 'en' ? 'How we work' : 'Como trabalhamos'}</p><h2>{lang === 'en' ? 'Principles in practice' : 'Princípios na prática'}</h2></div></div><div class="principle-grid">{principles.map(([title, text], index) => <article><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
+  <section class="section container network"><p class="eyebrow">{lang === 'en' ? 'Institutional network' : 'Rede institucional'}</p><h2>{lang === 'en' ? 'Research without artificial borders' : 'Pesquisa sem fronteiras artificiais'}</h2><p class="lede">{lang === 'en' ? 'Current member affiliations represented in the group include UFMG, UFLA, Estácio, and Saarland University.' : 'As afiliações atuais representadas no grupo incluem UFMG, UFLA, Estácio e Saarland University.'}</p><div class="network-list"><span>UFMG</span><span>UFLA</span><span>Estácio</span><span>Saarland University</span></div></section>
+  <section class="about-cta"><div class="narrow"><h2>{lang === 'en' ? 'A good research group is always becoming.' : 'Um bom grupo de pesquisa está sempre se tornando.'}</h2><p>{lang === 'en' ? 'See where your questions and skills might connect with ours.' : 'Veja onde suas perguntas e competências podem se conectar às nossas.'}</p><a class="button" href={withBase(localizedPath('/opportunities', lang))}>{lang === 'en' ? 'Explore opportunities' : 'Explore oportunidades'}<Icon name="arrow" class="arrow" /></a></div></section>
+</BaseLayout>
+<style>
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 8vw, 8rem); }.about-grid h2 { font-size: clamp(2.2rem, 5vw, 4.3rem); }
+  .principles { background: var(--paper-2); }.principle-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }.principle-grid article { min-height: 17rem; padding: 2rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }.principle-grid span { color: var(--mint-deep); font-family: Georgia, serif; font-style: italic; }.principle-grid h3 { margin-block: 3rem 1rem; }.principle-grid p { color: var(--ink-soft); }
+  .network { text-align: center; }.network .eyebrow { justify-content: center; }.network .lede { margin-inline: auto; }.network-list { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin-top: 2.5rem; }.network-list span { padding: .8rem 1.2rem; border: 1px solid var(--line); border-radius: 999px; font-weight: 740; background: var(--surface); }
+  .about-cta { padding-block: clamp(5rem, 10vw, 9rem); text-align: center; background: var(--mint); color: #10231d; }.about-cta h2 { margin-bottom: 1rem; }.about-cta p { margin-bottom: 2rem; font-size: 1.15rem; }.about-cta .button { color: var(--paper); background: #10231d; }
+  @media (max-width: 700px) { .about-grid, .principle-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,27 @@
+---
+import type { Initiative } from '@/utils/content';
+import { entrySlug } from '@/utils/content';
+import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
+import Icon from './Icon.astro';
+interface Props { initiative: Initiative; lang: Lang; index?: number }
+const { initiative, lang, index } = Astro.props;
+const slug = entrySlug(initiative.id);
+const copy = t(lang);
+const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.data.order) % 5];
+---
+<article class={`card card--${tone}`} data-filter-item data-search={`${pick(initiative.data.title, lang)} ${pick(initiative.data.summary, lang)} ${initiative.data.skills.join(' ')} ${initiative.data.areas.join(' ')}`.toLowerCase()} data-kind={initiative.data.kind} data-status={initiative.data.status}>
+  <a class="card__link" href={withBase(localizedPath(`/initiatives/${slug}`, lang))}><span class="sr-only">{pick(initiative.data.title, lang)}</span></a>
+  <div class="card__top">
+    <span class="tag"><i class="status-dot"></i>{copy[initiative.data.status]}</span>
+    {index !== undefined && <span class="card__index">{String(index + 1).padStart(2, '0')}</span>}
+  </div>
+  <div class="card__body">
+    <p class="person-card__role">{pick(initiative.data.kindLabel, lang)}</p>
+    <h3>{pick(initiative.data.shortTitle ?? initiative.data.title, lang)}</h3>
+    <p>{pick(initiative.data.summary, lang)}</p>
+  </div>
+  <div class="card__footer">
+    <ul class="tag-list">{initiative.data.skills.slice(0, 2).map((skill) => <li class="tag">{skill}</li>)}</ul>
+    <span class="card__arrow"><Icon name="arrow" class="arrow" /></span>
+  </div>
+</article>

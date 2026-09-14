@@ -1,0 +1,44 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { siteConfig } from '@/data/site';
+import { localizedPath, t, withBase, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const copy = t(lang);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-intro">
+      <Logo lang={lang} />
+      <p>{lang === 'en' ? 'Researching how software is built—and how it can be built better.' : 'Pesquisando como o software é construído — e como pode ser construído melhor.'}</p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <p class="footer-label">{lang === 'en' ? 'Explore' : 'Explore'}</p>
+      {copy.nav.map((label, index) => <a href={withBase(localizedPath(`/${copy.routes[index]}`, lang))}>{label}</a>)}
+    </nav>
+    <div>
+      <p class="footer-label">{lang === 'en' ? 'Connect' : 'Conecte-se'}</p>
+      <a class="external" href={siteConfig.repositoryUrl} rel="external">GitHub <Icon name="external" /></a>
+      <a class="external" href={withBase(localizedPath('/opportunities', lang))}>{lang === 'en' ? 'Work with us' : 'Trabalhe conosco'} <Icon name="arrow" /></a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {year} Cogito Lab</p>
+    <p>{lang === 'en' ? 'Open knowledge, careful engineering.' : 'Conhecimento aberto, engenharia cuidadosa.'}</p>
+  </div>
+</footer>
+<style>
+  .site-footer { padding-top: 5rem; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--paper-2) 70%, transparent); }
+  .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr; gap: 3rem; padding-bottom: 4rem; }
+  .footer-intro p { max-width: 25rem; margin-top: 1.2rem; color: var(--ink-soft); font-family: Georgia, serif; font-size: 1.35rem; line-height: 1.35; }
+  .footer-label { margin-bottom: .8rem; color: var(--ink-soft); font-size: .68rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+  nav { display: grid; align-content: start; gap: .5rem; }
+  nav a, .external { width: fit-content; color: var(--ink-soft); text-decoration: none; }
+  nav a:hover, .external:hover { color: var(--ink); text-decoration: underline; }
+  .external { display: flex; gap: .45rem; align-items: center; margin-bottom: .55rem; }
+  .external svg { width: .9rem; }
+  .footer-bottom { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.25rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .75rem; }
+  @media (max-width: 700px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-intro { grid-column: 1 / -1; } .footer-bottom { display: grid; } }
+</style>

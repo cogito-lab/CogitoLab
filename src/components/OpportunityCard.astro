@@ -1,0 +1,31 @@
+---
+import type { Opportunity } from '@/utils/content';
+import { localizedPath, pick, withBase, type Lang } from '@/utils/i18n';
+import Icon from './Icon.astro';
+interface Props { opportunity: Opportunity; lang: Lang }
+const { opportunity, lang } = Astro.props;
+const statusLabels = {
+  open: { en: 'Open now', pt: 'Aberta agora' },
+  'expressions-of-interest': { en: 'Expressions of interest', pt: 'Manifestações de interesse' },
+  closed: { en: 'Closed', pt: 'Encerrada' },
+};
+const typeLabels: Record<string, Record<Lang, string>> = {
+  research: { en: 'Research', pt: 'Pesquisa' }, undergraduate: { en: 'Undergraduate research', pt: 'Iniciação científica' },
+  thesis: { en: 'Thesis project', pt: 'TCC' }, masters: { en: "Master's", pt: 'Mestrado' }, phd: { en: 'PhD', pt: 'Doutorado' },
+  collaboration: { en: 'Collaboration', pt: 'Colaboração' }, engineering: { en: 'Engineering', pt: 'Engenharia' },
+};
+---
+<article class="card opportunity-card" data-filter-item data-search={`${pick(opportunity.data.title, lang)} ${pick(opportunity.data.summary, lang)} ${opportunity.data.skills.join(' ')}`.toLowerCase()} data-kind={opportunity.data.type} data-status={opportunity.data.status}>
+  <a class="card__link" href={withBase(localizedPath(`/initiatives/${opportunity.data.initiative}`, lang))}><span class="sr-only">{pick(opportunity.data.title, lang)}</span></a>
+  <div class="card__top"><span class="tag"><i class="status-dot"></i>{pick(statusLabels[opportunity.data.status], lang)}</span></div>
+  <div class="card__body">
+    <p class="person-card__role">{pick(typeLabels[opportunity.data.type], lang)}</p>
+    <h3>{pick(opportunity.data.title, lang)}</h3>
+    <p>{pick(opportunity.data.summary, lang)}</p>
+  </div>
+  <div class="card__footer">
+    <ul class="tag-list">{opportunity.data.skills.slice(0, 3).map((skill) => <li class="tag">{skill}</li>)}</ul>
+    <span class="card__arrow"><Icon name="arrow" class="arrow" /></span>
+  </div>
+</article>
+<style>.opportunity-card { min-height: 23rem; background: linear-gradient(145deg, color-mix(in srgb, var(--mint) 32%, var(--surface)), var(--surface)); }</style>

@@ -1,0 +1,37 @@
+---
+import type { Lang } from '@/utils/i18n';
+interface Option { value: string; label: string }
+interface Props { lang: Lang; options?: Option[]; statuses?: Option[] }
+const { lang, options = [], statuses = [] } = Astro.props;
+---
+<div class="filter-bar" data-filter-root>
+  <label for="content-search">{lang === 'en' ? 'Search' : 'Buscar'}</label>
+  <input id="content-search" type="search" data-filter-search placeholder={lang === 'en' ? 'Search by name, topic, or skill…' : 'Busque por nome, tema ou competência…'} />
+  {options.length > 0 && <><label for="type-filter">{lang === 'en' ? 'Filter by type' : 'Filtrar por tipo'}</label><select id="type-filter" data-filter-kind><option value="">{lang === 'en' ? 'All types' : 'Todos os tipos'}</option>{options.map((option) => <option value={option.value}>{option.label}</option>)}</select></>}
+  {statuses.length > 0 && <><label for="status-filter">{lang === 'en' ? 'Filter by status' : 'Filtrar por situação'}</label><select id="status-filter" data-filter-status><option value="">{lang === 'en' ? 'All statuses' : 'Todas as situações'}</option>{statuses.map((option) => <option value={option.value}>{option.label}</option>)}</select></>}
+</div>
+<p class="muted" data-filter-empty hidden>{lang === 'en' ? 'No results match these filters.' : 'Nenhum resultado corresponde a estes filtros.'}</p>
+<script>
+  document.querySelectorAll('[data-filter-root]').forEach((root) => {
+    const section = root.parentElement;
+    const search = root.querySelector<HTMLInputElement>('[data-filter-search]');
+    const kind = root.querySelector<HTMLSelectElement>('[data-filter-kind]');
+    const status = root.querySelector<HTMLSelectElement>('[data-filter-status]');
+    const items = [...(section?.querySelectorAll<HTMLElement>('[data-filter-item]') ?? [])];
+    const empty = section?.querySelector<HTMLElement>('[data-filter-empty]');
+    const update = () => {
+      const query = search?.value.trim().toLowerCase() ?? '';
+      let shown = 0;
+      items.forEach((item) => {
+        const matches = (!query || item.dataset.search?.includes(query)) && (!kind?.value || item.dataset.kind === kind.value || item.dataset.category === kind.value) && (!status?.value || item.dataset.status === status.value);
+        item.hidden = !matches;
+        if (matches) shown++;
+      });
+      section?.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((group) => {
+        group.hidden = !group.querySelector('[data-filter-item]:not([hidden])');
+      });
+      if (empty) empty.hidden = shown > 0;
+    };
+    [search, kind, status].forEach((control) => { control?.addEventListener('input', update); control?.addEventListener('change', update); });
+  });
+</script>

@@ -1,0 +1,24 @@
+---
+import type { Person } from '@/utils/content';
+import { entrySlug } from '@/utils/content';
+import { localizedPath, pick, withBase, type Lang } from '@/utils/i18n';
+import Icon from './Icon.astro';
+interface Props { person: Person; lang: Lang }
+const { person, lang } = Astro.props;
+const initials = person.data.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('');
+const slug = entrySlug(person.id);
+---
+<article class="card person-card" data-filter-item data-search={`${person.data.name} ${person.data.institution} ${pick(person.data.role, lang)} ${person.data.areas.join(' ')}`.toLowerCase()} data-category={person.data.category}>
+  <a class="card__link" href={withBase(localizedPath(`/people/${slug}`, lang))}><span class="sr-only">{person.data.name}</span></a>
+  {person.data.photo ? <img class="person-card__photo" src={withBase(person.data.photo)} alt="" width="240" height="240" loading="lazy" /> : <div class="initial" aria-hidden="true">{initials}</div>}
+  <div class="card__body">
+    <p class="person-card__role">{pick(person.data.role, lang)}</p>
+    <h3>{person.data.name}</h3>
+    <p>{person.data.institution}</p>
+  </div>
+  <div class="card__footer">
+    <ul class="tag-list">{person.data.areas.slice(0, 2).map((area) => <li class="tag">{area.replaceAll('-', ' ')}</li>)}</ul>
+    <span class="card__arrow"><Icon name="arrow" class="arrow" /></span>
+  </div>
+</article>
+<style>.person-card__photo { width: 4.2rem; height: 4.2rem; margin-bottom: 2.4rem; border-radius: 50%; object-fit: cover; }</style>

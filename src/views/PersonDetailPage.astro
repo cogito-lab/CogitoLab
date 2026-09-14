@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import InitiativeCard from '@/components/InitiativeCard.astro';
+import OpportunityCard from '@/components/OpportunityCard.astro';
+import Icon from '@/components/Icon.astro';
+import type { Person } from '@/utils/content';
+import { entrySlug, getInitiatives, getOpportunities } from '@/utils/content';
+import { getArea } from '@/data/areas';
+import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang; person: Person }
+const { lang, person } = Astro.props;
+const copy = t(lang);
+const [allInitiatives, allOpportunities] = await Promise.all([getInitiatives(), getOpportunities()]);
+const initiatives = allInitiatives.filter((item) => person.data.initiatives.includes(entrySlug(item.id)));
+const opportunities = allOpportunities.filter((item) => item.data.people.includes(entrySlug(person.id)));
+const initials = person.data.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('');
+const path = `/people/${entrySlug(person.id)}`;
+const links = Object.entries(person.data.links).filter((item): item is [string, string] => Boolean(item[1]));
+const { Content } = await render(person);
+---
+<BaseLayout lang={lang} title={person.data.name} description={pick(person.data.summary, lang)} path={path}>
+  <header class="person-hero">
+    <div class="container person-hero__grid">
+      <div class="portrait">{person.data.photo ? <img src={withBase(person.data.photo)} alt={person.data.name} width="640" height="800" /> : <div class="portrait__initial">{initials}</div>}<span></span></div>
+      <div><a class="back-link" href={withBase(localizedPath('/people', lang))}>← {copy.people}</a><p class="eyebrow">{pick(person.data.role, lang)}</p><h1>{person.data.name}</h1><p class="lede">{pick(person.data.summary, lang)}</p>{links.length > 0 && <div class="profile-links">{links.map(([label, url]) => <a href={url} rel="me external">{label}<Icon name="external" /></a>)}</div>}</div>
+    </div>
+  </header>
+  <section class="section container detail-layout">
+    <article class="prose">
+      <p class="eyebrow">{copy.topic}</p><h2>{pick(person.data.topic, lang)}</h2>
+      <p>{pick(person.data.summary, lang)}</p>
+      <Content />
+      <h2>{lang === 'en' ? 'Research connections' : 'Conexões de pesquisa'}</h2>
+      <div class="area-connections">{person.data.areas.map((id) => { const area = getArea(id); return area && <a href={withBase(localizedPath(`/research#${id}`, lang))}><span>{area.number}</span>{pick(area.title, lang)}<Icon name="arrow" /></a>; })}</div>
+    </article>
+    <aside class="detail-aside"><dl><div><dt>{copy.institution}</dt><dd>{person.data.institution}</dd></div><div><dt>{lang === 'en' ? 'Role' : 'Vínculo'}</dt><dd>{pick(person.data.role, lang)}</dd></div><div><dt>{copy.areas}</dt><dd>{person.data.areas.length}</dd></div><div><dt>{copy.initiatives}</dt><dd>{initiatives.length}</dd></div></dl></aside>
+  </section>
+  {initiatives.length > 0 && <section class="section related-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">{copy.relatedInitiatives}</p><h2>{lang === 'en' ? 'Current work' : 'Trabalho atual'}</h2></div></div><div class="card-grid">{initiatives.map((initiative) => <InitiativeCard initiative={initiative} lang={lang} />)}</div></div></section>}
+  {opportunities.length > 0 && <section class="section container"><div class="section-heading"><div><p class="eyebrow">{copy.relatedOpportunities}</p><h2>{lang === 'en' ? 'Work together' : 'Trabalhe em conjunto'}</h2></div></div><div class="card-grid">{opportunities.map((opportunity) => <OpportunityCard opportunity={opportunity} lang={lang} />)}</div></section>}
+</BaseLayout>
+<style>
+  .person-hero { padding-block: clamp(3rem, 8vw, 7rem); border-bottom: 1px solid var(--line); }.person-hero__grid { display: grid; grid-template-columns: minmax(16rem, .58fr) minmax(0, 1.42fr); gap: clamp(2.5rem, 8vw, 8rem); align-items: center; }.person-hero h1 { margin-bottom: 1.5rem; font-size: clamp(3rem, 8vw, 7rem); }.portrait { position: relative; display: grid; aspect-ratio: 4/5; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 50% 50% 1.2rem 1.2rem; background: linear-gradient(155deg, var(--mint), var(--blue)); }.portrait::before, .portrait::after { position: absolute; width: 70%; height: 70%; content: ''; border: 1px solid rgba(16,35,29,.25); border-radius: 50%; }.portrait::after { width: 42%; height: 42%; }.portrait__initial { position: relative; z-index: 2; color: #10231d; font-family: Georgia, serif; font-size: clamp(4rem, 10vw, 8rem); }.portrait > span { position: absolute; right: 12%; bottom: 10%; width: 1rem; height: 1rem; border-radius: 50%; background: #10231d; }.back-link { display: inline-block; margin-bottom: 2rem; color: var(--ink-soft); font-size: .8rem; font-weight: 700; }.profile-links { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }.profile-links a { display: inline-flex; gap: .4rem; align-items: center; padding: .45rem .75rem; border: 1px solid var(--line); border-radius: 999px; font-size: .75rem; font-weight: 700; text-transform: capitalize; text-decoration: none; }.profile-links svg { width: .85rem; }.area-connections { display: grid; margin-top: 1.5rem; border-top: 1px solid var(--line); }.area-connections a { display: grid; grid-template-columns: 3rem 1fr 1.5rem; gap: 1rem; align-items: center; padding-block: 1rem; border-bottom: 1px solid var(--line); color: var(--ink); font-weight: 650; text-decoration: none; }.area-connections a span { font-family: Georgia, serif; font-style: italic; }.area-connections svg { width: 1rem; }.related-section { background: var(--paper-2); }
+  .portrait img { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 720px) { .person-hero__grid { grid-template-columns: 1fr; }.portrait { width: min(85vw, 22rem); }.person-hero h1 { font-size: clamp(3rem, 16vw, 5rem); } }
+</style>

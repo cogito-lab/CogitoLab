@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+CogitoLab/
+Cogito-Lab-Project/
+cogito_lab_wiki/
