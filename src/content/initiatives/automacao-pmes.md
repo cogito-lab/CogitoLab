@@ -20,11 +20,39 @@ defined:
     - Uma frente trata de automações operacionais diárias para uma madeireira.
     - Uma segunda frente trata de um formulário interativo para uma consultoria.
 work:
-  en: [Map repetitive tasks systems inputs and outputs, Select a small high-impact first automation, Map questions conditional rules validation and output for the interactive form, Define reporting CRM and storage needs, Establish a lightweight scope acceptance and maintenance process]
-  pt: [Mapear tarefas repetitivas sistemas entradas e saídas, Selecionar uma primeira automação pequena e de alto impacto, Mapear perguntas regras condicionais validações e saída do formulário interativo, Definir necessidades de relatório CRM e armazenamento, Estabelecer um processo leve de escopo aceite e manutenção]
+  en:
+    [
+      Map repetitive tasks systems inputs and outputs,
+      Select a small high-impact first automation,
+      Map questions conditional rules validation and output for the interactive form,
+      Define reporting CRM and storage needs,
+      Establish a lightweight scope acceptance and maintenance process,
+    ]
+  pt:
+    [
+      Mapear tarefas repetitivas sistemas entradas e saídas,
+      Selecionar uma primeira automação pequena e de alto impacto,
+      Mapear perguntas regras condicionais validações e saída do formulário interativo,
+      Definir necessidades de relatório CRM e armazenamento,
+      Estabelecer um processo leve de escopo aceite e manutenção,
+    ]
 deliverables:
-  en: [Short requirements document, Functional MVP, Critical-flow tests, Minimal operation guide, Scope hours and acceptance record]
-  pt: [Documento curto de requisitos, MVP funcional, Testes dos fluxos críticos, Guia mínimo de operação, Registro de escopo horas e aceite]
+  en:
+    [
+      Short requirements document,
+      Functional MVP,
+      Critical-flow tests,
+      Minimal operation guide,
+      Scope hours and acceptance record,
+    ]
+  pt:
+    [
+      Documento curto de requisitos,
+      MVP funcional,
+      Testes dos fluxos críticos,
+      Guia mínimo de operação,
+      Registro de escopo horas e aceite,
+    ]
 skills: [Requirements, Automation, Web APIs, Python, Node.js, Frontend]
 participation:
   en: [Consulting, Extension, Applied project]

@@ -5,40 +5,180 @@ import InitiativeCard from '@/components/InitiativeCard.astro';
 import { allAreas } from '@/data/areas';
 import { getInitiatives } from '@/utils/content';
 import { pick, type Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const initiatives = await getInitiatives();
-const description = lang === 'en' ? 'Six connected research areas spanning software engineering, AI, quality, connected systems, empirical methods, and innovation.' : 'Seis áreas de pesquisa conectadas que abrangem engenharia de software, IA, qualidade, sistemas conectados, métodos empíricos e inovação.';
+const description =
+  lang === 'en'
+    ? 'Six connected research areas spanning software engineering, AI, quality, connected systems, empirical methods, and innovation.'
+    : 'Seis áreas de pesquisa conectadas que abrangem engenharia de software, IA, qualidade, sistemas conectados, métodos empíricos e inovação.';
 ---
-<BaseLayout lang={lang} title={lang === 'en' ? 'Research' : 'Pesquisa'} description={description} path="/research">
-  <PageHero eyebrow={lang === 'en' ? 'Research' : 'Pesquisa'} title={lang === 'en' ? 'Questions across the software lifecycle' : 'Perguntas ao longo do ciclo de vida do software'} description={description} />
-  <div class="container research-index"><span>{lang === 'en' ? 'Jump to an area' : 'Ir para uma área'}</span>{allAreas.map((area) => <a href={`#${area.id}`}>{area.number}</a>)}</div>
+
+<BaseLayout
+  lang={lang}
+  title={lang === 'en' ? 'Research' : 'Pesquisa'}
+  description={description}
+  path="/research"
+>
+  <PageHero
+    eyebrow={lang === 'en' ? 'Research' : 'Pesquisa'}
+    title={
+      lang === 'en'
+        ? 'Questions across the software lifecycle'
+        : 'Perguntas ao longo do ciclo de vida do software'
+    }
+    description={description}
+  />
+  <div class="container research-index">
+    <span>{lang === 'en' ? 'Jump to an area' : 'Ir para uma área'}</span>
+    {allAreas.map((area) => (
+      <a href={`#${area.id}`}>{area.number}</a>
+    ))}
+  </div>
   {allAreas.map((area) => {
     const related = initiatives.filter((initiative) => initiative.data.areas.includes(area.id));
-    return <section class:list={['section', 'area-section', `area-section--${area.tone}`]} id={area.id}>
-      <div class="container">
-        <div class="area-heading"><span>{area.number}</span><div><p class="eyebrow">{lang === 'en' ? 'Research area' : 'Área de pesquisa'}</p><h2>{pick(area.title, lang)}</h2><p class="lede">{pick(area.description, lang)}</p><ul class="tag-list">{area.topics.map((topic) => <li class="tag">{pick(topic, lang)}</li>)}</ul></div></div>
-        {related.length > 0 && <div class="related-work"><p class="related-label">{lang === 'en' ? `${related.length} connected initiative${related.length === 1 ? '' : 's'}` : `${related.length} iniciativa${related.length === 1 ? '' : 's'} relacionada${related.length === 1 ? '' : 's'}`}</p><div class="card-grid">{related.slice(0, 3).map((initiative) => <InitiativeCard initiative={initiative} lang={lang} />)}</div></div>}
-      </div>
-    </section>;
+    return (
+      <section class:list={['section', 'area-section', `area-section--${area.tone}`]} id={area.id}>
+        <div class="container">
+          <div class="area-heading">
+            <span>{area.number}</span>
+            <div>
+              <p class="eyebrow">{lang === 'en' ? 'Research area' : 'Área de pesquisa'}</p>
+              <h2>{pick(area.title, lang)}</h2>
+              <p class="lede">{pick(area.description, lang)}</p>
+              <ul class="tag-list">
+                {area.topics.map((topic) => (
+                  <li class="tag">{pick(topic, lang)}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          {related.length > 0 && (
+            <div class="related-work">
+              <p class="related-label">
+                {lang === 'en'
+                  ? `${related.length} connected initiative${related.length === 1 ? '' : 's'}`
+                  : `${related.length} iniciativa${related.length === 1 ? '' : 's'} relacionada${related.length === 1 ? '' : 's'}`}
+              </p>
+              <div class="card-grid">
+                {related.slice(0, 3).map((initiative) => (
+                  <InitiativeCard initiative={initiative} lang={lang} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    );
   })}
 </BaseLayout>
 <style>
-  .research-index { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; padding-block: 1.2rem; border-bottom: 1px solid var(--line); }
-  .research-index span { margin-right: .5rem; color: var(--ink-soft); font-size: .72rem; font-weight: 720; text-transform: uppercase; letter-spacing: .1em; }
-  .research-index a { display: grid; width: 2.2rem; height: 2.2rem; place-items: center; border: 1px solid var(--line); border-radius: 50%; text-decoration: none; font-family: Georgia, serif; }
-  .research-index a:hover { color: var(--paper); background: var(--ink); }
-  .area-section { scroll-margin-top: 5rem; border-bottom: 1px solid var(--line); }
-  .area-section--mint { background: linear-gradient(105deg, color-mix(in srgb, var(--mint) 18%, transparent), transparent 50%); }
-  .area-section--amber { background: linear-gradient(105deg, color-mix(in srgb, var(--amber) 14%, transparent), transparent 50%); }
-  .area-section--blue { background: linear-gradient(105deg, color-mix(in srgb, var(--blue) 14%, transparent), transparent 50%); }
-  .area-section--coral { background: linear-gradient(105deg, color-mix(in srgb, var(--coral) 13%, transparent), transparent 50%); }
-  .area-section--violet { background: linear-gradient(105deg, color-mix(in srgb, var(--violet) 13%, transparent), transparent 50%); }
-  .area-heading { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 2rem; }
-  .area-heading > span { font-family: Georgia, serif; font-size: clamp(3rem, 7vw, 6rem); font-style: italic; line-height: 1; }
-  .area-heading h2 { max-width: 900px; margin-bottom: 1.4rem; }
-  .area-heading .tag-list { margin-top: 1.5rem; }
-  .related-work { margin-top: 4rem; }
-  .related-label { margin-bottom: 1rem; color: var(--ink-soft); font-size: .75rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
-  @media (max-width: 650px) { .area-heading { grid-template-columns: 1fr; } .area-heading > span { font-size: 2rem; } }
+  .research-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+    padding-block: 1.2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .research-index span {
+    margin-right: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    font-weight: 720;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .research-index a {
+    display: grid;
+    width: 2.2rem;
+    height: 2.2rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    text-decoration: none;
+    font-family: Georgia, serif;
+  }
+  .research-index a:hover {
+    color: var(--paper);
+    background: var(--ink);
+  }
+  .area-section {
+    scroll-margin-top: 5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .area-section--mint {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--mint) 18%, transparent),
+      transparent 50%
+    );
+  }
+  .area-section--amber {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--amber) 14%, transparent),
+      transparent 50%
+    );
+  }
+  .area-section--blue {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--blue) 14%, transparent),
+      transparent 50%
+    );
+  }
+  .area-section--coral {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--coral) 13%, transparent),
+      transparent 50%
+    );
+  }
+  .area-section--violet {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--violet) 13%, transparent),
+      transparent 50%
+    );
+  }
+  .area-heading {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .area-heading > span {
+    font-family: Georgia, serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-style: italic;
+    line-height: 1;
+  }
+  .area-heading h2 {
+    max-width: 900px;
+    margin-bottom: 1.4rem;
+  }
+  .area-heading .tag-list {
+    margin-top: 1.5rem;
+  }
+  .related-work {
+    margin-top: 4rem;
+  }
+  .related-label {
+    margin-bottom: 1rem;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 650px) {
+    .area-heading {
+      grid-template-columns: 1fr;
+    }
+    .area-heading > span {
+      font-size: 2rem;
+    }
+  }
 </style>

@@ -7,7 +7,8 @@ summary:
 kind: product
 kindLabel: { en: Product · Innovation, pt: Produto · Inovação }
 status: open
-statusLabel: { en: Existing platform · open for evolution, pt: Plataforma existente · aberta para evolução }
+statusLabel:
+  { en: Existing platform · open for evolution, pt: Plataforma existente · aberta para evolução }
 areas: [innovation-transfer]
 people: []
 defined:
@@ -20,11 +21,37 @@ defined:
     - Os fluxos conhecidos incluem login, catálogo, CRUD de mercadorias, revisão de propostas e ofertas.
     - Os papéis existentes incluem administrador, cliente, atendente e representante de vendas.
 work:
-  en: [Evolve negotiation and proposal workflows, Strengthen security authorization and testing, Improve the catalog and offers, Prepare deployment and observability, Validate the operational and commercial model]
-  pt: [Evoluir fluxos de negociação e propostas, Fortalecer segurança autorização e testes, Melhorar catálogo e ofertas, Preparar implantação e observabilidade, Validar o modelo operacional e comercial]
+  en:
+    [
+      Evolve negotiation and proposal workflows,
+      Strengthen security authorization and testing,
+      Improve the catalog and offers,
+      Prepare deployment and observability,
+      Validate the operational and commercial model,
+    ]
+  pt:
+    [
+      Evoluir fluxos de negociação e propostas,
+      Fortalecer segurança autorização e testes,
+      Melhorar catálogo e ofertas,
+      Preparar implantação e observabilidade,
+      Validar o modelo operacional e comercial,
+    ]
 deliverables:
-  en: [Functional improvements, Automated tests, Business-rule documentation, Demonstrable deployable release]
-  pt: [Evoluções funcionais, Testes automatizados, Documentação de regras de negócio, Versão demonstrável e implantável]
+  en:
+    [
+      Functional improvements,
+      Automated tests,
+      Business-rule documentation,
+      Demonstrable deployable release,
+    ]
+  pt:
+    [
+      Evoluções funcionais,
+      Testes automatizados,
+      Documentação de regras de negócio,
+      Versão demonstrável e implantável,
+    ]
 skills: [React, Next.js, Node.js, PostgreSQL, Authentication, Testing]
 participation:
   en: [Volunteer engineering, Product work, Applied project]

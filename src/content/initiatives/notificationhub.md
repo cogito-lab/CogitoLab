@@ -21,11 +21,39 @@ defined:
     - Um provedor de WhatsApp em produção não é necessário no MVP inicial.
     - As regras iniciais cobrem sensores agrícolas e eventos de equipamentos.
 work:
-  en: [Select a reference implementation, Consolidate integration and idempotency tests, Evolve property and device management, Integrate a production messaging channel when needed, Experiment with realistic sensors and simulators]
-  pt: [Selecionar uma implementação de referência, Consolidar testes de integração e idempotência, Evoluir a gestão de propriedades e dispositivos, Integrar um canal real de mensageria quando necessário, Experimentar sensores e simuladores realistas]
+  en:
+    [
+      Select a reference implementation,
+      Consolidate integration and idempotency tests,
+      Evolve property and device management,
+      Integrate a production messaging channel when needed,
+      Experiment with realistic sensors and simulators,
+    ]
+  pt:
+    [
+      Selecionar uma implementação de referência,
+      Consolidar testes de integração e idempotência,
+      Evoluir a gestão de propriedades e dispositivos,
+      Integrar um canal real de mensageria quando necessário,
+      Experimentar sensores e simuladores realistas,
+    ]
 deliverables:
-  en: [Reference backend and frontend, Test suite, Messaging provider, Event and notification dashboard, Extension documentation]
-  pt: [Backend e frontend de referência, Suíte de testes, Provedor de mensagens, Painel de eventos e notificações, Documentação de extensão]
+  en:
+    [
+      Reference backend and frontend,
+      Test suite,
+      Messaging provider,
+      Event and notification dashboard,
+      Extension documentation,
+    ]
+  pt:
+    [
+      Backend e frontend de referência,
+      Suíte de testes,
+      Provedor de mensagens,
+      Painel de eventos e notificações,
+      Documentação de extensão,
+    ]
 skills: [Backend, Frontend, Databases, Testing, IoT APIs, Messaging]
 participation:
   en: [Volunteer engineering, Undergraduate research or thesis, Applied product work]

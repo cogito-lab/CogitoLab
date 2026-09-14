@@ -5,22 +5,54 @@ import FilterBar from '@/components/FilterBar.astro';
 import MemberCard from '@/components/MemberCard.astro';
 import { categoryLabels, categoryOrder, getPeople } from '@/utils/content';
 import type { Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const people = await getPeople();
-const usedCategories = categoryOrder.filter((category) => people.some((person) => person.data.category === category));
-const description = lang === 'en' ? 'Meet the students and collaborators who make Cogito Lab a living research community.' : 'Conheça estudantes e colaboradores que fazem do Cogito Lab uma comunidade de pesquisa viva.';
+const usedCategories = categoryOrder.filter((category) =>
+  people.some((person) => person.data.category === category)
+);
+const description =
+  lang === 'en'
+    ? 'Meet the students and collaborators who make Cogito Lab a living research community.'
+    : 'Conheça estudantes e colaboradores que fazem do Cogito Lab uma comunidade de pesquisa viva.';
 ---
-<BaseLayout lang={lang} title={lang === 'en' ? 'People' : 'Pessoas'} description={description} path="/people">
-  <PageHero eyebrow={lang === 'en' ? 'People' : 'Pessoas'} title={lang === 'en' ? 'Research is a collective practice' : 'Pesquisa é uma prática coletiva'} description={description} />
+
+<BaseLayout
+  lang={lang}
+  title={lang === 'en' ? 'People' : 'Pessoas'}
+  description={description}
+  path="/people"
+>
+  <PageHero
+    eyebrow={lang === 'en' ? 'People' : 'Pessoas'}
+    title={lang === 'en' ? 'Research is a collective practice' : 'Pesquisa é uma prática coletiva'}
+    description={description}
+  />
   <section class="section container">
-    <FilterBar lang={lang} options={usedCategories.map((category) => ({ value: category, label: categoryLabels[category][lang] }))} />
+    <FilterBar
+      lang={lang}
+      options={usedCategories.map((category) => ({
+        value: category,
+        label: categoryLabels[category][lang],
+      }))}
+    />
     {usedCategories.map((category) => {
       const group = people.filter((person) => person.data.category === category);
-      return <section class="people-group" data-filter-group>
-        <div class="people-group__heading"><h2>{categoryLabels[category][lang]}</h2><span>{String(group.length).padStart(2, '0')}</span></div>
-        <div class="card-grid">{group.map((person) => <MemberCard person={person} lang={lang} />)}</div>
-      </section>;
+      return (
+        <section class="people-group" data-filter-group>
+          <div class="people-group__heading">
+            <h2>{categoryLabels[category][lang]}</h2>
+            <span>{String(group.length).padStart(2, '0')}</span>
+          </div>
+          <div class="card-grid">
+            {group.map((person) => (
+              <MemberCard person={person} lang={lang} />
+            ))}
+          </div>
+        </section>
+      );
     })}
   </section>
 </BaseLayout>

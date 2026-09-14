@@ -2,7 +2,13 @@
 import { getCollection } from 'astro:content';
 import InitiativeDetailPage from '@/views/InitiativeDetailPage.astro';
 import { entrySlug } from '@/utils/content';
-export async function getStaticPaths() { return (await getCollection('initiatives')).map((initiative) => ({ params: { slug: entrySlug(initiative.id) }, props: { initiative } })); }
+export async function getStaticPaths() {
+  return (await getCollection('initiatives')).map((initiative) => ({
+    params: { slug: entrySlug(initiative.id) },
+    props: { initiative },
+  }));
+}
 const { initiative } = Astro.props;
 ---
+
 <InitiativeDetailPage lang="pt" initiative={initiative} />

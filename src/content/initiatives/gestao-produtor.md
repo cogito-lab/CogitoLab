@@ -21,11 +21,39 @@ defined:
     - A interação por WhatsApp faz parte da oportunidade.
     - O público-alvo são pequenos produtores agrícolas.
 work:
-  en: [Understand real producer workflows, Define a minimum data model, Decide which actions belong in WhatsApp or the web interface, Build a small MVP, Validate real cases before expanding scope]
-  pt: [Compreender fluxos reais dos produtores, Definir um modelo mínimo de dados, Decidir quais ações ficam no WhatsApp ou na interface web, Construir um MVP pequeno, Validar casos reais antes de ampliar o escopo]
+  en:
+    [
+      Understand real producer workflows,
+      Define a minimum data model,
+      Decide which actions belong in WhatsApp or the web interface,
+      Build a small MVP,
+      Validate real cases before expanding scope,
+    ]
+  pt:
+    [
+      Compreender fluxos reais dos produtores,
+      Definir um modelo mínimo de dados,
+      Decidir quais ações ficam no WhatsApp ou na interface web,
+      Construir um MVP pequeno,
+      Validar casos reais antes de ampliar o escopo,
+    ]
 deliverables:
-  en: [Process and requirements map, Web and backend MVP, WhatsApp provider integration, Basic reports, User guide]
-  pt: [Mapa de processos e requisitos, MVP web e backend, Integração com provedor de WhatsApp, Relatórios básicos, Guia de uso]
+  en:
+    [
+      Process and requirements map,
+      Web and backend MVP,
+      WhatsApp provider integration,
+      Basic reports,
+      User guide,
+    ]
+  pt:
+    [
+      Mapa de processos e requisitos,
+      MVP web e backend,
+      Integração com provedor de WhatsApp,
+      Relatórios básicos,
+      Guia de uso,
+    ]
 skills: [Requirements, Backend, Databases, WhatsApp APIs, UX]
 participation:
   en: [Applied project, Product engineering, Thesis project]

@@ -11,6 +11,7 @@ initiative: qualidade-software-ia
 people: [mateus-dutra, joao-cerqueira]
 areas: [ai-for-software-engineering, software-quality, software-testing]
 skills: [Python, Static analysis, Testing, LLMs]
-commitment: { en: Scope arranged with the initiative team, pt: Escopo combinado com a equipe da iniciativa }
+commitment:
+  { en: Scope arranged with the initiative team, pt: Escopo combinado com a equipe da iniciativa }
 order: 1
 ---

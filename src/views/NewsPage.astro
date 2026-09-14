@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import NewsCard from '@/components/NewsCard.astro';
+import { getNews } from '@/utils/content';
+import { t, type Lang } from '@/utils/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const copy = t(lang);
+const allNews = await getNews();
+
+const title = copy.news;
+const description =
+  lang === 'en'
+    ? 'Recent news, paper awards, conference participations, and activities from Cogito Lab.'
+    : 'Notícias recentes, prêmios de artigos, participações em conferências e atividades do Cogito Lab.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} path="/news">
+  <PageHero
+    eyebrow={copy.news}
+    title={lang === 'en' ? 'News & Activities' : 'Notícias e Atividades'}
+    description={description}
+  />
+  <section class="section container">
+    {allNews.length === 0 ? (
+      <div class="empty-state">
+        <h2>{lang === 'en' ? 'No news published yet' : 'Nenhuma notícia publicada ainda'}</h2>
+      </div>
+    ) : (
+      <div class="card-grid">
+        {allNews.map((item) => (
+          <NewsCard news={item} lang={lang} />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

@@ -5,19 +5,107 @@ import FilterBar from '@/components/FilterBar.astro';
 import OpportunityCard from '@/components/OpportunityCard.astro';
 import { getOpportunities } from '@/utils/content';
 import type { Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const opportunities = await getOpportunities();
-const types = { research: ['Research', 'Pesquisa'], undergraduate: ['Undergraduate research', 'Iniciação científica'], thesis: ['Thesis project', 'TCC'], masters: ["Master's", 'Mestrado'], phd: ['PhD', 'Doutorado'], collaboration: ['Collaboration', 'Colaboração'], engineering: ['Engineering', 'Engenharia'] } as const;
-const statuses = { open: ['Open now', 'Aberta agora'], 'expressions-of-interest': ['Expressions of interest', 'Manifestações de interesse'], closed: ['Closed', 'Encerrada'] } as const;
-const description = lang === 'en' ? 'Public opportunities for students, researchers, engineers, and organizations to contribute to Cogito Lab initiatives.' : 'Oportunidades públicas para estudantes, pesquisadores, engenheiros e organizações contribuírem com as iniciativas do Cogito Lab.';
+const types = {
+  research: ['Research', 'Pesquisa'],
+  undergraduate: ['Undergraduate research', 'Iniciação científica'],
+  thesis: ['Thesis project', 'TCC'],
+  masters: ["Master's", 'Mestrado'],
+  phd: ['PhD', 'Doutorado'],
+  collaboration: ['Collaboration', 'Colaboração'],
+  engineering: ['Engineering', 'Engenharia'],
+} as const;
+const statuses = {
+  open: ['Open now', 'Aberta agora'],
+  'expressions-of-interest': ['Expressions of interest', 'Manifestações de interesse'],
+  closed: ['Closed', 'Encerrada'],
+} as const;
+const description =
+  lang === 'en'
+    ? 'Public opportunities for students, researchers, engineers, and organizations to contribute to Cogito Lab initiatives.'
+    : 'Oportunidades públicas para estudantes, pesquisadores, engenheiros e organizações contribuírem com as iniciativas do Cogito Lab.';
 ---
-<BaseLayout lang={lang} title={lang === 'en' ? 'Opportunities' : 'Oportunidades'} description={description} path="/opportunities">
-  <PageHero eyebrow={lang === 'en' ? 'Opportunities' : 'Oportunidades'} title={lang === 'en' ? 'Bring your curiosity to the table' : 'Traga sua curiosidade para a conversa'} description={description} />
+
+<BaseLayout
+  lang={lang}
+  title={lang === 'en' ? 'Opportunities' : 'Oportunidades'}
+  description={description}
+  path="/opportunities"
+>
+  <PageHero
+    eyebrow={lang === 'en' ? 'Opportunities' : 'Oportunidades'}
+    title={
+      lang === 'en' ? 'Bring your curiosity to the table' : 'Traga sua curiosidade para a conversa'
+    }
+    description={description}
+  />
   <section class="section container">
-    <FilterBar lang={lang} options={Object.entries(types).map(([value, label]) => ({ value, label: label[lang === 'en' ? 0 : 1] }))} statuses={Object.entries(statuses).map(([value, label]) => ({ value, label: label[lang === 'en' ? 0 : 1] }))} />
-    <div class="card-grid">{opportunities.map((opportunity) => <OpportunityCard opportunity={opportunity} lang={lang} />)}</div>
-    <aside class="how-to"><p class="eyebrow">{lang === 'en' ? 'How to express interest' : 'Como manifestar interesse'}</p><h2>{lang === 'en' ? 'Start with the work, then start a conversation.' : 'Comece pelo trabalho, depois inicie uma conversa.'}</h2><p>{lang === 'en' ? 'Open the related initiative, understand its current needs, and contact one of the people listed there. Include your background, availability, and what you would like to explore.' : 'Abra a iniciativa relacionada, entenda suas necessidades atuais e entre em contato com uma das pessoas listadas. Inclua sua formação, disponibilidade e o que gostaria de explorar.'}</p></aside>
+    <FilterBar
+      lang={lang}
+      options={Object.entries(types).map(([value, label]) => ({
+        value,
+        label: label[lang === 'en' ? 0 : 1],
+      }))}
+      statuses={Object.entries(statuses).map(([value, label]) => ({
+        value,
+        label: label[lang === 'en' ? 0 : 1],
+      }))}
+    />
+    <div class="card-grid">
+      {opportunities.map((opportunity) => (
+        <OpportunityCard opportunity={opportunity} lang={lang} />
+      ))}
+    </div>
+    <aside class="how-to">
+      <p class="eyebrow">
+        {lang === 'en' ? 'How to express interest' : 'Como manifestar interesse'}
+      </p>
+      <h2>
+        {lang === 'en'
+          ? 'Start with the work, then start a conversation.'
+          : 'Comece pelo trabalho, depois inicie uma conversa.'}
+      </h2>
+      <p>
+        {lang === 'en'
+          ? 'Open the related initiative, understand its current needs, and contact one of the people listed there. Include your background, availability, and what you would like to explore.'
+          : 'Abra a iniciativa relacionada, entenda suas necessidades atuais e entre em contato com uma das pessoas listadas. Inclua sua formação, disponibilidade e o que gostaria de explorar.'}
+      </p>
+    </aside>
+    <aside class="how-to">
+      <p class="eyebrow">
+        {lang === 'en' ? 'How to express interest' : 'Como manifestar interesse'}
+      </p>
+      <h2>
+        {lang === 'en'
+          ? 'Start with the work, then start a conversation.'
+          : 'Comece pelo trabalho, depois inicie uma conversa.'}
+      </h2>
+      <p>
+        {lang === 'en'
+          ? 'Open the related initiative, understand its current needs, and contact one of the people listed there or reach out directly to the lab coordinator, Prof. Gustavo Vale (gustavovale@ufla.br). Include your background, availability, and what you would like to explore.'
+          : 'Abra a iniciativa relacionada, entenda suas necessidades atuais e entre em contato com uma das pessoas listadas ou diretamente com o coordenador do laboratório, Prof. Gustavo Vale (gustavovale@ufla.br). Inclua sua formação, disponibilidade e o que gostaria de explorar.'}
+      </p>
+    </aside>
   </section>
 </BaseLayout>
-<style>.how-to { max-width: 780px; margin: 5rem auto 0; padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius); color: #10231d; background: var(--mint); }.how-to h2 { margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.4rem); }.how-to .eyebrow { color: #40564e; }</style>
+<style>
+  .how-to {
+    max-width: 780px;
+    margin: 5rem auto 0;
+    padding: clamp(2rem, 5vw, 4rem);
+    border-radius: var(--radius);
+    color: #10231d;
+    background: var(--mint);
+  }
+  .how-to h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+  .how-to .eyebrow {
+    color: #40564e;
+  }
+</style>

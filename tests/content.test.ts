@@ -5,11 +5,13 @@ import { join } from 'node:path';
 const root = process.cwd();
 
 describe('content sources', () => {
-  it('contains the verified wiki people and initiatives', () => {
+  it('contains the verified wiki people, initiatives, and news', () => {
     const people = readdirSync(join(root, 'src/content/people')).filter((file) => file.endsWith('.md'));
     const initiatives = readdirSync(join(root, 'src/content/initiatives')).filter((file) => file.endsWith('.md'));
-    expect(people).toHaveLength(10);
+    const news = readdirSync(join(root, 'src/content/news')).filter((file) => file.endsWith('.md'));
+    expect(people).toHaveLength(11);
     expect(initiatives).toHaveLength(12);
+    expect(news.length).toBeGreaterThanOrEqual(4);
   });
 
   it('does not publish candidate placeholder identities or publications', () => {

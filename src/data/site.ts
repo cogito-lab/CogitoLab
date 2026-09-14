@@ -5,5 +5,7 @@ const repositoryFromCi = process.env.GITHUB_REPOSITORY
 export const siteConfig = {
   name: 'Cogito Lab',
   repositoryUrl:
-    import.meta.env.PUBLIC_REPOSITORY_URL || repositoryFromCi || 'https://github.com/cogito-lab/CogitoLab',
+    import.meta.env.PUBLIC_REPOSITORY_URL ||
+    repositoryFromCi ||
+    'https://github.com/cogito-lab/CogitoLab',
 } as const;

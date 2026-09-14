@@ -6,7 +6,8 @@ summary:
 kind: extension
 kindLabel: { en: Innovation · Entrepreneurship, pt: Inovação · Empreendedorismo }
 status: planning
-statusLabel: { en: Collaborative role · scope pending, pt: Participação colaborativa · escopo pendente }
+statusLabel:
+  { en: Collaborative role · scope pending, pt: Participação colaborativa · escopo pendente }
 areas: [innovation-transfer]
 people: []
 funding: { agency: FAPEMIG, process: APQ-03990-26, period: 2026–2028 }
@@ -18,8 +19,18 @@ defined:
     - A iniciativa está conectada ao projeto FAPEMIG APQ-03990-26.
     - O Cogito Lab participa como colaborador.
 work:
-  en: [Register scope partners timeline and responsibilities, Identify concrete opportunities for students, Connect startups with relevant lab skills and initiatives]
-  pt: [Registrar escopo parceiros cronograma e responsabilidades, Identificar oportunidades concretas para estudantes, Conectar startups a competências e iniciativas relevantes do laboratório]
+  en:
+    [
+      Register scope partners timeline and responsibilities,
+      Identify concrete opportunities for students,
+      Connect startups with relevant lab skills and initiatives,
+    ]
+  pt:
+    [
+      Registrar escopo parceiros cronograma e responsabilidades,
+      Identificar oportunidades concretas para estudantes,
+      Conectar startups a competências e iniciativas relevantes do laboratório,
+    ]
 deliverables:
   en: [To be defined according to Cogito Lab's formal responsibilities]
   pt: [A definir conforme as responsabilidades formais do Cogito Lab]

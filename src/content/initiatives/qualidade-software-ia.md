@@ -36,11 +36,26 @@ work:
     - Evoluir relatórios para pesquisa e avaliação aplicada.
     - Investigar indicadores antecipados de risco de produção e manutenção.
 deliverables:
-  en: [Reproducible pipeline, Standard technical report, Benchmarks and case studies, Supporting tools, Publications and applied services]
-  pt: [Pipeline reproduzível, Relatório técnico padronizado, Benchmarks e estudos de caso, Ferramentas de apoio, Publicações e serviços aplicados]
+  en:
+    [
+      Reproducible pipeline,
+      Standard technical report,
+      Benchmarks and case studies,
+      Supporting tools,
+      Publications and applied services,
+    ]
+  pt:
+    [
+      Pipeline reproduzível,
+      Relatório técnico padronizado,
+      Benchmarks e estudos de caso,
+      Ferramentas de apoio,
+      Publicações e serviços aplicados,
+    ]
 skills: [Python, Static analysis, Testing, Security, CI/CD, LLMs, Empirical methods]
 participation:
-  en: [Undergraduate research, Thesis project, Master's or PhD research, Applied project, Consulting]
+  en:
+    [Undergraduate research, Thesis project, Master's or PhD research, Applied project, Consulting]
   pt: [Iniciação científica, TCC, Pesquisa de mestrado ou doutorado, Projeto aplicado, Consultoria]
 featured: true
 order: 1

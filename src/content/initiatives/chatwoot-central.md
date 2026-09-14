@@ -21,11 +21,39 @@ defined:
     - O objetivo é uma central de comunicação consolidada para atendimento ao cliente.
     - Automações inteligentes e agentes de IA são extensões futuras possíveis.
 work:
-  en: [Map channels teams and queues, Define routing and triage rules, Map Chatwoot APIs and webhooks, Separate autonomous actions from confirmed actions, Create integration-failure observability]
-  pt: [Mapear canais equipes e filas, Definir regras de roteamento e triagem, Mapear APIs e webhooks do Chatwoot, Separar ações autônomas de ações confirmadas, Criar observabilidade para falhas de integração]
+  en:
+    [
+      Map channels teams and queues,
+      Define routing and triage rules,
+      Map Chatwoot APIs and webhooks,
+      Separate autonomous actions from confirmed actions,
+      Create integration-failure observability,
+    ]
+  pt:
+    [
+      Mapear canais equipes e filas,
+      Definir regras de roteamento e triagem,
+      Mapear APIs e webhooks do Chatwoot,
+      Separar ações autônomas de ações confirmadas,
+      Criar observabilidade para falhas de integração,
+    ]
 deliverables:
-  en: [Integration architecture, Connectors and webhooks, Triage and routing rules, Monitoring mechanism, Operations documentation]
-  pt: [Arquitetura de integração, Conectores e webhooks, Regras de triagem e roteamento, Mecanismo de monitoramento, Documentação operacional]
+  en:
+    [
+      Integration architecture,
+      Connectors and webhooks,
+      Triage and routing rules,
+      Monitoring mechanism,
+      Operations documentation,
+    ]
+  pt:
+    [
+      Arquitetura de integração,
+      Conectores e webhooks,
+      Regras de triagem e roteamento,
+      Mecanismo de monitoramento,
+      Documentação operacional,
+    ]
 skills: [Chatwoot, APIs, Webhooks, Backend, Integration, LLM agents]
 participation:
   en: [Product engineering, Applied project, Integration work]

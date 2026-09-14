@@ -5,17 +5,36 @@ import Footer from '@/components/Footer.astro';
 import { siteConfig } from '@/data/site';
 import { localizedPath, withBase, type Lang } from '@/utils/i18n';
 
-interface Props { lang: Lang; title: string; description: string; path?: string; image?: string; noindex?: boolean }
-const { lang, title, description, path = '/', image = '/og-image.svg', noindex = false } = Astro.props;
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  noindex?: boolean;
+}
+const {
+  lang,
+  title,
+  description,
+  path = '/',
+  image = '/og-image.svg',
+  noindex = false,
+} = Astro.props;
 const pageTitle = title === 'Cogito Lab' ? title : `${title} — Cogito Lab`;
 const canonicalPath = localizedPath(path, lang);
 const canonical = Astro.site ? new URL(withBase(canonicalPath), Astro.site) : undefined;
 const ogImage = Astro.site ? new URL(withBase(image), Astro.site) : undefined;
 const schema = {
-  '@context': 'https://schema.org', '@type': 'ResearchOrganization', name: 'Cogito Lab',
-  description, url: canonical?.href, sameAs: [siteConfig.repositoryUrl],
+  '@context': 'https://schema.org',
+  '@type': 'ResearchOrganization',
+  name: 'Cogito Lab',
+  description,
+  url: canonical?.href,
+  sameAs: [siteConfig.repositoryUrl],
 };
 ---
+
 <!doctype html>
 <html lang={lang === 'pt' ? 'pt-BR' : 'en'}>
   <head>
@@ -28,9 +47,27 @@ const schema = {
     <title>{pageTitle}</title>
     {noindex && <meta name="robots" content="noindex" />}
     {!noindex && canonical && <link rel="canonical" href={canonical} />}
-    {!noindex && <link rel="alternate" hreflang="en" href={Astro.site && new URL(withBase(localizedPath(path, 'en')), Astro.site)} />}
-    {!noindex && <link rel="alternate" hreflang="pt-BR" href={Astro.site && new URL(withBase(localizedPath(path, 'pt')), Astro.site)} />}
-    {!noindex && <link rel="alternate" hreflang="x-default" href={Astro.site && new URL(withBase(localizedPath(path, 'en')), Astro.site)} />}
+    {!noindex && (
+      <link
+        rel="alternate"
+        hreflang="en"
+        href={Astro.site && new URL(withBase(localizedPath(path, 'en')), Astro.site)}
+      />
+    )}
+    {!noindex && (
+      <link
+        rel="alternate"
+        hreflang="pt-BR"
+        href={Astro.site && new URL(withBase(localizedPath(path, 'pt')), Astro.site)}
+      />
+    )}
+    {!noindex && (
+      <link
+        rel="alternate"
+        hreflang="x-default"
+        href={Astro.site && new URL(withBase(localizedPath(path, 'en')), Astro.site)}
+      />
+    )}
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Cogito Lab" />
@@ -40,13 +77,23 @@ const schema = {
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
-    <script is:inline>try{const t=localStorage.getItem('cogito-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.dataset.theme='dark'}catch{}</script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('cogito-theme');
+        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme:dark)').matches))
+          document.documentElement.dataset.theme = 'dark';
+      } catch {}
+    </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">{lang === 'en' ? 'Skip to content' : 'Ir para o conteúdo'}</a>
+    <a class="skip-link" href="#main">
+      {lang === 'en' ? 'Skip to content' : 'Ir para o conteúdo'}
+    </a>
     <Header lang={lang} path={noindex ? '/' : path} />
-    <main id="main"><slot /></main>
+    <main id="main">
+      <slot />
+    </main>
     <Footer lang={lang} />
   </body>
 </html>

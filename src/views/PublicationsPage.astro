@@ -4,17 +4,79 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import { t, type Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const copy = t(lang);
-const publications = (await getCollection('publications')).filter((publication) => !publication.data.draft).sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
+const publications = (await getCollection('publications'))
+  .filter((publication) => !publication.data.draft)
+  .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
 const years = [...new Set(publications.map((publication) => publication.data.year))];
-const description = lang === 'en' ? 'Peer-reviewed papers, theses, preprints, and other research outputs produced by the group.' : 'Artigos revisados por pares, teses, preprints e outros resultados de pesquisa produzidos pelo grupo.';
+const description =
+  lang === 'en'
+    ? 'Peer-reviewed papers, theses, preprints, and other research outputs produced by the group.'
+    : 'Artigos revisados por pares, teses, preprints e outros resultados de pesquisa produzidos pelo grupo.';
 ---
+
 <BaseLayout lang={lang} title={copy.publications} description={description} path="/publications">
-  <PageHero eyebrow={copy.publications} title={lang === 'en' ? 'Research made inspectable' : 'Pesquisa que pode ser examinada'} description={description} />
+  <PageHero
+    eyebrow={copy.publications}
+    title={lang === 'en' ? 'Research made inspectable' : 'Pesquisa que pode ser examinada'}
+    description={description}
+  />
   <section class="section container">
-    {publications.length === 0 ? <div class="empty-state"><h2>{copy.noPublications}</h2><p>{copy.editHint}</p></div> : years.map((year) => <section class="publication-year"><h2>{year}</h2><div>{publications.filter((publication) => publication.data.year === year).map((publication) => <article class="publication"><p class="eyebrow">{publication.data.type} · {publication.data.venue}</p><h3>{publication.data.title}</h3><p>{publication.data.authors.join(', ')}</p>{(publication.data.url || publication.data.doi) && <a class="pub-link" href={publication.data.url ?? `https://doi.org/${publication.data.doi}`} rel="external">{publication.data.doi ? `DOI ${publication.data.doi}` : lang === 'en' ? 'Open publication' : 'Abrir publicação'} <Icon name="external" /></a>}</article>)}</div></section>)}
+    {publications.length === 0 ? (
+      <div class="empty-state">
+        <h2>{copy.noPublications}</h2>
+        <p>{copy.editHint}</p>
+      </div>
+    ) : (
+      years.map((year) => (
+        <section class="publication-year">
+          <h2>{year}</h2>
+          <div>
+            {publications
+              .filter((publication) => publication.data.year === year)
+              .map((publication) => (
+                <article class="publication">
+                  <p class="eyebrow">
+                    {publication.data.type} · {publication.data.venue}
+                  </p>
+                  <h3>{publication.data.title}</h3>
+                  <p>{publication.data.authors.join(', ')}</p>
+                  {(publication.data.url || publication.data.doi) && (
+                    <a
+                      class="pub-link"
+                      href={publication.data.url ?? `https://doi.org/${publication.data.doi}`}
+                      rel="external"
+                    >
+                      {publication.data.doi
+                        ? `DOI ${publication.data.doi}`
+                        : lang === 'en'
+                          ? 'Open publication'
+                          : 'Abrir publicação'}{' '}
+                      <Icon name="external" />
+                    </a>
+                  )}
+                </article>
+              ))}
+          </div>
+        </section>
+      ))
+    )}
   </section>
 </BaseLayout>
-<style>.pub-link { display: inline-flex; gap: .4rem; align-items: center; margin-top: .8rem; font-size: .82rem; font-weight: 720; }.pub-link svg { width: .9rem; }</style>
+<style>
+  .pub-link {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 720;
+  }
+  .pub-link svg {
+    width: 0.9rem;
+  }
+</style>

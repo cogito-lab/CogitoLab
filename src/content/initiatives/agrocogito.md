@@ -9,7 +9,8 @@ summary:
 kind: applied
 kindLabel: { en: Product · Applied research, pt: Produto · Pesquisa aplicada }
 status: open
-statusLabel: { en: Conceptual MVP · open for development, pt: MVP conceituado · aberto para desenvolvimento }
+statusLabel:
+  { en: Conceptual MVP · open for development, pt: MVP conceituado · aberto para desenvolvimento }
 areas: [innovation-transfer, collaborative-empirical-se]
 people: [alexandre-cardoso]
 defined:
@@ -26,11 +27,39 @@ defined:
     - O serviço deve operar em dias úteis e ser entregue na web.
     - Dados da B3 e margem ou lucro estimado devem ser explorados.
 work:
-  en: [Define B3 and complementary data ingestion, Implement recommendation calculation and ranking, Build the backend and web interface, Create demonstration scenarios, Validate recommendations with users and specialists]
-  pt: [Definir ingestão de dados da B3 e fontes complementares, Implementar cálculo e ranking de recomendações, Construir backend e interface web, Criar cenários de demonstração, Validar recomendações com usuários e especialistas]
+  en:
+    [
+      Define B3 and complementary data ingestion,
+      Implement recommendation calculation and ranking,
+      Build the backend and web interface,
+      Create demonstration scenarios,
+      Validate recommendations with users and specialists,
+    ]
+  pt:
+    [
+      Definir ingestão de dados da B3 e fontes complementares,
+      Implementar cálculo e ranking de recomendações,
+      Construir backend e interface web,
+      Criar cenários de demonstração,
+      Validar recomendações com usuários e especialistas,
+    ]
 deliverables:
-  en: [Data pipeline, Recommendation engine, Web interface, Demonstration data, Formula and criteria documentation]
-  pt: [Pipeline de dados, Motor de recomendação, Interface web, Dados de demonstração, Documentação de fórmulas e critérios]
+  en:
+    [
+      Data pipeline,
+      Recommendation engine,
+      Web interface,
+      Demonstration data,
+      Formula and criteria documentation,
+    ]
+  pt:
+    [
+      Pipeline de dados,
+      Motor de recomendação,
+      Interface web,
+      Dados de demonstração,
+      Documentação de fórmulas e critérios,
+    ]
 skills: [Python, Data APIs, Machine learning, Graphs, Backend, Frontend, Agriculture]
 participation:
   en: [Thesis project, Undergraduate research, Product engineering, Applied research]

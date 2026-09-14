@@ -2,7 +2,13 @@
 import { getCollection } from 'astro:content';
 import PersonDetailPage from '@/views/PersonDetailPage.astro';
 import { entrySlug } from '@/utils/content';
-export async function getStaticPaths() { return (await getCollection('people')).map((person) => ({ params: { slug: entrySlug(person.id) }, props: { person } })); }
+export async function getStaticPaths() {
+  return (await getCollection('people')).map((person) => ({
+    params: { slug: entrySlug(person.id) },
+    props: { person },
+  }));
+}
 const { person } = Astro.props;
 ---
+
 <PersonDetailPage lang="en" person={person} />

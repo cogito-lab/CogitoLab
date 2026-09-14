@@ -2,7 +2,31 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { withBase } from '@/utils/i18n';
 ---
-<BaseLayout lang="en" title="Page not found" description="The requested page could not be found." path="/404" noindex>
-  <section class="section narrow empty-state"><p class="eyebrow">404</p><h1>Lost in thought?</h1><p>The page you requested does not exist or has moved.</p><a class="button" href={withBase('/')}>Return home</a></section>
+
+<BaseLayout
+  lang="en"
+  title="Page not found"
+  description="The requested page could not be found."
+  path="/404"
+  noindex
+>
+  <section class="section narrow empty-state">
+    <p class="eyebrow">404</p>
+    <h1>Lost in thought?</h1>
+    <p>The page you requested does not exist or has moved.</p>
+    <a class="button" href={withBase('/')}>
+      Return home
+    </a>
+  </section>
 </BaseLayout>
-<style>.empty-state { margin-block: 5rem; }.empty-state h1 { margin-bottom: 1rem; }.empty-state .button { margin-top: 2rem; }</style>
+<style>
+  .empty-state {
+    margin-block: 5rem;
+  }
+  .empty-state h1 {
+    margin-bottom: 1rem;
+  }
+  .empty-state .button {
+    margin-top: 2rem;
+  }
+</style>

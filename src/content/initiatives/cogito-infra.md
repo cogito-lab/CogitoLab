@@ -24,11 +24,37 @@ defined:
     - Estudantes e pesquisadores devem conseguir mantê-lo.
     - Hospedagem estática e fluxos baseados no repositório são preferidos.
 work:
-  en: [Consolidate the production implementation, Maintain verified public content, Improve contributor workflows, Automate validation build and deployment, Evolve accessibility performance and discoverability]
-  pt: [Consolidar a implementação de produção, Manter conteúdo público verificado, Melhorar os fluxos de contribuição, Automatizar validação build e implantação, Evoluir acessibilidade desempenho e descoberta]
+  en:
+    [
+      Consolidate the production implementation,
+      Maintain verified public content,
+      Improve contributor workflows,
+      Automate validation build and deployment,
+      Evolve accessibility performance and discoverability,
+    ]
+  pt:
+    [
+      Consolidar a implementação de produção,
+      Manter conteúdo público verificado,
+      Melhorar os fluxos de contribuição,
+      Automatizar validação build e implantação,
+      Evoluir acessibilidade desempenho e descoberta,
+    ]
 deliverables:
-  en: [Published website, Sustainable content model, Contributor documentation, Continuous integration and deployment]
-  pt: [Website publicado, Modelo de conteúdo sustentável, Documentação para contribuidores, Integração e implantação contínuas]
+  en:
+    [
+      Published website,
+      Sustainable content model,
+      Contributor documentation,
+      Continuous integration and deployment,
+    ]
+  pt:
+    [
+      Website publicado,
+      Modelo de conteúdo sustentável,
+      Documentação para contribuidores,
+      Integração e implantação contínuas,
+    ]
 skills: [Frontend, Astro, TypeScript, GitHub Actions, Content design, Accessibility]
 participation:
   en: [Volunteer engineering, Internal project, Undergraduate research or thesis]

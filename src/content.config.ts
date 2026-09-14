@@ -28,6 +28,7 @@ const people = defineCollection({
     initiatives: z.array(z.string()).default([]),
     links: z
       .object({
+        email: z.string().optional(),
         github: z.url().optional(),
         orcid: z.url().optional(),
         scholar: z.url().optional(),
@@ -71,7 +72,15 @@ const opportunities = defineCollection({
   schema: z.object({
     title: localized,
     summary: localized,
-    type: z.enum(['research', 'undergraduate', 'thesis', 'masters', 'phd', 'collaboration', 'engineering']),
+    type: z.enum([
+      'research',
+      'undergraduate',
+      'thesis',
+      'masters',
+      'phd',
+      'collaboration',
+      'engineering',
+    ]),
     status: z.enum(['open', 'expressions-of-interest', 'closed']),
     initiative: z.string(),
     people: z.array(z.string()).default([]),
@@ -91,7 +100,17 @@ const publications = defineCollection({
     authors: z.array(z.string()),
     venue: z.string(),
     year: z.number().int(),
-    type: z.enum(['journal', 'conference', 'workshop', 'book', 'chapter', 'thesis', 'preprint']),
+    type: z.enum([
+      'journal',
+      'conference',
+      'workshop',
+      'book',
+      'chapter',
+      'thesis',
+      'preprint',
+      'conference-abstract',
+      'abstract',
+    ]),
     doi: z.string().optional(),
     url: z.url().optional(),
     areas: z.array(z.string()).default([]),
@@ -100,4 +119,27 @@ const publications = defineCollection({
   }),
 });
 
-export const collections = { people, initiatives, opportunities, publications };
+const news = defineCollection({
+  loader: glob({ base: './src/content/news', pattern: '**/*.md' }),
+  schema: z.object({
+    draft: z.boolean().default(false),
+    title: localized,
+    date: z.string(),
+    displayDate: localized,
+    summary: localized,
+    category: z.enum(['award', 'paper', 'event', 'talk', 'general']).default('general'),
+    categoryLabel: localized,
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+        })
+      )
+      .default([]),
+    featured: z.boolean().default(false),
+    order: z.number().default(100),
+  }),
+});
+
+export const collections = { people, initiatives, opportunities, publications, news };

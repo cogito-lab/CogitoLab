@@ -1,19 +1,57 @@
 ---
 import { localizedPath, withBase, type Lang } from '@/utils/i18n';
-interface Props { lang: Lang; compact?: boolean }
+interface Props {
+  lang: Lang;
+  compact?: boolean;
+}
 const { lang, compact = false } = Astro.props;
 ---
-<a class:list={['logo', { 'logo--compact': compact }]} href={withBase(localizedPath('/', lang))} aria-label="Cogito Lab — Home">
+
+<a
+  class:list={['logo', { 'logo--compact': compact }]}
+  href={withBase(localizedPath('/', lang))}
+  aria-label="Cogito Lab — Home"
+>
   <svg viewBox="0 0 42 42" aria-hidden="true">
-    <path d="M21 3.5c-7.6 0-13.8 5.9-13.8 13.2 0 4.5 2.3 8.4 5.8 10.8v6.8h16v-6.8a13 13 0 0 0 5.8-10.8C34.8 9.4 28.6 3.5 21 3.5Z" fill="none" stroke="currentColor" stroke-width="2.2"/>
-    <path d="M15.5 15.2c2.1-3.2 8.7-3.3 10.9.1M14.4 21.1c3.5 2.9 9.8 2.9 13.2 0M18 34.4v4.1h6v-4.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-    <circle cx="15.2" cy="15.2" r="1.8" fill="currentColor"/><circle cx="26.8" cy="15.2" r="1.8" fill="currentColor"/>
+    <path
+      d="M21 3.5c-7.6 0-13.8 5.9-13.8 13.2 0 4.5 2.3 8.4 5.8 10.8v6.8h16v-6.8a13 13 0 0 0 5.8-10.8C34.8 9.4 28.6 3.5 21 3.5Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+    />
+    <path
+      d="M15.5 15.2c2.1-3.2 8.7-3.3 10.9.1M14.4 21.1c3.5 2.9 9.8 2.9 13.2 0M18 34.4v4.1h6v-4.1"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <circle cx="15.2" cy="15.2" r="1.8" fill="currentColor" />
+    <circle cx="26.8" cy="15.2" r="1.8" fill="currentColor" />
   </svg>
-  <span>Cogito<span>Lab</span></span>
+  <span>
+    Cogito<span>Lab</span>
+  </span>
 </a>
 <style>
-  .logo { display: inline-flex; gap: .65rem; align-items: center; font-size: 1.08rem; font-weight: 820; letter-spacing: -.04em; text-decoration: none; }
-  .logo svg { width: 2rem; height: 2rem; color: var(--mint-deep); }
-  .logo > span > span { color: var(--mint-deep); }
-  .logo--compact > span { display: none; }
+  .logo {
+    display: inline-flex;
+    gap: 0.65rem;
+    align-items: center;
+    font-size: 1.08rem;
+    font-weight: 820;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+  .logo svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--mint-deep);
+  }
+  .logo > span > span {
+    color: var(--mint-deep);
+  }
+  .logo--compact > span {
+    display: none;
+  }
 </style>

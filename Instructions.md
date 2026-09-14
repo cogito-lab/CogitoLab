@@ -126,26 +126,31 @@ The website must present the funded research and innovation projects associated 
 The initial set of projects is:
 
 #### CNPq — Process 446729/2024-8
+
 **Role:** Coordinator  
-**Title:** *Evaluating the Quality of Artificial-Intelligence-Generated Code in Fixing Technical Debt and Merge Conflicts in Real-World Projects*  
-Portuguese title: *Avaliação da Qualidade de Código Gerado por Inteligência Artificial na Resolução de Dívidas Técnicas e Conflitos de Integração em Projetos Reais.*
+**Title:** _Evaluating the Quality of Artificial-Intelligence-Generated Code in Fixing Technical Debt and Merge Conflicts in Real-World Projects_  
+Portuguese title: _Avaliação da Qualidade de Código Gerado por Inteligência Artificial na Resolução de Dívidas Técnicas e Conflitos de Integração em Projetos Reais._
 
 #### CNPq — Process 406089/2025-6
+
 **Role:** Subcoordinator  
-**Title:** *LLM4IoT: Detecção e Correção de Falhas de Interação de Dispositivos com Grandes Modelos de Linguagem em Sistemas de Software IoT.*
+**Title:** _LLM4IoT: Detecção e Correção de Falhas de Interação de Dispositivos com Grandes Modelos de Linguagem em Sistemas de Software IoT._
 
 #### FAPEMIG — Process APQ-01488-24
+
 **Role:** Subcoordinator  
-**Title:** *Avaliação da Qualidade de Código de Teste Gerado por Inteligência Artificial em Aplicações para Dispositivos Móveis.*
+**Title:** _Avaliação da Qualidade de Código de Teste Gerado por Inteligência Artificial em Aplicações para Dispositivos Móveis._
 
 #### FAPEMIG — Process APQ-04113-25
+
 **Role:** Subcoordinator  
-**Title:** *Transformação Empreendedora: Consolidando o Ecossistema de Inovação no Unilavras.*  
+**Title:** _Transformação Empreendedora: Consolidando o Ecossistema de Inovação no Unilavras._  
 Related initiative: **VUEI**.
 
 #### FAPEMIG — Process APQ-03990-26
+
 **Role:** Collaborator  
-**Title:** *Programa Vertentes ScaleUp.*  
+**Title:** _Programa Vertentes ScaleUp._  
 Related initiative: **Novo SEED**.
 
 The project representation should support at least:

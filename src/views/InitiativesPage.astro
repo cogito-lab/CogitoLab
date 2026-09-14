@@ -5,17 +5,59 @@ import FilterBar from '@/components/FilterBar.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
 import { getInitiatives } from '@/utils/content';
 import type { Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const initiatives = await getInitiatives();
-const kinds = { research: ['Research', 'Pesquisa'], applied: ['Applied project', 'Projeto aplicado'], product: ['Product', 'Produto'], extension: ['Extension', 'Extensão'], consulting: ['Consulting', 'Consultoria'], internal: ['Internal', 'Interno'] } as const;
-const statuses = { active: ['Active', 'Ativa'], open: ['Open', 'Aberta'], planning: ['Planning', 'Planejamento'], paused: ['Paused', 'Pausada'], completed: ['Completed', 'Concluída'] } as const;
-const description = lang === 'en' ? 'Research programs, experiments, products, and partnerships where our questions become shared work.' : 'Programas de pesquisa, experimentos, produtos e parcerias nos quais nossas perguntas se tornam trabalho compartilhado.';
+const kinds = {
+  research: ['Research', 'Pesquisa'],
+  applied: ['Applied project', 'Projeto aplicado'],
+  product: ['Product', 'Produto'],
+  extension: ['Extension', 'Extensão'],
+  consulting: ['Consulting', 'Consultoria'],
+  internal: ['Internal', 'Interno'],
+} as const;
+const statuses = {
+  active: ['Active', 'Ativa'],
+  open: ['Open', 'Aberta'],
+  planning: ['Planning', 'Planejamento'],
+  paused: ['Paused', 'Pausada'],
+  completed: ['Completed', 'Concluída'],
+} as const;
+const description =
+  lang === 'en'
+    ? 'Research programs, experiments, products, and partnerships where our questions become shared work.'
+    : 'Programas de pesquisa, experimentos, produtos e parcerias nos quais nossas perguntas se tornam trabalho compartilhado.';
 ---
-<BaseLayout lang={lang} title={lang === 'en' ? 'Initiatives' : 'Iniciativas'} description={description} path="/initiatives">
-  <PageHero eyebrow={lang === 'en' ? 'Initiatives' : 'Iniciativas'} title={lang === 'en' ? 'Ideas tested in the real world' : 'Ideias testadas no mundo real'} description={description} />
+
+<BaseLayout
+  lang={lang}
+  title={lang === 'en' ? 'Initiatives' : 'Iniciativas'}
+  description={description}
+  path="/initiatives"
+>
+  <PageHero
+    eyebrow={lang === 'en' ? 'Initiatives' : 'Iniciativas'}
+    title={lang === 'en' ? 'Ideas tested in the real world' : 'Ideias testadas no mundo real'}
+    description={description}
+  />
   <section class="section container">
-    <FilterBar lang={lang} options={Object.entries(kinds).map(([value, label]) => ({ value, label: label[lang === 'en' ? 0 : 1] }))} statuses={Object.entries(statuses).map(([value, label]) => ({ value, label: label[lang === 'en' ? 0 : 1] }))} />
-    <div class="card-grid">{initiatives.map((initiative, index) => <InitiativeCard initiative={initiative} lang={lang} index={index} />)}</div>
+    <FilterBar
+      lang={lang}
+      options={Object.entries(kinds).map(([value, label]) => ({
+        value,
+        label: label[lang === 'en' ? 0 : 1],
+      }))}
+      statuses={Object.entries(statuses).map(([value, label]) => ({
+        value,
+        label: label[lang === 'en' ? 0 : 1],
+      }))}
+    />
+    <div class="card-grid">
+      {initiatives.map((initiative, index) => (
+        <InitiativeCard initiative={initiative} lang={lang} index={index} />
+      ))}
+    </div>
   </section>
 </BaseLayout>

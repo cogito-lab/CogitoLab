@@ -1,11 +1,48 @@
 ---
-interface Props { name?: 'arrow' | 'sun' | 'menu' | 'close' | 'external'; class?: string }
+interface Props {
+  name?: 'arrow' | 'sun' | 'menu' | 'close' | 'external';
+  class?: string;
+}
 const { name = 'arrow', class: className } = Astro.props;
 ---
-<svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  {name === 'arrow' && <><path d="M5 12h14"/><path d="m14 7 5 5-5 5"/></>}
-  {name === 'external' && <><path d="M14 5h5v5"/><path d="m10 14 9-9"/><path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></>}
-  {name === 'sun' && <><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.41M17.66 6.34l1.41-1.41"/></>}
-  {name === 'menu' && <><path d="M4 7h16M4 12h16M4 17h16"/></>}
-  {name === 'close' && <><path d="m6 6 12 12M18 6 6 18"/></>}
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {name === 'arrow' && (
+    <>
+      <path d="M5 12h14" />
+      <path d="m14 7 5 5-5 5" />
+    </>
+  )}
+  {name === 'external' && (
+    <>
+      <path d="M14 5h5v5" />
+      <path d="m10 14 9-9" />
+      <path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+    </>
+  )}
+  {name === 'sun' && (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.41M17.66 6.34l1.41-1.41" />
+    </>
+  )}
+  {name === 'menu' && (
+    <>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </>
+  )}
+  {name === 'close' && (
+    <>
+      <path d="m6 6 12 12M18 6 6 18" />
+    </>
+  )}
 </svg>

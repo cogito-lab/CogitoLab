@@ -3,58 +3,149 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
 import OpportunityCard from '@/components/OpportunityCard.astro';
 import MemberCard from '@/components/MemberCard.astro';
+import NewsCard from '@/components/NewsCard.astro';
 import Icon from '@/components/Icon.astro';
 import { allAreas } from '@/data/areas';
-import { getInitiatives, getOpportunities, getPeople, validateContentRelations } from '@/utils/content';
+import {
+  getInitiatives,
+  getOpportunities,
+  getPeople,
+  getNews,
+  validateContentRelations,
+} from '@/utils/content';
 import { localizedPath, pick, withBase, type Lang } from '@/utils/i18n';
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 await validateContentRelations();
-const [initiatives, opportunities, people] = await Promise.all([getInitiatives(), getOpportunities(), getPeople()]);
+const [initiatives, opportunities, people, news] = await Promise.all([
+  getInitiatives(),
+  getOpportunities(),
+  getPeople(),
+  getNews(),
+]);
 const featured = initiatives.filter((item) => item.data.featured).slice(0, 3);
 const openOpportunities = opportunities.filter((item) => item.data.status !== 'closed');
 const activeOpps = openOpportunities.slice(0, 3);
+const latestNews = news.slice(0, 3);
 const title = 'Cogito Lab';
-const description = lang === 'en'
-  ? 'A research group exploring software engineering, artificial intelligence, quality, connected systems, and innovation.'
-  : 'Um grupo de pesquisa que explora engenharia de software, inteligência artificial, qualidade, sistemas conectados e inovação.';
+const description =
+  lang === 'en'
+    ? 'A research group exploring software engineering, artificial intelligence, quality, connected systems, and innovation.'
+    : 'Um grupo de pesquisa que explora engenharia de software, inteligência artificial, qualidade, sistemas conectados e inovação.';
 ---
+
 <BaseLayout lang={lang} title={title} description={description} path="/">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">{lang === 'en' ? 'Software · evidence · people' : 'Software · evidência · pessoas'}</p>
-        <h1>{lang === 'en' ? <>We question.<br/><em>We build.</em></> : <>Questionamos.<br/><em>Construímos.</em></>}</h1>
+        <p class="eyebrow">
+          {lang === 'en' ? 'Software · evidence · people' : 'Software · evidência · pessoas'}
+        </p>
+        <h1>
+          {lang === 'en' ? (
+            <>
+              We question.
+              <br />
+              <em>We build.</em>
+            </>
+          ) : (
+            <>
+              Questionamos.
+              <br />
+              <em>Construímos.</em>
+            </>
+          )}
+        </h1>
         <p class="lede">{description}</p>
         <div class="hero-actions">
-          <a class="button" href={withBase(localizedPath('/research', lang))}>{lang === 'en' ? 'Explore our research' : 'Explore nossa pesquisa'}<Icon name="arrow" class="arrow" /></a>
-          <a class="button button--ghost" href={withBase(localizedPath('/opportunities', lang))}>{lang === 'en' ? 'Find an opportunity' : 'Encontre uma oportunidade'}</a>
+          <a class="button" href={withBase(localizedPath('/research', lang))}>
+            {lang === 'en' ? 'Explore our research' : 'Explore nossa pesquisa'}
+            <Icon name="arrow" class="arrow" />
+          </a>
+          <a class="button button--ghost" href={withBase(localizedPath('/opportunities', lang))}>
+            {lang === 'en' ? 'Find an opportunity' : 'Encontre uma oportunidade'}
+          </a>
         </div>
       </div>
       <div class="hero-orbit" aria-hidden="true">
-        <div class="orbit orbit--one"></div><div class="orbit orbit--two"></div><div class="orbit orbit--three"></div>
-        <div class="core"><span>cogito</span><strong>ergo<br/>facio</strong></div>
-        <span class="node node--a">AI</span><span class="node node--b">SE</span><span class="node node--c">IoT</span><span class="node node--d">01</span>
+        <div class="orbit orbit--one"></div>
+        <div class="orbit orbit--two"></div>
+        <div class="orbit orbit--three"></div>
+        <div class="core">
+          <span>cogito</span>
+          <strong>
+            ergo
+            <br />
+            facio
+          </strong>
+        </div>
+        <span class="node node--a">AI</span>
+        <span class="node node--b">SE</span>
+        <span class="node node--c">IoT</span>
+        <span class="node node--d">01</span>
+        <span class="node node--a">AI</span>
+        <span class="node node--b">SE</span>
+        <span class="node node--c">IoT</span>
+        <span class="node node--d">QA</span>
       </div>
     </div>
-    <div class="container stats" aria-label={lang === 'en' ? 'Lab at a glance' : 'O laboratório em números'}>
-      <div><strong>{String(allAreas.length).padStart(2, '0')}</strong><span>{lang === 'en' ? 'Research areas' : 'Áreas de pesquisa'}</span></div>
-      <div><strong>{String(initiatives.length).padStart(2, '0')}</strong><span>{lang === 'en' ? 'Initiatives' : 'Iniciativas'}</span></div>
-      <div><strong>{String(people.length).padStart(2, '0')}</strong><span>{lang === 'en' ? 'Researchers' : 'Pesquisadores'}</span></div>
-      <div><strong>{String(openOpportunities.length).padStart(2, '0')}</strong><span>{lang === 'en' ? 'Ways to join' : 'Formas de participar'}</span></div>
+    <div
+      class="container stats"
+      aria-label={lang === 'en' ? 'Lab at a glance' : 'O laboratório em números'}
+    >
+      <div>
+        <strong>{String(allAreas.length).padStart(2, '0')}</strong>
+        <span>{lang === 'en' ? 'Research areas' : 'Áreas de pesquisa'}</span>
+      </div>
+      <div>
+        <strong>{String(initiatives.length).padStart(2, '0')}</strong>
+        <span>{lang === 'en' ? 'Initiatives' : 'Iniciativas'}</span>
+      </div>
+      <div>
+        <strong>{String(people.length).padStart(2, '0')}</strong>
+        <span>{lang === 'en' ? 'Researchers' : 'Pesquisadores'}</span>
+      </div>
+      <div>
+        <strong>{String(openOpportunities.length).padStart(2, '0')}</strong>
+        <span>{lang === 'en' ? 'Ways to join' : 'Formas de participar'}</span>
+      </div>
     </div>
   </section>
 
   <section class="section research-preview">
     <div class="container">
       <div class="section-heading">
-        <div><p class="eyebrow">{lang === 'en' ? 'Questions worth pursuing' : 'Perguntas que merecem ser feitas'}</p><h2>{lang === 'en' ? 'Our research terrain' : 'Nosso território de pesquisa'}</h2></div>
-        <div><p>{lang === 'en' ? 'From the structure of code to the systems around it, we study software as a technical and human endeavor.' : 'Da estrutura do código aos sistemas ao seu redor, estudamos software como um empreendimento técnico e humano.'}</p><a class="text-link" href={withBase(localizedPath('/research', lang))}>{lang === 'en' ? 'See all research areas' : 'Ver todas as áreas'} <Icon name="arrow" /></a></div>
+        <div>
+          <p class="eyebrow">
+            {lang === 'en' ? 'Questions worth pursuing' : 'Perguntas que merecem ser feitas'}
+          </p>
+          <h2>{lang === 'en' ? 'Our research terrain' : 'Nosso território de pesquisa'}</h2>
+        </div>
+        <div>
+          <p>
+            {lang === 'en'
+              ? 'From the structure of code to the systems around it, we study software as a technical and human endeavor.'
+              : 'Da estrutura do código aos sistemas ao seu redor, estudamos software como um empreendimento técnico e humano.'}
+          </p>
+          <a class="text-link" href={withBase(localizedPath('/research', lang))}>
+            {lang === 'en' ? 'See all research areas' : 'Ver todas as áreas'} <Icon name="arrow" />
+          </a>
+        </div>
       </div>
       <div class="area-list">
         {allAreas.slice(0, 5).map((area) => (
-          <a href={withBase(localizedPath(`/research#${area.id}`, lang))} class={`area-row area-row--${area.tone}`}>
-            <span class="area-number">{area.number}</span><h3>{pick(area.title, lang)}</h3><p>{pick(area.description, lang)}</p><span class="area-arrow"><Icon name="arrow" /></span>
+          <a
+            href={withBase(localizedPath(`/research#${area.id}`, lang))}
+            class={`area-row area-row--${area.tone}`}
+          >
+            <span class="area-number">{area.number}</span>
+            <h3>{pick(area.title, lang)}</h3>
+            <p>{pick(area.description, lang)}</p>
+            <span class="area-arrow">
+              <Icon name="arrow" />
+            </span>
           </a>
         ))}
       </div>
@@ -63,70 +154,385 @@ const description = lang === 'en'
 
   <section class="section work-preview">
     <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">{lang === 'en' ? 'Research in motion' : 'Pesquisa em movimento'}</p><h2>{lang === 'en' ? 'Selected initiatives' : 'Iniciativas em destaque'}</h2></div><p>{lang === 'en' ? 'Our initiatives turn research questions into experiments, tools, products, and collaborations.' : 'Nossas iniciativas transformam perguntas de pesquisa em experimentos, ferramentas, produtos e colaborações.'}</p></div>
-      <div class="card-grid">{featured.map((initiative, index) => <InitiativeCard initiative={initiative} lang={lang} index={index} />)}</div>
-      <div class="section-action"><a class="button button--ghost" href={withBase(localizedPath('/initiatives', lang))}>{lang === 'en' ? 'Browse all initiatives' : 'Ver todas as iniciativas'}<Icon name="arrow" class="arrow" /></a></div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{lang === 'en' ? 'Research in motion' : 'Pesquisa em movimento'}</p>
+          <h2>{lang === 'en' ? 'Selected initiatives' : 'Iniciativas em destaque'}</h2>
+        </div>
+        <p>
+          {lang === 'en'
+            ? 'Our initiatives turn research questions into experiments, tools, products, and collaborations.'
+            : 'Nossas iniciativas transformam perguntas de pesquisa em experimentos, ferramentas, produtos e colaborações.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {featured.map((initiative, index) => (
+          <InitiativeCard initiative={initiative} lang={lang} index={index} />
+        ))}
+      </div>
+      <div class="section-action">
+        <a class="button button--ghost" href={withBase(localizedPath('/initiatives', lang))}>
+          {lang === 'en' ? 'Browse all initiatives' : 'Ver todas as iniciativas'}
+          <Icon name="arrow" class="arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section news-preview">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{lang === 'en' ? 'Latest updates' : 'Últimas atualizações'}</p>
+          <h2>{lang === 'en' ? 'News & Recognition' : 'Notícias e Reconhecimento'}</h2>
+        </div>
+        <p>
+          {lang === 'en'
+            ? 'Recent paper awards, conferences, talks, and community activities from Cogito Lab.'
+            : 'Prêmios de artigos recentes, conferências, palestras e atividades do Cogito Lab com a comunidade.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {latestNews.map((item) => (
+          <NewsCard news={item} lang={lang} />
+        ))}
+      </div>
+      <div class="section-action">
+        <a class="button button--ghost" href={withBase(localizedPath('/news', lang))}>
+          {lang === 'en' ? 'View all news' : 'Ver todas as notícias'}
+          <Icon name="arrow" class="arrow" />
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="section people-preview">
     <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">{lang === 'en' ? 'The lab is its people' : 'O laboratório são as pessoas'}</p><h2>{lang === 'en' ? 'Different paths, shared inquiry' : 'Caminhos diferentes, investigação compartilhada'}</h2></div><p>{lang === 'en' ? 'Students and collaborators across institutions bring complementary perspectives to every question.' : 'Estudantes e colaboradores de diferentes instituições trazem perspectivas complementares para cada pergunta.'}</p></div>
-      <div class="card-grid">{people.slice(0, 3).map((person) => <MemberCard person={person} lang={lang} />)}</div>
-      <div class="section-action"><a class="button button--ghost" href={withBase(localizedPath('/people', lang))}>{lang === 'en' ? 'Meet the group' : 'Conheça o grupo'}<Icon name="arrow" class="arrow" /></a></div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">
+            {lang === 'en' ? 'The lab is its people' : 'O laboratório são as pessoas'}
+          </p>
+          <h2>
+            {lang === 'en'
+              ? 'Different paths, shared inquiry'
+              : 'Caminhos diferentes, investigação compartilhada'}
+          </h2>
+        </div>
+        <p>
+          {lang === 'en'
+            ? 'Students and collaborators across institutions bring complementary perspectives to every question.'
+            : 'Estudantes e colaboradores de diferentes instituições trazem perspectivas complementares para cada pergunta.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {people.slice(0, 3).map((person) => (
+          <MemberCard person={person} lang={lang} />
+        ))}
+      </div>
+      <div class="section-action">
+        <a class="button button--ghost" href={withBase(localizedPath('/people', lang))}>
+          {lang === 'en' ? 'Meet the group' : 'Conheça o grupo'}
+          <Icon name="arrow" class="arrow" />
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="section opportunity-preview">
     <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">{lang === 'en' ? 'Come think with us' : 'Venha pensar conosco'}</p><h2>{lang === 'en' ? 'Open questions need curious people' : 'Perguntas abertas precisam de pessoas curiosas'}</h2></div><p>{lang === 'en' ? 'Explore concrete ways to contribute through research, thesis work, engineering, and collaboration.' : 'Explore formas concretas de contribuir por meio de pesquisa, TCC, engenharia e colaboração.'}</p></div>
-      <div class="card-grid">{activeOpps.map((opportunity) => <OpportunityCard opportunity={opportunity} lang={lang} />)}</div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{lang === 'en' ? 'Come think with us' : 'Venha pensar conosco'}</p>
+          <h2>
+            {lang === 'en'
+              ? 'Open questions need curious people'
+              : 'Perguntas abertas precisam de pessoas curiosas'}
+          </h2>
+        </div>
+        <p>
+          {lang === 'en'
+            ? 'Explore concrete ways to contribute through research, thesis work, engineering, and collaboration.'
+            : 'Explore formas concretas de contribuir por meio de pesquisa, TCC, engenharia e colaboração.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {activeOpps.map((opportunity) => (
+          <OpportunityCard opportunity={opportunity} lang={lang} />
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="closing-statement"><div class="narrow"><p class="eyebrow">Cogito Lab</p><blockquote>{lang === 'en' ? 'Better software begins with better questions—and the courage to test the answers.' : 'Software melhor começa com perguntas melhores — e com a coragem de testar as respostas.'}</blockquote><a class="button" href={withBase(localizedPath('/about', lang))}>{lang === 'en' ? 'Learn about the lab' : 'Conheça o laboratório'}<Icon name="arrow" class="arrow" /></a></div></section>
+  <section class="closing-statement">
+    <div class="narrow">
+      <p class="eyebrow">Cogito Lab</p>
+      <blockquote>
+        {lang === 'en'
+          ? 'Better software begins with better questions—and the courage to test the answers.'
+          : 'Software melhor começa com perguntas melhores — e com a coragem de testar as respostas.'}
+      </blockquote>
+      <a class="button" href={withBase(localizedPath('/about', lang))}>
+        {lang === 'en' ? 'Learn about the lab' : 'Conheça o laboratório'}
+        <Icon name="arrow" class="arrow" />
+      </a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .hero { overflow: hidden; padding-top: clamp(3.5rem, 8vw, 8rem); }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(20rem, .82fr); gap: 3rem; align-items: center; min-height: 34rem; }
-  .hero h1 { margin-bottom: 1.7rem; }
-  .hero h1 em { color: var(--mint-deep); font-weight: inherit; }
-  .hero-copy { position: relative; z-index: 2; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
-  .hero-orbit { position: relative; width: min(38vw, 30rem); aspect-ratio: 1; margin-inline: auto; }
-  .orbit { position: absolute; inset: 12%; border: 1px solid var(--line); border-radius: 50%; animation: spin 34s linear infinite; }
-  .orbit::before { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; content: ''; border-radius: 50%; background: var(--mint-deep); }
-  .orbit--two { inset: 25%; animation-direction: reverse; animation-duration: 22s; transform: rotate(35deg); }
-  .orbit--two::before { background: var(--amber); }
-  .orbit--three { inset: 0; border-style: dashed; animation-duration: 55s; }
-  .core { position: absolute; inset: 34%; display: grid; place-content: center; border-radius: 50%; color: #10231d; background: var(--mint); text-align: center; box-shadow: var(--shadow); }
-  .core span { font-size: .58rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-  .core strong { font-family: Georgia, serif; font-size: clamp(1.1rem, 2vw, 1.8rem); font-weight: 500; line-height: 1; }
-  .node { position: absolute; display: grid; width: 3.2rem; height: 3.2rem; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); font-size: .7rem; font-weight: 800; box-shadow: var(--shadow); }
-  .node--a { top: 4%; left: 15%; }.node--b { top: 20%; right: 2%; }.node--c { right: 10%; bottom: 12%; }.node--d { bottom: 2%; left: 16%; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .stats div { display: grid; gap: .2rem; padding: 1.5rem; border-right: 1px solid var(--line); }
-  .stats div:last-child { border: 0; }
-  .stats strong { font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 500; line-height: 1; }
-  .stats span { color: var(--ink-soft); font-size: .75rem; }
-  .text-link { display: inline-flex; gap: .45rem; align-items: center; margin-top: 1rem; font-size: .83rem; font-weight: 720; }
-  .text-link svg { width: 1rem; }
-  .area-list { border-top: 1px solid var(--line); }
-  .area-row { display: grid; grid-template-columns: 4rem minmax(14rem, .8fr) minmax(18rem, 1fr) 3rem; gap: 1.5rem; align-items: center; padding: 1.5rem 1rem; border-bottom: 1px solid var(--line); text-decoration: none; transition: background .2s ease, padding .2s ease; }
-  .area-row:hover { padding-inline: 1.5rem; background: var(--surface); }
-  .area-row h3 { font-size: clamp(1.35rem, 2.6vw, 2.2rem); }
-  .area-row p { color: var(--ink-soft); font-size: .9rem; }
-  .area-number { font-family: Georgia, serif; font-style: italic; }
-  .area-arrow { display: grid; place-items: center; }.area-arrow svg { width: 1.25rem; }
-  .work-preview { background: color-mix(in srgb, var(--paper-2) 72%, transparent); }
-  .section-action { display: flex; justify-content: center; margin-top: 2.5rem; }
-  .opportunity-preview { border-top: 1px solid var(--line); }
-  .closing-statement { padding-block: clamp(6rem, 12vw, 11rem); text-align: center; background: var(--ink); color: var(--paper); }
-  .closing-statement .eyebrow { justify-content: center; color: color-mix(in srgb, var(--paper) 65%, transparent); }
-  .closing-statement blockquote { margin-bottom: 2.5rem; font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 4.6rem); line-height: 1.08; letter-spacing: -.035em; }
-  .closing-statement .button { border-color: var(--paper); color: var(--ink); background: var(--paper); }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 850px) { .hero-grid { grid-template-columns: 1fr; } .hero-orbit { width: min(80vw, 26rem); } .area-row { grid-template-columns: 3rem 1fr 2rem; } .area-row p { display: none; } }
-  @media (max-width: 620px) { .stats { grid-template-columns: 1fr 1fr; } .stats div:nth-child(2) { border-right: 0; } .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+  .hero {
+    overflow: hidden;
+    padding-top: clamp(3.5rem, 8vw, 8rem);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(20rem, 0.82fr);
+    gap: 3rem;
+    align-items: center;
+    min-height: 34rem;
+  }
+  .hero h1 {
+    margin-bottom: 1.7rem;
+  }
+  .hero h1 em {
+    color: var(--mint-deep);
+    font-weight: inherit;
+  }
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 2rem;
+  }
+  .hero-orbit {
+    position: relative;
+    width: min(38vw, 30rem);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+  .orbit {
+    position: absolute;
+    inset: 12%;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    animation: spin 34s linear infinite;
+  }
+  .orbit::before {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    content: '';
+    border-radius: 50%;
+    background: var(--mint-deep);
+  }
+  .orbit--two {
+    inset: 25%;
+    animation-direction: reverse;
+    animation-duration: 22s;
+    transform: rotate(35deg);
+  }
+  .orbit--two::before {
+    background: var(--amber);
+  }
+  .orbit--three {
+    inset: 0;
+    border-style: dashed;
+    animation-duration: 55s;
+  }
+  .core {
+    position: absolute;
+    inset: 34%;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    color: #10231d;
+    background: var(--mint);
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .core span {
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .core strong {
+    font-family: Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .node {
+    position: absolute;
+    display: grid;
+    width: 3.2rem;
+    height: 3.2rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    font-size: 0.7rem;
+    font-weight: 800;
+    box-shadow: var(--shadow);
+  }
+  .node--a {
+    top: 4%;
+    left: 15%;
+  }
+  .node--b {
+    top: 20%;
+    right: 2%;
+  }
+  .node--c {
+    right: 10%;
+    bottom: 12%;
+  }
+  .node--d {
+    bottom: 2%;
+    left: 16%;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: clamp(3rem, 7vw, 6rem);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stats div {
+    display: grid;
+    gap: 0.2rem;
+    padding: 1.5rem;
+    border-right: 1px solid var(--line);
+  }
+  .stats div:last-child {
+    border: 0;
+  }
+  .stats strong {
+    font-family: Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+  .stats span {
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+  }
+  .text-link {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 0.83rem;
+    font-weight: 720;
+  }
+  .text-link svg {
+    width: 1rem;
+  }
+  .area-list {
+    border-top: 1px solid var(--line);
+  }
+  .area-row {
+    display: grid;
+    grid-template-columns: 4rem minmax(14rem, 0.8fr) minmax(18rem, 1fr) 3rem;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      padding 0.2s ease;
+  }
+  .area-row:hover {
+    padding-inline: 1.5rem;
+    background: var(--surface);
+  }
+  .area-row h3 {
+    font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+  }
+  .area-row p {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .area-number {
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+  .area-arrow {
+    display: grid;
+    place-items: center;
+  }
+  .area-arrow svg {
+    width: 1.25rem;
+  }
+  .work-preview {
+    background: color-mix(in srgb, var(--paper-2) 72%, transparent);
+  }
+  .section-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+  .opportunity-preview {
+    border-top: 1px solid var(--line);
+  }
+  .closing-statement {
+    padding-block: clamp(6rem, 12vw, 11rem);
+    text-align: center;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .closing-statement .eyebrow {
+    justify-content: center;
+    color: color-mix(in srgb, var(--paper) 65%, transparent);
+  }
+  .closing-statement blockquote {
+    margin-bottom: 2.5rem;
+    font-family: Georgia, serif;
+    font-size: clamp(2rem, 5vw, 4.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+  .closing-statement .button {
+    border-color: var(--paper);
+    color: var(--ink);
+    background: var(--paper);
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (max-width: 850px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-orbit {
+      width: min(80vw, 26rem);
+    }
+    .area-row {
+      grid-template-columns: 3rem 1fr 2rem;
+    }
+    .area-row p {
+      display: none;
+    }
+  }
+  @media (max-width: 620px) {
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stats div:nth-child(2) {
+      border-right: 0;
+    }
+    .stats div:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+    }
+  }
 </style>
