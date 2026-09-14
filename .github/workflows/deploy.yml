@@ -57,9 +57,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-      - name: Build and upload site
-        uses: withastro/action@v6
-        with:
-          node-version: 24
+      - name: Deploy validated site to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
