@@ -20,11 +20,11 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@playwright/test": "^1.63.0",
-    "@types/node": "^24.13.0",
+    "@types/node": "^26.5.1",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^1.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "engines": {
     "node": ">=22.12.0"
