@@ -16,6 +16,8 @@ summary:
 links:
   - label: 'LinkedIn'
     url: 'https://www.linkedin.com/posts/gustavo-vale_hacktown-arenainovaaexaeto-inovaaexaeto-ugcPost-7502835777823801344-DNtP/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA4w_cwBMkcMZdJlcd1tvL4CVy-Uw7mdVDw'
+  - label: 'Unilavras'
+    url: 'https://unilavras.edu.br/2026/09/16/unilavras-apresenta-iniciativas-de-inovacao-no-hacktown-2026/'
 featured: true
 order: 2
 ---
