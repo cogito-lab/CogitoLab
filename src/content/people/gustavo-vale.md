@@ -3,8 +3,8 @@ name: Prof. Gustavo Vale
 category: faculty
 institution: UFLA
 role:
-  en: Associate Professor · Lab Coordinator
-  pt: Professor Adjunto · Coordenador do Laboratório
+  en: Assistent Professor · Lab Coordinator
+  pt: Professor Assistente · Coordenador do Laboratório
 topic:
   en: Software Engineering, AI, Quality & Innovation
   pt: Engenharia de Software, IA, Qualidade e Inovação
