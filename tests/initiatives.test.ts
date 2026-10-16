@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { compareInitiatives, technologyInitiatives } from '../src/utils/initiatives';
+import {
+  compareInitiatives,
+  technologyInitiatives,
+  initiativeGroups,
+} from '../src/utils/initiatives';
 
 const entry = (
   id: string,
@@ -46,5 +50,27 @@ describe('technology catalog selection and ordering', () => {
         entry('product', 'open', 2),
       ])
     ).toEqual([cross, entry('product', 'open', 2)]);
+  });
+});
+
+describe('transversal catalog groups', () => {
+  it('omits empty groups and keeps open in other situations', () => {
+    const groups = initiativeGroups([entry('open', 'open', 0), entry('active', 'active', 9)]);
+    expect(groups.map((group) => group.id)).toEqual(['active', 'other']);
+    expect(groups[1].entries[0].id).toBe('open');
+    expect(initiativeGroups([])).toEqual([]);
+  });
+  it('moves an initiative to completed when its status changes, preserving one record', () => {
+    const project = entry('project', 'active', 1, 'research', ['technology', 'extension']);
+    project.data.status = 'completed';
+    const groups = initiativeGroups([
+      entry('planned', 'planning', 0),
+      project,
+      entry('executing', 'active', 100),
+    ]);
+    expect(groups.map((group) => group.id)).toEqual(['active', 'completed', 'other']);
+    expect(
+      groups.flatMap((group) => group.entries).filter((item) => item.id === 'project')
+    ).toHaveLength(1);
   });
 });

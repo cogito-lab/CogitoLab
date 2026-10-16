@@ -223,6 +223,63 @@ test('navigation works when browser storage is unavailable', async ({ page }) =>
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('transversal catalog combines all filters and hides empty groups', async ({ page }) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/initiatives`));
+    const cards = page.locator('main [data-filter-item]:visible');
+    const groups = page.locator('[data-filter-group]:visible');
+    await expect(cards).toHaveCount(16);
+    expect(
+      await groups.evaluateAll((items) =>
+        items.map((item) => item.getAttribute('data-filter-group'))
+      )
+    ).toEqual(['active', 'other']);
+    await expect(page.locator('[data-filter-group="active"] [data-filter-item]')).toHaveCount(5);
+    const links = await cards
+      .locator('.card__link')
+      .evaluateAll((items) => items.map((item) => item.getAttribute('href')));
+    expect(new Set(links).size).toBe(16);
+    await expect(page.locator('#area-filter option')).toHaveCount(7);
+    await page.locator('#pillar-filter').selectOption('technology');
+    await page.locator('#type-filter').selectOption('technology-project');
+    await page.locator('#status-filter').selectOption('open');
+    await page.locator('#area-filter').selectOption('innovation-transfer');
+    await expect(cards).toHaveCount(3);
+    await expect(groups).toHaveCount(1);
+    await page.locator('#content-search').fill('AgroCogito');
+    await expect(cards).toHaveCount(1);
+    await expect(cards.locator('.card__link')).toHaveAttribute(
+      'href',
+      route(`${prefix}/initiatives/agrocogito`)
+    );
+    await page.locator('#status-filter').selectOption('completed');
+    await expect(cards).toHaveCount(0);
+    await expect(groups).toHaveCount(0);
+    await expect(page.locator('[data-filter-empty]')).toBeVisible();
+    await page.locator('[data-filter-clear]').click();
+    await expect(cards).toHaveCount(16);
+    await expect(groups).toHaveCount(2);
+    await expect(page.locator('#pillar-filter')).toHaveValue('');
+    await expect(page.locator('#area-filter')).toHaveValue('');
+    await expect(page.locator('#content-search')).toBeFocused();
+    await expect(page.locator('main .program-link a')).toHaveCount(4);
+    await expect(page.locator('main .program-link a').first()).toHaveAttribute(
+      'href',
+      route(`${prefix}/extension#cogito-transfer`)
+    );
+    // Simulate explicit secondary membership without altering the content sources.
+    await cards.first().evaluate((card) => {
+      (card as HTMLElement).dataset.pillars = 'research technology';
+    });
+    await page.locator('#pillar-filter').selectOption('technology');
+    await expect(cards).toHaveCount(8);
+    const secondaryLinks = await cards
+      .locator('.card__link')
+      .evaluateAll((items) => items.map((item) => item.getAttribute('href')));
+    expect(new Set(secondaryLinks).size).toBe(8);
+  }
+});
+
 test('research preserves six areas and separates scientific projects from applications', async ({
   page,
 }) => {

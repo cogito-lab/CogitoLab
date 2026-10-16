@@ -10,6 +10,8 @@ interface Props {
   statuses?: Option[];
   kindAttribute?: 'kind' | 'entityType';
   allowReset?: boolean;
+  pillars?: Option[];
+  areas?: Option[];
 }
 const {
   lang,
@@ -17,6 +19,8 @@ const {
   statuses = [],
   kindAttribute = 'kind',
   allowReset = false,
+  pillars = [],
+  areas = [],
 } = Astro.props;
 ---
 
@@ -30,6 +34,28 @@ const {
       lang === 'en' ? 'Search by name, topic, or skill…' : 'Busque por nome, tema ou competência…'
     }
   />
+  {pillars.length > 0 && (
+    <>
+      <label for="pillar-filter">{lang === 'pt' ? 'Filtrar por pilar' : 'Filter by pillar'}</label>
+      <select id="pillar-filter" data-filter-pillar>
+        <option value="">{lang === 'pt' ? 'Todos os pilares' : 'All pillars'}</option>
+        {pillars.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </>
+  )}
+  {areas.length > 0 && (
+    <>
+      <label for="area-filter">{lang === 'pt' ? 'Filtrar por área' : 'Filter by area'}</label>
+      <select id="area-filter" data-filter-area>
+        <option value="">{lang === 'pt' ? 'Todas as áreas' : 'All areas'}</option>
+        {areas.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </>
+  )}
   {options.length > 0 && (
     <>
       <label for="type-filter">{lang === 'en' ? 'Filter by type' : 'Filtrar por tipo'}</label>
@@ -60,7 +86,7 @@ const {
     </button>
   )}
 </div>
-<p class="muted" data-filter-empty hidden>
+<p class="muted" data-filter-empty role="status" hidden>
   {lang === 'en'
     ? 'No results match these filters.'
     : 'Nenhum resultado corresponde a estes filtros.'}
@@ -71,6 +97,8 @@ const {
     const search = root.querySelector<HTMLInputElement>('[data-filter-search]');
     const kind = root.querySelector<HTMLSelectElement>('[data-filter-kind]');
     const status = root.querySelector<HTMLSelectElement>('[data-filter-status]');
+    const pillar = root.querySelector<HTMLSelectElement>('[data-filter-pillar]');
+    const area = root.querySelector<HTMLSelectElement>('[data-filter-area]');
     const items = [...(section?.querySelectorAll<HTMLElement>('[data-filter-item]') ?? [])];
     const empty = section?.querySelector<HTMLElement>('[data-filter-empty]');
     const kindAttribute = (root as HTMLElement).dataset.kindAttribute ?? 'kind';
@@ -83,7 +111,9 @@ const {
           (!kind?.value ||
             item.dataset[kindAttribute] === kind.value ||
             item.dataset.category === kind.value) &&
-          (!status?.value || item.dataset.status === status.value);
+          (!status?.value || item.dataset.status === status.value) &&
+          (!pillar?.value || (item.dataset.pillars ?? '').split(' ').includes(pillar.value)) &&
+          (!area?.value || (item.dataset.areas ?? '').split(' ').includes(area.value));
         item.hidden = !matches;
         if (matches) shown++;
       });
@@ -92,7 +122,7 @@ const {
       });
       if (empty) empty.hidden = shown > 0;
     };
-    [search, kind, status].forEach((control) => {
+    [search, kind, status, pillar, area].forEach((control) => {
       control?.addEventListener('input', update);
       control?.addEventListener('change', update);
     });
@@ -100,8 +130,18 @@ const {
       if (search) search.value = '';
       if (kind) kind.value = '';
       if (status) status.value = '';
+      if (pillar) pillar.value = '';
+      if (area) area.value = '';
       update();
       search?.focus();
     });
+    update();
   });
 </script>
+
+<style>
+  .filter-bar select {
+    min-width: 0;
+    max-width: 100%;
+  }
+</style>

@@ -24,3 +24,24 @@ export function technologyInitiatives<T extends { data: InitiativeData }>(entrie
     )
     .sort(compareInitiatives);
 }
+
+export function initiativeGroups<T extends { data: InitiativeData }>(entries: T[]) {
+  const sorted = [...entries].sort(compareInitiatives);
+  return [
+    {
+      id: 'active',
+      title: { en: 'In progress', pt: 'Em execução' },
+      entries: sorted.filter((entry) => entry.data.status === 'active'),
+    },
+    {
+      id: 'completed',
+      title: { en: 'Completed', pt: 'Concluídas' },
+      entries: sorted.filter((entry) => entry.data.status === 'completed'),
+    },
+    {
+      id: 'other',
+      title: { en: 'Other initiatives', pt: 'Outras iniciativas' },
+      entries: sorted.filter((entry) => !['active', 'completed'].includes(entry.data.status)),
+    },
+  ].filter((group) => group.entries.length > 0);
+}

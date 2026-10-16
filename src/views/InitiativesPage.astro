@@ -3,32 +3,23 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import FilterBar from '@/components/FilterBar.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
-import { getInitiatives } from '@/utils/content';
-import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+import { getInitiatives, getPrograms, entrySlug } from '@/utils/content';
+import { pick, type Lang } from '@/utils/i18n';
+import { initiativeGroups } from '@/utils/initiatives';
+import { pillars, entityTypeLabels } from '@/data/pillars';
+import { executionStatusLabels } from '@/data/technology';
+import { allAreas } from '@/data/areas';
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const initiatives = await getInitiatives();
-const kinds = {
-  research: ['Research', 'Pesquisa'],
-  applied: ['Applied project', 'Projeto aplicado'],
-  product: ['Product', 'Produto'],
-  extension: ['Extension', 'Extensão'],
-  consulting: ['Consulting', 'Consultoria'],
-  internal: ['Internal', 'Interno'],
-} as const;
-const statuses = {
-  active: ['Active', 'Ativa'],
-  open: ['Open', 'Aberta'],
-  planning: ['Planning', 'Planejamento'],
-  paused: ['Paused', 'Pausada'],
-  completed: ['Completed', 'Concluída'],
-} as const;
+const [initiatives, programs] = await Promise.all([getInitiatives(), getPrograms()]);
+const groups = initiativeGroups(initiatives);
+const types = [...new Set(initiatives.map((entry) => entry.data.entityType))];
 const description =
   lang === 'en'
-    ? 'Research programs, experiments, products, and partnerships where our questions become shared work.'
-    : 'Programas de pesquisa, experimentos, produtos e parcerias nos quais nossas perguntas se tornam trabalho compartilhado.';
+    ? 'Explore research, extension and technology initiatives, organized by execution status.'
+    : 'Explore iniciativas de pesquisa, extensão e desenvolvimento tecnológico, organizadas por situação de execução.';
 ---
 
 <BaseLayout
@@ -45,19 +36,59 @@ const description =
   <section class="section container">
     <FilterBar
       lang={lang}
-      options={Object.entries(kinds).map(([value, label]) => ({
+      options={types.map((value) => ({ value, label: pick(entityTypeLabels[value], lang) }))}
+      statuses={Object.entries(executionStatusLabels).map(([value, label]) => ({
         value,
-        label: label[lang === 'en' ? 0 : 1],
+        label: pick(label, lang),
       }))}
-      statuses={Object.entries(statuses).map(([value, label]) => ({
-        value,
-        label: label[lang === 'en' ? 0 : 1],
-      }))}
+      pillars={pillars.map((pillar) => ({ value: pillar.id, label: pick(pillar.title, lang) }))}
+      areas={allAreas.map((area) => ({ value: area.id, label: pick(area.title, lang) }))}
+      kindAttribute="entityType"
+      allowReset
     />
-    <div class="card-grid">
-      {initiatives.map((initiative, index) => (
-        <InitiativeCard initiative={initiative} lang={lang} index={index} />
-      ))}
-    </div>
+    {groups.map((group) => (
+      <section
+        class="initiative-group"
+        data-filter-group={group.id}
+        aria-labelledby={group.id + '-title'}
+      >
+        <h2 id={group.id + '-title'}>{pick(group.title, lang)}</h2>
+        <div class="card-grid">
+          {group.entries.map((initiative) => {
+            const program = programs.find(
+              (entry) => entrySlug(entry.id) === initiative.data.program
+            );
+            return (
+              <InitiativeCard
+                initiative={initiative}
+                lang={lang}
+                showClassification
+                showTechnologyDetails
+                programLabel={program?.data.name}
+                programPath={
+                  program
+                    ? '/' +
+                      (program.data.primaryPillar === 'technology'
+                        ? 'projects'
+                        : program.data.primaryPillar) +
+                      '#' +
+                      entrySlug(program.id)
+                    : undefined
+                }
+              />
+            );
+          })}
+        </div>
+      </section>
+    ))}
   </section>
 </BaseLayout>
+
+<style>
+  .initiative-group + .initiative-group {
+    margin-top: 4rem;
+  }
+  .initiative-group h2 {
+    margin-bottom: 2rem;
+  }
+</style>
