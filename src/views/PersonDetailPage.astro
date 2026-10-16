@@ -76,8 +76,12 @@ const { Content } = await render(person);
   </header>
   <section class="section container detail-layout">
     <article class="prose">
-      <p class="eyebrow">{copy.topic}</p>
-      <h2>{pick(person.data.topic, lang)}</h2>
+      {person.data.topic && (
+        <>
+          <p class="eyebrow">{copy.topic}</p>
+          <h2>{pick(person.data.topic, lang)}</h2>
+        </>
+      )}
       <Content />
       {person.data.areas.length > 0 && (
         <>
@@ -101,10 +105,12 @@ const { Content } = await render(person);
     </article>
     <aside class="detail-aside">
       <dl>
-        <div>
-          <dt>{copy.institution}</dt>
-          <dd>{person.data.institution}</dd>
-        </div>
+        {person.data.institution && (
+          <div>
+            <dt>{copy.institution}</dt>
+            <dd>{person.data.institution}</dd>
+          </div>
+        )}
         <div>
           <dt>{lang === 'en' ? 'Role' : 'Vínculo'}</dt>
           <dd>{pick(person.data.role, lang)}</dd>

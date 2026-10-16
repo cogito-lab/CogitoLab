@@ -14,12 +14,16 @@ status: open
 statusLabel: { en: Two concrete needs identified, pt: Duas demandas concretas identificadas }
 areas: [innovation-transfer]
 people: []
+organization:
+  name: Madeireira Corrêa Barros
+  relationship: proponent
+  disclosure: authorized
 defined:
   en:
-    - One workstream concerns daily operational automation for a timber business.
+    - One workstream concerns daily operational automation for Madeireira Corrêa Barros.
     - A second workstream concerns an interactive form for a consulting company.
   pt:
-    - Uma frente trata de automações operacionais diárias para uma madeireira.
+    - Uma frente trata de automações operacionais diárias para a Madeireira Corrêa Barros.
     - Uma segunda frente trata de um formulário interativo para uma consultoria.
 work:
   en:

@@ -20,7 +20,7 @@ const slug = entrySlug(person.id);
 <article
   class="card person-card"
   data-filter-item
-  data-search={`${person.data.name} ${person.data.institution} ${pick(person.data.role, lang)} ${pick(person.data.topic, lang)} ${person.data.areas.map((id) => getArea(id)?.title[lang] ?? id).join(' ')}`.toLowerCase()}
+  data-search={`${person.data.name} ${person.data.institution ?? ''} ${pick(person.data.role, lang)} ${person.data.topic ? pick(person.data.topic, lang) : ''} ${pick(person.data.summary, lang)} ${person.data.areas.map((id) => getArea(id)?.title[lang] ?? id).join(' ')}`.toLowerCase()}
   data-category={person.data.category}
 >
   <a class="card__link" href={withBase(localizedPath(`/people/${slug}`, lang))}>
@@ -43,7 +43,7 @@ const slug = entrySlug(person.id);
   <div class="card__body">
     <p class="person-card__role">{pick(person.data.role, lang)}</p>
     <h3>{person.data.name}</h3>
-    <p>{person.data.institution}</p>
+    {person.data.institution && <p>{person.data.institution}</p>}
   </div>
   <div class="card__footer">
     <ul class="tag-list">

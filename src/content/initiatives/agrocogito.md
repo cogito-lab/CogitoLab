@@ -1,11 +1,11 @@
 ---
 title:
-  en: AgroCogito — Agricultural Decision and Commercialization Intelligence
-  pt: AgroCogito — Inteligência para Decisão e Comercialização Agrícola
-shortTitle: { en: AgroCogito, pt: AgroCogito }
+  en: ComercializAgro — Coffee Decision and Commercialization Intelligence
+  pt: ComercializAgro — Inteligência para Decisão e Comercialização de Café
+shortTitle: { en: ComercializAgro, pt: ComercializAgro }
 summary:
-  en: Decision support for producers using market data and commercialization recommendations without automatic trade execution.
-  pt: Apoio à decisão para produtores usando dados de mercado e recomendações de comercialização sem execução automática de operações.
+  en: Decision support for coffee producers using market data and commercialization recommendations without automatic trade execution, proposed by AgroSafety.
+  pt: Apoio à decisão para produtores de café usando dados de mercado e recomendações de comercialização sem execução automática de operações, proposto pela AgroSafety.
 primaryPillar: technology
 entityType: technology-project
 kind: applied
@@ -15,16 +15,18 @@ statusLabel:
   { en: Conceptual MVP · open for development, pt: MVP conceituado · aberto para desenvolvimento }
 areas: [innovation-transfer, collaborative-empirical-se]
 people: [alexandre-cardoso]
+organization:
+  name: AgroSafety
+  relationship: proponent
+  disclosure: authorized
 defined:
   en:
-    - The MVP should support both national and commodity-specific views.
-    - Corn CEPEA/ESALQ has been considered as an initial reference.
+    - The MVP should support decision-making and commercialization in the coffee market.
     - Recommendations should consider eligible maturities without executing trades automatically.
     - The service is expected to run on business days and be delivered on the web.
     - B3 data and estimated margin or profit should be explored.
   pt:
-    - O MVP deve oferecer visões nacional e específicas por commodity.
-    - Milho CEPEA/ESALQ foi considerado como referência inicial.
+    - O MVP deve apoiar a decisão e a comercialização no mercado de café.
     - Recomendações devem considerar vencimentos elegíveis sem executar operações automaticamente.
     - O serviço deve operar em dias úteis e ser entregue na web.
     - Dados da B3 e margem ou lucro estimado devem ser explorados.

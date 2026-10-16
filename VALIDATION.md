@@ -1,16 +1,15 @@
-# Validação da evolução do Cogito Lab
-
+﻿# Validação da evolução do Cogito Lab
 
 ## Resultado da execução
 
-| Verificação                    | Resultado                                                            |
-| ------------------------------ | -------------------------------------------------------------------- |
-| `npm run check`                | 0 erros, 0 avisos e 0 sugestões.                                     |
-| `npm test`                     | 25 testes aprovados.                                                 |
-| `npm run build`                | 76 páginas geradas e relacionamentos validados.                      |
-| `npm run test:browser`         | 16 testes aprovados na raiz e com `/CogitoLab`.                      |
-| Acessibilidade automatizada    | 76 páginas × 2 temas por build, sem violações nas regras executadas. |
-| `npm audit --audit-level=high` | 0 vulnerabilidades reportadas.                                       |
+| Verificação                    | Resultado                                                           |
+| ------------------------------ | ------------------------------------------------------------------- |
+| `npm run check`                | 0 erros, 0 avisos e 0 sugestões.                                    |
+| `npm test`                     | 25 testes aprovados.                                                |
+| `npm run build`                | 104 páginas geradas e relacionamentos validados.                    |
+| `npm run test:browser`         | 17 testes na raiz e 13 testes funcionais com `/CogitoLab`.          |
+| Acessibilidade automatizada    | 104 páginas × 2 temas na raiz, sem violações nas regras executadas. |
+| `npm audit --audit-level=high` | 0 vulnerabilidades reportadas.                                      |
 
 Execução com Node.js 24.22.0 e Chromium. Também foram inspecionadas visualmente a página Sobre em português a 320 pixels e a página inicial no tema escuro. As correções compatíveis de dependências transitivas foram registradas no lockfile; a versão do Astro permaneceu 7.3.2.
 
@@ -18,18 +17,18 @@ Execução com Node.js 24.22.0 e Chromium. Também foram inspecionadas visualmen
 
 | Conteúdo                                           | Quantidade |
 | -------------------------------------------------- | ---------: |
-| Pessoas                                            |         11 |
+| Pessoas                                            |         25 |
 | Iniciativas                                        |         16 |
 | Pesquisa / extensão / tecnologia                   |  3 / 6 / 7 |
 | Em execução / abertas legadas / planejamento       | 10 / 5 / 1 |
 | Programas / projetos vinculados ao Cogito Transfer |      1 / 4 |
 | Publicações não marcadas como rascunho             |         47 |
 | Notícias publicadas                                |          6 |
-| Páginas geradas, incluindo erros 404               |         76 |
+| Páginas geradas, incluindo erros 404               |        104 |
 
-Os identificadores e as rotas existentes foram preservados. AgroHub permanece ativo; os cinco registros legados `open` não foram convertidos em execução. VUEI e Vertentes ScaleUp continuam independentes do Cogito Transfer. A revisão corrigiu um erro de digitação na situação institucional do P2, sem alterar seu significado.
+Foram acrescentados 14 integrantes, preservando os 11 cadastros anteriores e mantendo Wellington Carlos e Wellington Dias como pessoas distintas. Instituições e temas não informados não são exibidos; interesses não criam participação em projetos. Os identificadores e as rotas existentes foram preservados. AgroHub permanece ativo; os cinco registros legados `open` não foram convertidos em execução. VUEI e Vertentes ScaleUp continuam independentes do Cogito Transfer. A revisão corrigiu um erro de digitação na situação institucional do P2, sem alterar seu significado.
 
-Não foram cadastrados estágios de desenvolvimento, organizações externas ou resultados tecnológicos e extensionistas concluídos. Esses campos permanecem opcionais e as respectivas seções continuam ocultas quando vazias. As publicações históricas permanecem disponíveis; somente a publicação já explicitamente vinculada a Qualidade e Confiabilidade de Software Gerado por IA aparece nos detalhes desse projeto.
+AgroSafety e Madeireira Corrêa Barros estão cadastradas como proponentes de ComercializAgro e Automação e Digitalização de Processos para PMEs, respectivamente. Não foram cadastrados estágios de desenvolvimento ou resultados tecnológicos e extensionistas concluídos. Esses campos permanecem opcionais e as respectivas seções continuam ocultas quando vazias. As publicações históricas permanecem disponíveis; somente a publicação já explicitamente vinculada a Qualidade e Confiabilidade de Software Gerado por IA aparece nos detalhes desse projeto.
 
 Dois registros de 2014 possuem o mesmo título, mas veículos e tipos diferentes: resumo no CIUFLA e artigo no SMES. Ambos foram preservados; a coincidência de título não foi usada para eliminar registros históricos. Não foram encontrados DOIs duplicados no inventário atual.
 
@@ -54,7 +53,7 @@ Dois registros de 2014 possuem o mesmo título, mas veículos e tipos diferentes
 | CT-15 — Integridade            | Build valida referências; testes cobrem inexistências, duplicações, autorrelações e incompatibilidades. |
 | CT-16 — Compatibilidade        | Verificação HTTP de páginas, recursos locais e âncoras com raiz e prefixo de publicação.                |
 
-Os casos de organizações autorizadas e relações entre iniciativas sem registros reais são exercitados com objetos de teste, sem publicar exemplos fictícios no conteúdo institucional.
+Os casos de organizações anônimas e restritas e relações entre iniciativas sem registros reais são exercitados com objetos de teste, sem publicar exemplos fictícios no conteúdo institucional. As duas proponentes autorizadas também são verificadas no catálogo tecnológico.
 
 ## Qualidade e manutenção
 

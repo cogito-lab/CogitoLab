@@ -46,6 +46,33 @@ test('catalog search, categories, and language switching work', async ({ page })
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
+test('new members preserve existing profiles, optional institutions and declared interests', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/people/`));
+    await expect(page.locator('[data-filter-item]')).toHaveCount(25);
+    await page.locator('#content-search').fill('Wellington');
+    await expect(page.locator('[data-filter-item]:visible')).toHaveCount(2);
+    await page.locator('#content-search').fill('TinyML');
+    await expect(page.locator('[data-filter-item]:visible')).toHaveCount(1);
+    await expect(page.locator('[data-filter-item]:visible')).toContainText('Kaio Gabriel');
+    await page.goto(route(`${prefix}/people/bruno-piovesan-melchiori-peruzza/`));
+    await expect(page.locator('.profile-links a')).toHaveAttribute(
+      'href',
+      'http://lattes.cnpq.br/9980016868276020'
+    );
+    await expect(page.locator('.detail-aside')).toContainText('DGTI/UFLA');
+    await page.goto(route(`${prefix}/people/marcus-albuquerque/`));
+    await expect(page.locator('.lede')).toContainText('NotificationHub');
+    await expect(page.locator('.detail-aside dt')).not.toContainText([
+      prefix ? 'Instituição' : 'Institution',
+    ]);
+    await expect(page.locator('.related-section')).toHaveCount(0);
+    await expect(page.locator('main')).not.toContainText('undefined');
+  }
+});
+
 test('Portuguese hero keeps each phrase on one line at mobile, tablet and desktop widths', async ({
   page,
 }) => {
@@ -235,9 +262,12 @@ test('technology filters combine type, status and search while preserving execut
     await expect(page.locator('[data-filter-empty]')).toBeHidden();
     await expect(page.locator('#content-search')).toBeFocused();
     await expect(cards.first()).toContainText('AgroHub');
-    await expect(
-      page.locator('[data-development-stage], [data-public-organization], #technology-results')
-    ).toHaveCount(0);
+    await expect(page.locator('[data-public-organization]')).toHaveCount(2);
+    await expect(page.locator('[data-public-organization]')).toContainText([
+      'AgroSafety',
+      'Madeireira Corrêa Barros',
+    ]);
+    await expect(page.locator('[data-development-stage], #technology-results')).toHaveCount(0);
   }
 });
 
@@ -339,7 +369,7 @@ test('transversal catalog combines all filters and hides empty groups', async ({
     await page.locator('#area-filter').selectOption('innovation-transfer');
     await expect(cards).toHaveCount(3);
     await expect(groups).toHaveCount(1);
-    await page.locator('#content-search').fill('AgroCogito');
+    await page.locator('#content-search').fill('ComercializAgro');
     await expect(cards).toHaveCount(1);
     await expect(cards.locator('.card__link')).toHaveAttribute(
       'href',

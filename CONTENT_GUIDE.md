@@ -36,6 +36,7 @@ order: 20
 ```
 
 - `category`: `faculty`, `postdoc`, `phd`, `masters`, `undergraduate`, `collaborator`, `staff`, `visiting` ou `alumni`.
+- `institution` e `topic` são opcionais: omita quando não houver informação confirmada. Descreva interesses em `summary`; interesse em um projeto não confirma participação e não deve gerar um vínculo em `initiatives`.
 - `areas`: identificadores das áreas listadas ao final deste guia.
 - `initiatives`: identificadores das iniciativas das quais a pessoa participa. O vínculo pode ser cadastrado aqui ou no campo `people` da iniciativa; não é necessário repetir nos dois arquivos.
 - `links` é opcional. Aceita `email`, `github`, `orcid`, `scholar`, `lattes`, `linkedin` e `website`. Use URLs completas; para e-mail, use `mailto:`.
@@ -123,7 +124,7 @@ Preencha esses campos apenas quando houver informação confirmada e a iniciativ
 
 - `developmentStage`: `concept`, `proof-of-concept`, `prototype`, `mvp`, `product-in-development`, `available` ou `deployed`. O estágio não substitui `status`.
 - `organization`: exige `name`, `relationship` e `disclosure`.
-- `relationship`: `client`, `development-partner`, `collaborating-institution` ou `funder`; não confunda financiador com cliente.
+- `relationship`: `proponent` (proponente), `client`, `development-partner`, `collaborating-institution` ou `funder`; não confunda financiador com cliente.
 - `disclosure: authorized` permite exibir o nome e, opcionalmente, `website` e `logo`.
 - `disclosure: anonymous` exige `publicLabel: { en: Private organization, pt: Organização privada }` e não permite website ou logo.
 - `disclosure: restricted` oculta a relação e não aceita identificação pública, website ou logo. O repositório pode ser público: não cadastre informações sigilosas nos arquivos.

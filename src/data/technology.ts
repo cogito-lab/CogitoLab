@@ -9,6 +9,7 @@ export const developmentStageLabels = {
 } as const;
 
 export const organizationRelationshipLabels = {
+  proponent: { en: 'Proponent', pt: 'Proponente' },
   client: { en: 'Client', pt: 'Cliente' },
   'development-partner': { en: 'Development partner', pt: 'Parceiro de desenvolvimento' },
   'collaborating-institution': { en: 'Collaborating institution', pt: 'Instituição colaboradora' },
