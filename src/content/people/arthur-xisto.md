@@ -1,6 +1,7 @@
 ---
 name: Arthur Xisto
 category: undergraduate
+institution: UFLA
 role:
   pt: Estudante de graduação
   en: Undergraduate student

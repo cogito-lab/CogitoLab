@@ -22,13 +22,13 @@ Execução com Node.js 24.22.0 e Chromium. Também foram inspecionadas visualmen
 | Pesquisa / extensão / tecnologia                   |  3 / 6 / 7 |
 | Em execução / abertas legadas / planejamento       | 10 / 5 / 1 |
 | Programas / projetos vinculados ao Cogito Transfer |      1 / 4 |
-| Publicações não marcadas como rascunho             |         47 |
+| Publicações não marcadas como rascunho             |         48 |
 | Notícias publicadas                                |          6 |
 | Páginas geradas, incluindo erros 404               |        104 |
 
 Foram acrescentados 14 integrantes, preservando os 11 cadastros anteriores e mantendo Wellington Carlos e Wellington Dias como pessoas distintas. Instituições e temas não informados não são exibidos; interesses não criam participação em projetos. Os identificadores e as rotas existentes foram preservados. AgroHub permanece ativo; os cinco registros legados `open` não foram convertidos em execução. VUEI e Vertentes ScaleUp continuam independentes do Cogito Transfer. A revisão corrigiu um erro de digitação na situação institucional do P2, sem alterar seu significado.
 
-AgroSafety e Madeireira Corrêa Barros estão cadastradas como proponentes de ComercializAgro e Automação e Digitalização de Processos para PMEs, respectivamente. Não foram cadastrados estágios de desenvolvimento ou resultados tecnológicos e extensionistas concluídos. Esses campos permanecem opcionais e as respectivas seções continuam ocultas quando vazias. As publicações históricas permanecem disponíveis; somente a publicação já explicitamente vinculada a Qualidade e Confiabilidade de Software Gerado por IA aparece nos detalhes desse projeto.
+AgroSafety e Madeireira Corrêa Barros estão cadastradas como proponentes de ComercializAgro e Automação e Digitalização de Processos para PMEs, respectivamente. Não foram cadastrados estágios de desenvolvimento ou resultados tecnológicos e extensionistas concluídos. Esses campos permanecem opcionais e as respectivas seções continuam ocultas quando vazias. As publicações históricas permanecem disponíveis; as duas publicações explicitamente vinculadas a Qualidade e Confiabilidade de Software Gerado por IA aparecem nos detalhes desse projeto.
 
 Dois registros de 2014 possuem o mesmo título, mas veículos e tipos diferentes: resumo no CIUFLA e artigo no SMES. Ambos foram preservados; a coincidência de título não foi usada para eliminar registros históricos. Não foram encontrados DOIs duplicados no inventário atual.
 
@@ -71,3 +71,4 @@ Foram revisados nomes acessíveis, hierarquia de títulos, foco visível, isolam
 Os testes de acessibilidade automatizados não constituem certificação completa de conformidade; avaliação manual com tecnologias assistivas permanece uma atividade complementar. A revisão do conteúdo usa as informações confirmadas no repositório e nesta solicitação, sem validar externamente resultados, financiamentos ou parcerias.
 
 As orientações editoriais estão em [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) e [EXTENSION_CONTENT.md](./EXTENSION_CONTENT.md). Ao adicionar registros, atualizar os testes que representam o inventário atual e repetir a validação completa.
+

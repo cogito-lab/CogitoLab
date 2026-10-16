@@ -299,7 +299,10 @@ test('initiative details show only explicit publications, participants and nonem
       prefix ? 'Resultados Esperados' : 'Expected Results'
     );
     await expect(page.locator('#achieved-results')).toHaveCount(0);
-    await expect(page.locator('#initiative-publications [data-publication]')).toHaveCount(1);
+    await expect(page.locator('#initiative-publications [data-publication]')).toHaveCount(2);
+    await expect(page.locator('#initiative-publications')).toContainText(
+      'An Empirical Evaluation of Large Language Models for Microservices Bad Smell Detection'
+    );
     await expect(page.locator('#initiative-publications')).toContainText(
       'How Reliable Are LLM Evaluations of Microservice Architecture Diagrams?'
     );
@@ -329,7 +332,7 @@ test('initiative details show only explicit publications, participants and nonem
       page.locator(
         'main [data-publication] .context-links a[href$="/initiatives/qualidade-software-ia"]'
       )
-    ).toHaveCount(1);
+    ).toHaveCount(2);
   }
 });
 
