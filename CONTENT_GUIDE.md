@@ -66,3 +66,7 @@ The site name and repository link are centralized in `src/data/site.ts`. During 
 ## Images and identity
 
 Place optimized public images under `public/images/`. Person records may use a root-relative `photo` path. The current visual identity is intentionally provisional and can be changed centrally through `src/styles/global.css`, `src/components/Logo.astro`, and the SVG files under `public/`.
+
+## Extension
+
+Cogito Transfer is presented at `/extension/` and `/pt/extension/`. Its four initiative records use `kind: extension` and `extensionCode: P1` through `P4`. These are meeting identifiers, not institutional registration numbers. Keep project registration, activity planning and program approval distinct. See EXTENSION_CONTENT.md for provenance.

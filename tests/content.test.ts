@@ -10,7 +10,7 @@ describe('content sources', () => {
     const initiatives = readdirSync(join(root, 'src/content/initiatives')).filter((file) => file.endsWith('.md'));
     const news = readdirSync(join(root, 'src/content/news')).filter((file) => file.endsWith('.md'));
     expect(people).toHaveLength(11);
-    expect(initiatives).toHaveLength(12);
+    expect(initiatives).toHaveLength(16);
     expect(news.length).toBeGreaterThanOrEqual(4);
   });
 

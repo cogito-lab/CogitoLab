@@ -4,7 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import FilterBar from '@/components/FilterBar.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
 import { getInitiatives } from '@/utils/content';
-import type { Lang } from '@/utils/i18n';
+import { localizedPath, withBase, type Lang } from '@/utils/i18n';
 interface Props {
   lang: Lang;
 }

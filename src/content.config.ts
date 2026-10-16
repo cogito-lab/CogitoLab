@@ -50,6 +50,7 @@ const initiatives = defineCollection({
     summary: localized,
     kind: z.enum(['research', 'applied', 'product', 'extension', 'consulting', 'internal']),
     kindLabel: localized,
+    extensionCode: z.enum(['P1', 'P2', 'P3', 'P4']).optional(),
     status: z.enum(['active', 'open', 'planning', 'paused', 'completed']),
     statusLabel: localized,
     areas: z.array(z.string()),

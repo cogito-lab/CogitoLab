@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import InitiativeCard from '@/components/InitiativeCard.astro';
+import { getInitiatives } from '@/utils/content';
+import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const pt = lang === 'pt';
+const projects = (await getInitiatives()).filter((item) => item.data.extensionCode);
+const description = pt
+  ? 'O Cogito Transfer aproxima universidade e sociedade pela aplicação de conhecimentos em Engenharia de Software, inovação e transferência tecnológica.'
+  : 'Cogito Transfer connects university and society through software engineering, innovation and technology transfer.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={pt ? 'Extensão · Cogito Transfer' : 'Extension · Cogito Transfer'}
+  description={description}
+  path="/extension"
+>
+  <PageHero
+    eyebrow={pt ? 'Programa de extensão' : 'University extension program'}
+    title="Cogito Transfer"
+    description={description}
+  />
+  <section class="section container prose" aria-labelledby="program-status">
+    <p class="eyebrow">{pt ? 'Universidade e sociedade' : 'University and society'}</p>
+    <h2 id="program-status">
+      {pt ? 'Problemas reais, conhecimento compartilhado' : 'Real problems, shared knowledge'}
+    </h2>
+    <p>
+      {pt
+        ? 'O programa conecta problemas reais a soluções, pilotos, avaliações e ações de disseminação, articulando formação de estudantes e transferência de conhecimento para a sociedade.'
+        : 'The program connects real problems to solutions, pilots, evaluations and dissemination, bringing together student learning and knowledge transfer to society.'}
+    </p>
+    <p>
+      {pt
+        ? 'Os quatro projetos abaixo foram informados como registrados. P1–P4 são os identificadores usados na reunião, não números de registro institucional. O registro dos projetos não representa aprovação automática de novas atividades ou parcerias.'
+        : 'The four projects below were reported as registered. P1–P4 are the identifiers used in the meeting, rather than institutional registration numbers. Project registration does not automatically approve new activities or partnerships.'}
+    </p>
+  </section>
+  <section class="section container" aria-labelledby="extension-projects">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{pt ? 'Projetos de extensão' : 'Extension projects'}</p>
+        <h2 id="extension-projects">{pt ? 'Quatro frentes de atuação' : 'Four areas of action'}</h2>
+      </div>
+    </div>
+    <p>
+      {pt
+        ? 'As atividades e entregas descritas são possibilidades a definir em cada ação; não constituem serviços já contratados ou resultados concluídos.'
+        : 'The activities and outcomes described are possibilities to scope for each action; they do not represent commissioned services or completed results.'}
+    </p>
+    <div class="card-grid">
+      {projects.map((initiative, index) => (
+        <div>
+          <p class="eyebrow">{initiative.data.extensionCode}</p>
+          <InitiativeCard initiative={initiative} lang={lang} index={index} />
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="section container prose" aria-labelledby="participate">
+    <h2 id="participate">{pt ? 'Como propor uma ação' : 'How to propose an activity'}</h2>
+    <p>
+      {pt
+        ? 'Estudantes, colaboradores e organizações externas podem apresentar um problema, o público beneficiado e uma proposta de escopo. Antes de iniciar, cada ação precisa definir:'
+        : 'Students, collaborators and external organizations can present a problem, its beneficiaries and a proposed scope. Before starting, each activity needs to define:'}
+    </p>
+    <ul>
+      <li>
+        {pt
+          ? 'Responsável do parceiro, interação externa, benefício público e participação formativa.'
+          : 'Partner contact, external interaction, public benefit and student learning.'}
+      </li>
+      <li>
+        {pt
+          ? 'Escopo mínimo, entregas, indicadores de impacto e permissões institucionais.'
+          : 'Minimum scope, deliverables, impact indicators and institutional permissions.'}
+      </li>
+      <li>
+        {pt
+          ? 'Dados e acessos, privacidade e LGPD, segurança e direitos sobre resultados e código.'
+          : 'Data and access, privacy and LGPD compliance, security and rights over results and code.'}
+      </li>
+      <li>
+        {pt
+          ? 'Infraestrutura, custos e responsabilidade pela manutenção.'
+          : 'Infrastructure, costs and maintenance responsibilities.'}
+      </li>
+    </ul>
+    <p>
+      {pt
+        ? 'Uma iniciativa pode gerar pesquisa e extensão. A pesquisa exige questões, método e evidências; a extensão exige interação externa, participação formativa e benefício social. Cada dimensão mantém objetivos, registros, entregas e indicadores próprios.'
+        : 'An initiative can generate both research and extension. Research requires questions, methods and evidence; extension requires external interaction, student learning and social benefit. Each dimension maintains its own objectives, records, deliverables and indicators.'}
+    </p>
+    <a class="button" href={withBase(localizedPath('/about#contact', lang))}>
+      {pt ? 'Converse com o Cogito Lab' : 'Contact Cogito Lab'}
+    </a>
+  </section>
+</BaseLayout>
+<style>
+  .status-note {
+    padding: 1.2rem;
+    border-left: 3px solid var(--mint-deep);
+    background: var(--paper-2);
+  }
+  .card-grid {
+    margin-top: 2rem;
+  }
+</style>

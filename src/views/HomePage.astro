@@ -114,6 +114,20 @@ const description =
     </div>
   </section>
 
+  <section class="section container">
+    <p class="eyebrow">
+      {lang === 'pt' ? 'Extensão e transferência tecnológica' : 'Extension and technology transfer'}
+    </p>
+    <h2>Cogito Transfer</h2>
+    <p>
+      {lang === 'pt'
+        ? 'Conheça o programa de extensão e seus quatro projetos: pilotos, transformação digital, qualidade de software e formação e comunicação.'
+        : 'Explore the extension program and its four projects: pilots, digital transformation, software quality, and training and communication.'}
+    </p>
+    <a class="button button--ghost" href={withBase(localizedPath('/extension', lang))}>
+      {lang === 'pt' ? 'Conheça o Cogito Transfer' : 'Explore Cogito Transfer'}
+    </a>
+  </section>
   <section class="section research-preview">
     <div class="container">
       <div class="section-heading">

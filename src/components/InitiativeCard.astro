@@ -27,7 +27,7 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
   <div class="card__top">
     <span class="tag">
       <i class="status-dot"></i>
-      {copy[initiative.data.status]}
+      {initiative.data.extensionCode ? (lang === 'pt' ? 'Informado como registrado' : 'Reported as registered') : copy[initiative.data.status]}
     </span>
     {index !== undefined && <span class="card__index">{String(index + 1).padStart(2, '0')}</span>}
   </div>
