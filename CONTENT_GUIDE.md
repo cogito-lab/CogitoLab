@@ -1,136 +1,216 @@
-# Content guide
+﻿# Guia para cadastrar conteúdo
 
-Content is Markdown with YAML frontmatter. Astro validates every field and stops the build when a required value or relationship is malformed.
+Crie arquivos Markdown (`.md`) nas pastas abaixo. Use nomes curtos, sem espaços ou acentos, como `nome-sobrenome.md`. O nome do arquivo, sem `.md`, é o identificador usado nos vínculos; preserve-o ao editar registros existentes.
 
-English is the official language, but public-facing text should be entered in both `en` and `pt` fields.
+| O que cadastrar | Pasta                        |
+| --------------- | ---------------------------- |
+| Integrantes     | `src/content/people/`        |
+| Iniciativas     | `src/content/initiatives/`   |
+| Programas       | `src/content/programs/`      |
+| Publicações     | `src/content/publications/`  |
+| Notícias        | `src/content/news/`          |
+| Oportunidades   | `src/content/opportunities/` |
 
-## People
+Copie um registro da mesma pasta e substitua os dados. Os campos ficam entre duas linhas `---`, no início do arquivo. Nos campos bilíngues, preencha `en` e `pt`; em listas, use `[]` quando não houver itens. Remova campos opcionais sem informação. Substitua todos os exemplos antes de publicar.
 
-Add `src/content/people/name-slug.md`. Supported categories are:
+## Adicionar um Integrante
 
-- `faculty`
-- `postdoc`
-- `phd`
-- `masters`
-- `undergraduate`
-- `collaborator`
-- `staff`
-- `visiting`
-- `alumni`
-
-Categories appear only when at least one person uses them. Relationships use filenames without `.md`.
+Crie `src/content/people/nome-sobrenome.md`:
 
 ```yaml
 ---
-name: Example Person
-category: postdoc
-institution: Example University
-role: { en: Postdoctoral Researcher, pt: Pesquisador de Pós-Doutorado }
-topic: { en: Research topic, pt: Tema de pesquisa }
-summary: { en: Short biography., pt: Biografia curta. }
-areas: [software-quality]
-initiatives: [qualidade-software-ia]
+name: Nome Sobrenome
+category: undergraduate
+institution: Nome da instituição
+role: { en: Undergraduate student, pt: Estudante de graduação }
+topic: { en: Software testing, pt: Testes de software }
+summary:
+  en: Short biography in English.
+  pt: Breve apresentação em português.
+areas: [software-testing]
+initiatives: []
 links:
-  orcid: https://orcid.org/0000-0000-0000-0000
-order: 15
+  email: mailto:nome@instituicao.br
+order: 20
 ---
 ```
 
-## Initiatives
+- `category`: `faculty`, `postdoc`, `phd`, `masters`, `undergraduate`, `collaborator`, `staff`, `visiting` ou `alumni`.
+- `areas`: identificadores das áreas listadas ao final deste guia.
+- `initiatives`: identificadores das iniciativas das quais a pessoa participa. O vínculo pode ser cadastrado aqui ou no campo `people` da iniciativa; não é necessário repetir nos dois arquivos.
+- `links` é opcional. Aceita `email`, `github`, `orcid`, `scholar`, `lattes`, `linkedin` e `website`. Use URLs completas; para e-mail, use `mailto:`.
+- Para adicionar foto, coloque a imagem em `public/images/` e informe `photo: /images/nome-sobrenome.jpg`.
+- `order` é opcional: números menores aparecem primeiro.
 
-Add `src/content/initiatives/initiative-slug.md`. The collection accepts research, applied projects, products, extension, consulting, and internal projects. Use the structured bilingual lists for established facts, work ahead, expected deliverables, and participation modes.
+## Adicionar uma Iniciativa
 
-### Classification and migration (stage 1)
+Crie `src/content/initiatives/nome-da-iniciativa.md`:
 
-- `primaryPillar` is required: `research`, `extension`, or `technology`. Optional `relatedPillars` contains distinct secondary pillars, never the primary pillar. Areas describe themes and do not imply a research classification.
-- `entityType` is required: `program`, `research-project`, `extension-project`, `technology-project`, `tool`, `product`, `internal-project`, `initiative`, or `technology-solution`. VUEI and Vertentes ScaleUp use `initiative` while their specific institutional role remains unconfirmed. `kind` and `kindLabel` remain for compatibility with existing pages.
-- `status` remains `active`, `completed`, `planning`, `paused`, or legacy `open`. Collaboration availability belongs to opportunities. Keep unconfirmed `open` records unchanged; do not infer execution from funding, a working artifact, or recruitment.
-- The approved migration marks AgroHub as `active`. AgroCogito, NotificationHub (not started), Central Inteligente de Atendimento, Automação para PMEs, and Gestão Digital para Pequenos Produtores retain `open`. No secondary pillars, external organizations, development stages, or additional relationships were inferred.
-- `program` references a file in `src/content/programs/`. Cogito Transfer has four members (P1–P4), declared only in their initiative records. Obtain members through the initiative's `program` field instead of maintaining a second list. Program records contain bilingual `name`, `description`, `objectives`, `institutionalStatus`, a `primaryPillar`, and optional `achievedResults`. Do not infer formal approval or dates.
-- `relatedInitiatives` contains `{ initiative: stable-slug, relation: uses }` objects. Supported relations: `originates`, `uses`, `complements`, `applies-knowledge-from`, `linked-to`. References must exist, cannot refer to themselves, and must not repeat the same target. Do not create reciprocal copies; consumers can resolve incoming links.
-- `expectedResults: { en: [...], pt: [...] }` replaces `deliverables`. `achievedResults` is an optional array of objects with bilingual `description` and optional `type`, ISO `date`, absolute `url`, and `indicator: { value: 12, unit: { en: ..., pt: ... } }`. Record achieved results only with explicit evidence. Existing planned deliverables were migrated to expected results; no completed results were inferred. `defined` may be omitted when there are no established facts to list.
-- Optional `developmentStage`: `concept`, `proof-of-concept`, `prototype`, `mvp`, `product-in-development`, `available`, `deployed`. It does not replace execution status.
-- Optional `organization` contains `name`, `relationship` (`client`, `development-partner`, `collaborating-institution`, `funder`) and `disclosure` (`authorized`, `anonymous`, `restricted`). `website` and `logo` require `authorized`. Anonymous disclosure requires a bilingual generic `publicLabel`; restricted relationships cannot have public labels. Use `publicOrganization` from `src/utils/relations.ts` for rendering; never render raw private fields. Organization and development-stage fields require the technology pillar, primary or secondary. Do not commit confidential data merely because rendering is restricted: Markdown sources may be public.
+```yaml
+---
+title: { en: Initiative name, pt: Nome da iniciativa }
+summary: { en: Short summary., pt: Resumo breve. }
+primaryPillar: research
+entityType: research-project
+kind: research
+kindLabel: { en: Research project, pt: Projeto de pesquisa }
+status: planning
+statusLabel: { en: Scope under definition, pt: Escopo em definição }
+areas: [software-testing]
+people: []
+work:
+  en: [Describe the planned activities.]
+  pt: [Descreva as atividades planejadas.]
+expectedResults:
+  en: [Describe the expected outcomes.]
+  pt: [Descreva os resultados esperados.]
+skills: [Testing]
+participation:
+  en: [Undergraduate research]
+  pt: [Iniciação científica]
+---
+```
 
-Existing people, opportunities and publications keep their explicit links. News optionally accepts `initiatives`, `people` and `areas`. Historical publications need no initiative link. Never infer links from authors, dates or keywords.
+Escolha a classificação adequada:
 
-Relationship validation runs when building the site through `validateContentRelations`; errors identify the responsible collection and record. Schema validation runs with `npm run check`. Run `npm test`, `npm run build` and `npm run test:browser` (the latter serves the built `dist` artifact, including the configured GitHub Pages base).
+| Campo           | Valores                                                                                                                                   |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `primaryPillar` | `research`, `extension`, `technology`                                                                                                     |
+| `entityType`    | `research-project`, `extension-project`, `technology-project`, `tool`, `product`, `internal-project`, `initiative`, `technology-solution` |
+| `kind`          | `research`, `applied`, `product`, `extension`, `consulting`, `internal`                                                                   |
+| `status`        | `planning`, `active`, `completed`, `paused`; preserve `open` apenas nos registros legados ainda não normalizados                          |
 
-## Homepage and navigation (stage 2)
+Projetos de pesquisa usam o pilar `research`; projetos de extensão, `extension`; projetos tecnológicos, ferramentas, produtos, soluções e projetos internos, `technology`. Uma área temática não define a natureza do projeto. `kind` e `kindLabel` também precisam ser preenchidos.
 
-The main navigation presents Research, Extension, Projects & Solutions, People, Publications, News, Opportunities and About. The transversal Initiatives catalog remains linked from the homepage and footer. Both language versions use the same records and preserve the GitHub Pages base path.
+Campos opcionais:
 
-Pillar titles, descriptions and actions live in `src/data/pillars.ts`. The homepage selects up to three initiatives, prioritizing `active`, then `featured`, editorial `order` and title. Within the active set, it seeks different primary pillars before filling additional slots. It never promotes a planned editorial highlight above an active initiative. Homepage opportunities prioritize `open`, then expressions of interest; closed opportunities are excluded.
+- `shortTitle`: título curto, com `en` e `pt`.
+- `relatedPillars`: outros pilares relacionados, sem repetir o principal.
+- `defined`: listas `en` e `pt` de informações já estabelecidas.
+- `program`: identificador de um programa cadastrado. Para projetos do Cogito Transfer, use `cogito-transfer`; `extensionCode` aceita `P1` a `P4` somente nesse programa e não representa número de registro institucional.
+- `funding`: preencha `agency` e `process`; `period` é opcional.
+- `featured: true`: indica preferência editorial para destaque na página inicial; iniciativas em execução têm prioridade.
+- `order`: ordem editorial, respeitando o agrupamento por situação.
 
-The impact section counts only non-draft publications and explicitly includes members' historical work, without attributing it to current projects. Other results come only from `achievedResults` on initiatives and programs, grouped by their primary pillar. An empty pillar is omitted; when all groups are empty, the whole section is omitted. Expected results, initiative counts, external organizations and development stages are never treated as completed results. No extension or technology achievements have been added during this stage.
+### Relacionar Iniciativas
 
-`/projects` and `/pt/projects` link to canonical initiative details. Their initial listing was expanded in stage 4 as described below.
+Cadastre somente vínculos confirmados, usando identificadores existentes:
 
-## Research and extension pages (stage 3)
+```yaml
+relatedInitiatives:
+  - initiative: identificador-da-outra-iniciativa
+    relation: uses
+```
 
-Research preserves all six area identifiers and displays every explicitly linked initiative, without truncating each area's list. Only `entityType: research-project` enters “Research projects”; other linked entities enter “Applications and related initiatives”. Empty groups are omitted. A thematic link, including innovation and transfer, never promotes an initiative to a scientific project.
+`relation` aceita `originates`, `uses`, `complements`, `applies-knowledge-from` ou `linked-to`. Não repita a mesma iniciativa nem vincule um registro a si próprio. O vínculo aparece também no sentido inverso, sem exigir outro cadastro.
 
-Extension reads program descriptions, optional bilingual `audience`, objectives and institutional status from the program collection. Membership comes from the initiative's `program` reference, independently of `extensionCode`. Extension initiatives without a program appear separately. Execution status remains distinct from reported institutional registration. Planned activities use `expectedResults`; result sections use only `achievedResults` and are omitted when empty. See `EXTENSION_CONTENT.md` for the editorial treatment of Cogito Transfer and independent collaborations.
+### Cadastrar Resultados
 
-## Projects and Solutions (stage 4)
+Use `expectedResults` para entregas futuras. Para realizações concluídas e verificadas:
 
-The technology catalog includes initiatives whose primary pillar is `technology` and those explicitly listing it in `relatedPillars`, once per record. Sorting prioritizes `active`, then `completed`, then other states (including legacy `open`); editorial `order` and English title break ties. This ordering is shared with the transversal catalog (stage 5).
+```yaml
+achievedResults:
+  - description: { en: Verified outcome., pt: Resultado verificado. }
+    date: '2026-10-16'
+    url: https://endereco-do-artefato.org
+```
 
-Filters combine the normalized `entityType`, execution `status` and textual search. Options are derived from the records present. Clearing filters restores the initial ordering. Existing pages retain their legacy kind filters. The page reuses `InitiativeCard` with optional technology details: known development stages use bilingual labels, and organizations are projected through `publicOrganization` before rendering. Only authorized names, websites and logos are exposed; anonymous relations show only the approved public label and relationship type, and restricted relations are omitted. A funder remains identified as a funder, without implying a client relationship.
+Somente `description` é obrigatório em cada resultado. Os campos opcionais são `type`, `date` (`AAAA-MM-DD`), `url` e `indicator`, por exemplo `{ value: 10, unit: { en: participants, pt: participantes } }`. Não registre uma previsão como realização concluída.
 
-The technological-results section uses only `achievedResults`, with artifact links when supplied and canonical initiative links otherwise. It is omitted when empty. No development stages, organizations or completed technology results were confirmed for this stage, so all corresponding fields remain unfilled and their display is hidden. Keep those fields optional until information is verified.
+### Informar estágio e organização
 
-## Opportunities
+Preencha esses campos apenas quando houver informação confirmada e a iniciativa pertencer ao pilar tecnológico, principal ou secundário.
 
-Add `src/content/opportunities/opportunity-slug.md`. Set `initiative` to an initiative filename and `people` to zero or more person filenames. An opportunity links to its initiative; it also appears on every linked person's profile.
+- `developmentStage`: `concept`, `proof-of-concept`, `prototype`, `mvp`, `product-in-development`, `available` ou `deployed`. O estágio não substitui `status`.
+- `organization`: exige `name`, `relationship` e `disclosure`.
+- `relationship`: `client`, `development-partner`, `collaborating-institution` ou `funder`; não confunda financiador com cliente.
+- `disclosure: authorized` permite exibir o nome e, opcionalmente, `website` e `logo`.
+- `disclosure: anonymous` exige `publicLabel: { en: Private organization, pt: Organização privada }` e não permite website ou logo.
+- `disclosure: restricted` oculta a relação e não aceita identificação pública, website ou logo. O repositório pode ser público: não cadastre informações sigilosas nos arquivos.
 
-Use `open` only for work that is actively accepting contributors. Use `expressions-of-interest` when scope, supervision, timing, or funding must first be agreed.
+## Adicionar um Programa
 
-## Publications
+Crie um arquivo em `src/content/programs/` com:
 
-Copy `src/content/publications/_template.md` to a descriptive `.md` filename, set `draft: false`, and replace every example value with verified bibliographic data. Publications are sorted newest-first and grouped by `year` automatically. Do not add placeholder records to the live collection.
+```yaml
+---
+name: { en: Program name, pt: Nome do programa }
+description: { en: Program purpose., pt: Propósito do programa. }
+primaryPillar: extension
+objectives:
+  en: [Program objective.]
+  pt: [Objetivo do programa.]
+institutionalStatus:
+  en: Confirmed institutional status.
+  pt: Situação institucional confirmada.
+---
+```
 
-## Research areas
+`audience` (público atendido, com `en` e `pt`) e `achievedResults` são opcionais. Para vincular projetos, preencha `program` nos arquivos das iniciativas; o pilar do programa deve constar entre os pilares do projeto. Não cadastre o mesmo programa também como iniciativa.
 
-The stable research taxonomy and its translations live in `src/data/areas.ts`. Current identifiers are:
+## Adicionar uma Publicação
 
-- `ai-for-software-engineering`
-- `software-quality`
-- `software-testing`
-- `configurable-mobile-iot`
-- `collaborative-empirical-se`
-- `innovation-transfer`
+Copie `src/content/publications/_template.md` para um novo arquivo `.md` e substitua os dados bibliográficos. Para publicar, use `draft: false`.
 
-The site name and repository link are centralized in `src/data/site.ts`. During GitHub Actions builds, the repository link is derived automatically from `GITHUB_REPOSITORY`.
+Campos obrigatórios: `title`, `authors` (lista), `venue`, `year` (número inteiro) e `type`.
 
-## Images and identity
+- `type`: `journal`, `conference`, `workshop`, `book`, `chapter`, `thesis`, `preprint`, `conference-abstract` ou `abstract`.
+- `doi`: DOI sem o prefixo `https://doi.org/`; `url`: endereço completo, quando disponível.
+- `areas` e `initiatives` são listas opcionais de identificadores.
+- `abstract`, quando preenchido, usa `en` e `pt`.
 
-Place optimized public images under `public/images/`. Person records may use a root-relative `photo` path. The current visual identity is intentionally provisional and can be changed centrally through `src/styles/global.css`, `src/components/Logo.astro`, and the SVG files under `public/`.
+Mantenha publicações históricas sem vínculo com iniciativas atuais quando não houver associação confirmada. Não deduza vínculos apenas pelo título, tema ou autores.
 
-## Extension
+## Adicionar uma Notícia
 
-Cogito Transfer is presented at `/extension/` and `/pt/extension/`. Its four initiative records use `kind: extension` and `extensionCode: P1` through `P4`. These are meeting identifiers, not institutional registration numbers. Keep project registration, activity planning and program approval distinct. See EXTENSION_CONTENT.md for provenance.
+Crie um arquivo em `src/content/news/` com `title`, `summary`, `date`, `displayDate` e `categoryLabel`. Título, resumo, data para exibição e categoria para exibição usam `en` e `pt`:
 
-## Transversal initiative catalog (stage 5)
+```yaml
+---
+title: { en: News title, pt: Título da notícia }
+summary: { en: Short news summary., pt: Resumo breve da notícia. }
+date: '2026-10-16'
+displayDate: { en: 'October 16, 2026', pt: 16 de outubro de 2026 }
+category: event
+categoryLabel: { en: Event, pt: Evento }
+draft: false
+---
+```
 
-The catalog renders each initiative once, using the existing records and stable detail URLs. Groups are generated by execution status: active, completed, then other states (including legacy open). Empty groups are omitted. Within a group, editorial order and English title determine positioning; changing a status moves its card automatically.
+`category` aceita `award`, `paper`, `event`, `talk` ou `general`. Campos opcionais: `initiatives`, `people` e `areas` (listas de identificadores), `featured`, `order` e `links` (lista de objetos com `label` e `url`). Use `draft: true` para manter a notícia fora do site.
 
-Filters combine primary or explicitly related pillar, normalized entity type, execution status, one of the six research areas, and text search. Filtering only changes visibility, preserving the initial order. Secondary pillar membership never creates another card. Empty groups are hidden and a no-results message is announced; clearing filters resets all controls and returns focus to search. Without JavaScript, every card remains available in its server-rendered group.
+## Adicionar uma Oportunidade
 
-Cards display the primary pillar, entity type and execution status. Program links are resolved from the program collection; technology details use the same optional, authorized projection as Projects and Solutions. No organization or stage is inferred. Existing people and opportunity filters continue to use their original type/category values.
+Crie um arquivo em `src/content/opportunities/`:
 
-## Contextual navigation and results (stage 6)
+```yaml
+---
+title: { en: Opportunity title, pt: Título da oportunidade }
+summary: { en: Short description., pt: Descrição breve. }
+type: undergraduate
+status: expressions-of-interest
+initiative: identificador-da-iniciativa
+people: []
+areas: [software-testing]
+skills: [Testing]
+---
+```
 
-Person/initiative participation is resolved from either `people[].initiatives` or `initiatives[].people`; editors need only register one side. Both pages use the same records, without duplicating participant cards when the two sides are filled. Opportunities use their explicit initiative and person references. News displays only its recorded initiative, person and area links; initiative and person pages show news only when directly referenced. Shared context links preserve the current language and publication base path.
+- `type`: `research`, `undergraduate`, `thesis`, `masters`, `phd`, `collaboration` ou `engineering`.
+- `status`: `open` para oportunidades abertas; `expressions-of-interest` para manifestações de interesse; `closed` para encerradas.
+- `initiative`: identificador obrigatório de uma iniciativa existente.
+- `people`: identificadores das pessoas responsáveis, quando confirmadas.
+- Campos opcionais: `commitment` (dedicação ou modalidade, com `en` e `pt`), `funded` (`true` ou `false`) e `order`.
 
-Initiative-to-initiative connections use `relatedInitiatives` and expose incoming links automatically. Relationship labels distinguish outgoing and incoming directions; a reciprocal reference does not duplicate the related initiative card. Do not infer these links from shared areas, authors, collaborators or keywords. Program names and links are resolved from the referenced program record.
+A situação da oportunidade é independente da situação de execução da iniciativa.
 
-Publications retain their historical listing, newest first, with institutional copy that includes earlier work. Only non-draft publications explicitly referencing an initiative appear on that initiative's details. Their listing links back to the recorded initiative; optional associations remain optional. An explicitly linked publication already present in the content is displayed; no new publication relationships were created during this stage.
+## Identificadores das Áreas
 
-Detail pages distinguish execution status from the specific institutional status label, use the normalized entity classification, and separate `achievedResults` from `expectedResults`. Achieved results can show artifact links, dates and quantitative indicators. Empty established-facts, work, result, participant, publication, news and relationship sections are omitted. Organization information uses the authorized public projection; absent stages and organizations stay hidden. A blank result array never becomes a completed outcome merely because a publication, funding or opportunity exists.
+Use estes valores nos campos `areas`:
 
-## Quality review (stage 7)
-
-See `VALIDATION.md` for the acceptance matrix, content inventory and automated checks. The browser suite audits every generated page in both color themes with axe, checks heading hierarchy and bilingual metadata, and exercises keyboard focus and the static catalog without JavaScript. Run it against the built artifact before publishing, including the GitHub Pages base path.
-
-Publication type labels live in `src/data/publications.ts`; editorial skill translations live in `src/utils/i18n.ts`. Keep canonical skill values in Markdown unchanged and translate their presentation with `skillLabel`. Technology names retain their spelling. For relationships recorded in both directions, distinct directional labels are preserved on a single related initiative card; symmetric relationships are not repeated.
+- `ai-for-software-engineering` — IA para Engenharia de Software.
+- `software-quality` — Qualidade de Software, Dívida Técnica e Refatoração.
+- `software-testing` — Testes de Software e Confiabilidade.
+- `configurable-mobile-iot` — Sistemas Configuráveis, Mobile e IoT.
+- `collaborative-empirical-se` — Engenharia de Software Colaborativa e Empírica.
+- `innovation-transfer` — Inovação, Empreendedorismo e Transferência de Tecnologia.

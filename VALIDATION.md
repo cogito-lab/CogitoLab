@@ -1,6 +1,5 @@
 # Validação da evolução do Cogito Lab
 
-Revisão da etapa 7 — 16/10/2026.
 
 ## Resultado da execução
 
@@ -9,7 +8,7 @@ Revisão da etapa 7 — 16/10/2026.
 | `npm run check`                | 0 erros, 0 avisos e 0 sugestões.                                     |
 | `npm test`                     | 25 testes aprovados.                                                 |
 | `npm run build`                | 76 páginas geradas e relacionamentos validados.                      |
-| `npm run test:browser`         | 15 testes aprovados na raiz e com `/CogitoLab`.                      |
+| `npm run test:browser`         | 16 testes aprovados na raiz e com `/CogitoLab`.                      |
 | Acessibilidade automatizada    | 76 páginas × 2 temas por build, sem violações nas regras executadas. |
 | `npm audit --audit-level=high` | 0 vulnerabilidades reportadas.                                       |
 
@@ -22,7 +21,7 @@ Execução com Node.js 24.22.0 e Chromium. Também foram inspecionadas visualmen
 | Pessoas                                            |         11 |
 | Iniciativas                                        |         16 |
 | Pesquisa / extensão / tecnologia                   |  3 / 6 / 7 |
-| Em execução / abertas legadas / planejamento       |  5 / 5 / 6 |
+| Em execução / abertas legadas / planejamento       | 10 / 5 / 1 |
 | Programas / projetos vinculados ao Cogito Transfer |      1 / 4 |
 | Publicações não marcadas como rascunho             |         47 |
 | Notícias publicadas                                |          6 |

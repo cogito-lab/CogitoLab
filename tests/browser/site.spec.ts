@@ -46,6 +46,33 @@ test('catalog search, categories, and language switching work', async ({ page })
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
+test('Portuguese hero keeps each phrase on one line at mobile, tablet and desktop widths', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 768, 851, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(route('/pt/'));
+    const measurements = await page.locator('.hero-title--pt .hero-phrase').evaluateAll((phrases) =>
+      phrases.map((phrase) => {
+        const range = document.createRange();
+        range.selectNodeContents(phrase);
+        return {
+          lines: range.getClientRects().length,
+          textWidth: range.getBoundingClientRect().width,
+          available: phrase.getBoundingClientRect().width,
+        };
+      })
+    );
+    expect(measurements).toHaveLength(2);
+    for (const measurement of measurements) {
+      expect(measurement.lines, `Portuguese phrase at ${width}px`).toBe(1);
+      expect(measurement.textWidth, `Portuguese phrase fits at ${width}px`).toBeLessThanOrEqual(
+        measurement.available + 1
+      );
+    }
+  }
+});
+
 test('mobile menu, theme, and pages fit narrow viewports', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -261,7 +288,8 @@ test('initiative details show only explicit publications, participants and nonem
       )
     ).toHaveCount(0);
     await page.goto(route(`${prefix}/initiatives/clinica-qualidade`));
-    await expect(page.locator('#established')).toHaveCount(0);
+    await expect(page.locator('#established')).toBeVisible();
+    expect(await page.locator('#established li').count()).toBeGreaterThan(0);
     await expect(page.locator('main a[href$="/extension#cogito-transfer"]')).toHaveCount(1);
     await page.goto(route(`${prefix}/publications`));
     await expect(page.locator('.lede')).toContainText(
@@ -286,7 +314,20 @@ test('transversal catalog combines all filters and hides empty groups', async ({
         items.map((item) => item.getAttribute('data-filter-group'))
       )
     ).toEqual(['active', 'other']);
-    await expect(page.locator('[data-filter-group="active"] [data-filter-item]')).toHaveCount(5);
+    const priorities = await cards.evaluateAll((items) =>
+      items.map((item) =>
+        item.getAttribute('data-status') === 'active'
+          ? 0
+          : item.getAttribute('data-status') === 'completed'
+            ? 1
+            : 2
+      )
+    );
+    expect(priorities).toEqual([...priorities].sort((a, b) => a - b));
+    await expect(
+      page.locator('[data-filter-group="active"] [data-filter-item]:not([data-status="active"])')
+    ).toHaveCount(0);
+    await expect(page.locator('[data-filter-group="other"] [data-status="active"]')).toHaveCount(0);
     const links = await cards
       .locator('.card__link')
       .evaluateAll((items) => items.map((item) => item.getAttribute('href')));
@@ -388,18 +429,18 @@ test('extension derives program membership and keeps independent collaborations 
       'clinica-qualidade',
       'formacao-comunicacao-transferencia',
     ]);
-    await expect(program.locator('[data-status="planning"]')).toHaveCount(4);
+    await expect(program.locator('[data-status="active"]')).toHaveCount(4);
     await expect(program.locator('.activity-preview')).toHaveCount(4);
     await expect(program.locator('#program-status')).toContainText(
-      prefix ? 'informados como registrados' : 'reported as registered'
+      prefix ? 'em vigor' : 'are running'
     );
     await expect(program.locator('.project-note')).toContainText(
       prefix ? 'não números de registro institucional' : 'not institutional registration numbers'
     );
     const other = page.locator('#other-extension');
     await expect(other.locator('[data-filter-item]')).toHaveCount(2);
-    await expect(other.locator('[data-status="active"]')).toHaveCount(1);
-    await expect(other.locator('[data-status="planning"]')).toHaveCount(1);
+    await expect(other.locator('[data-status="active"]')).toHaveCount(2);
+    await expect(other.locator('[data-status="planning"]')).toHaveCount(0);
     await expect(other).toContainText(
       prefix ? 'escopo operacional pendente' : 'operational scope pending'
     );
