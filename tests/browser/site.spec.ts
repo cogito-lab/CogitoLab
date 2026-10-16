@@ -46,7 +46,7 @@ test('catalog search, categories, and language switching work', async ({ page })
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
 });
 
-test('new members preserve existing profiles, optional institutions and declared interests', async ({
+test('new members preserve existing profiles, institutions and declared interests', async ({
   page,
 }) => {
   for (const prefix of ['', '/pt']) {
@@ -62,12 +62,24 @@ test('new members preserve existing profiles, optional institutions and declared
       'href',
       'http://lattes.cnpq.br/9980016868276020'
     );
-    await expect(page.locator('.detail-aside')).toContainText('DGTI/UFLA');
+    await expect(
+      page
+        .locator('.detail-aside dl > div')
+        .filter({
+          has: page.locator('dt', { hasText: prefix ? 'Instituição' : 'Institution' }),
+        })
+        .locator('dd')
+    ).toHaveText('UFLA');
+    await expect(page.locator('.lede')).toContainText('DGTI/UFLA');
+    await expect(page.locator('.lede')).toContainText('PPGCC/UFLA');
     await page.goto(route(`${prefix}/people/marcus-albuquerque/`));
     await expect(page.locator('.lede')).toContainText('NotificationHub');
-    await expect(page.locator('.detail-aside dt')).not.toContainText([
-      prefix ? 'Instituição' : 'Institution',
-    ]);
+    await expect(
+      page
+        .locator('.detail-aside dl > div')
+        .filter({ has: page.locator('dt', { hasText: prefix ? 'Instituição' : 'Institution' }) })
+        .locator('dd')
+    ).toHaveText('Infnet');
     await expect(page.locator('.related-section')).toHaveCount(0);
     await expect(page.locator('main')).not.toContainText('undefined');
   }
