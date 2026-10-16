@@ -64,13 +64,21 @@ Pillar titles, descriptions and actions live in `src/data/pillars.ts`. The homep
 
 The impact section counts only non-draft publications and explicitly includes members' historical work, without attributing it to current projects. Other results come only from `achievedResults` on initiatives and programs, grouped by their primary pillar. An empty pillar is omitted; when all groups are empty, the whole section is omitted. Expected results, initiative counts, external organizations and development stages are never treated as completed results. No extension or technology achievements have been added during this stage.
 
-`/projects` and `/pt/projects` provide the initial technology listing with links to canonical initiative details. Organizations, development stages, dedicated filters and the fuller presentation remain for stage 4.
+`/projects` and `/pt/projects` link to canonical initiative details. Their initial listing was expanded in stage 4 as described below.
 
 ## Research and extension pages (stage 3)
 
 Research preserves all six area identifiers and displays every explicitly linked initiative, without truncating each area's list. Only `entityType: research-project` enters “Research projects”; other linked entities enter “Applications and related initiatives”. Empty groups are omitted. A thematic link, including innovation and transfer, never promotes an initiative to a scientific project.
 
 Extension reads program descriptions, optional bilingual `audience`, objectives and institutional status from the program collection. Membership comes from the initiative's `program` reference, independently of `extensionCode`. Extension initiatives without a program appear separately. Execution status remains distinct from reported institutional registration. Planned activities use `expectedResults`; result sections use only `achievedResults` and are omitted when empty. See `EXTENSION_CONTENT.md` for the editorial treatment of Cogito Transfer and independent collaborations.
+
+## Projects and Solutions (stage 4)
+
+The technology catalog includes initiatives whose primary pillar is `technology` and those explicitly listing it in `relatedPillars`, once per record. Sorting prioritizes `active`, then `completed`, then other states (including legacy `open`); editorial `order` and English title break ties. This ordering currently applies to Projects and Solutions; the transversal catalog is addressed in stage 5.
+
+Filters combine the normalized `entityType`, execution `status` and textual search. Options are derived from the records present. Clearing filters restores the initial ordering. Existing pages retain their legacy kind filters. The page reuses `InitiativeCard` with optional technology details: known development stages use bilingual labels, and organizations are projected through `publicOrganization` before rendering. Only authorized names, websites and logos are exposed; anonymous relations show only the approved public label and relationship type, and restricted relations are omitted. A funder remains identified as a funder, without implying a client relationship.
+
+The technological-results section uses only `achievedResults`, with artifact links when supplied and canonical initiative links otherwise. It is omitted when empty. No development stages, organizations or completed technology results were confirmed for this stage, so all corresponding fields remain unfilled and their display is hidden. Keep those fields optional until information is verified.
 
 ## Opportunities
 

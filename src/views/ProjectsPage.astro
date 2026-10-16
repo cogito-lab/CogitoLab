@@ -2,21 +2,34 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
-import { getInitiatives } from '@/utils/content';
-import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+import FilterBar from '@/components/FilterBar.astro';
+import { getInitiatives, entrySlug } from '@/utils/content';
+import { technologyInitiatives } from '@/utils/initiatives';
+import { entityTypeLabels } from '@/data/pillars';
+import { executionStatusLabels } from '@/data/technology';
+import { localizedPath, withBase, pick, type Lang } from '@/utils/i18n';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
-const initiatives = (await getInitiatives()).filter(
-  (entry) => entry.data.primaryPillar === 'technology'
+const initiatives = technologyInitiatives(await getInitiatives());
+const types = [...new Set(initiatives.map((entry) => entry.data.entityType))];
+const statuses = Object.entries(executionStatusLabels).filter(([status]) =>
+  initiatives.some((entry) => entry.data.status === status)
+);
+const achievedResults = initiatives.flatMap((entry) =>
+  entry.data.achievedResults.map((result) => ({
+    ...result,
+    initiative: entry,
+    path: `/initiatives/${entrySlug(entry.id)}`,
+  }))
 );
 const title = pt ? 'Projetos e Soluções' : 'Projects & Solutions';
 const description = pt
-  ? 'Desenvolvemos ferramentas, protótipos, plataformas e soluções tecnológicas para problemas reais.'
-  : 'We develop tools, prototypes, platforms and technology solutions for real problems.';
+  ? 'Transformamos conhecimento em soluções tecnológicas, desenvolvendo e validando ferramentas, plataformas e produtos para desafios reais.'
+  : 'We turn knowledge into technology solutions, developing and validating tools, platforms and products for real challenges.';
 ---
 
 <BaseLayout lang={lang} title={title} description={description} path="/projects">
@@ -39,11 +52,28 @@ const description = pt
       </p>
     </div>
     {initiatives.length > 0 ? (
-      <div class="card-grid">
-        {initiatives.map((initiative) => (
-          <InitiativeCard initiative={initiative} lang={lang} showClassification />
-        ))}
-      </div>
+      <>
+        <FilterBar
+          lang={lang}
+          options={types.map((type) => ({
+            value: type,
+            label: pick(entityTypeLabels[type], lang),
+          }))}
+          statuses={statuses.map(([value, label]) => ({ value, label: pick(label, lang) }))}
+          kindAttribute="entityType"
+          allowReset
+        />
+        <div class="card-grid" id="technology-catalog">
+          {initiatives.map((initiative) => (
+            <InitiativeCard
+              initiative={initiative}
+              lang={lang}
+              showClassification
+              showTechnologyDetails
+            />
+          ))}
+        </div>
+      </>
     ) : (
       <p>
         {pt
@@ -57,6 +87,43 @@ const description = pt
       </a>
     </p>
   </section>
+  {achievedResults.length > 0 && (
+    <section
+      class="section container"
+      id="technology-results"
+      aria-labelledby="technology-results-title"
+    >
+      <div class="section-heading">
+        <div>
+          <h2 id="technology-results-title">
+            {pt ? 'Resultados tecnológicos' : 'Technology results'}
+          </h2>
+        </div>
+        <p>
+          {pt
+            ? 'Entregas concluídas e verificadas das iniciativas tecnológicas.'
+            : 'Completed and verified outcomes of technology initiatives.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {achievedResults.map((result) => (
+          <article class="card">
+            <div class="card__body">
+              <h3>
+                {pick(result.initiative.data.shortTitle ?? result.initiative.data.title, lang)}
+              </h3>
+              <p>{pick(result.description, lang)}</p>
+            </div>
+            <div class="card__footer">
+              <a href={result.url ?? withBase(localizedPath(result.path, lang))}>
+                {pt ? 'Conhecer o resultado' : 'Explore the result'}
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
 <style>

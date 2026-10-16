@@ -8,11 +8,19 @@ interface Props {
   lang: Lang;
   options?: Option[];
   statuses?: Option[];
+  kindAttribute?: 'kind' | 'entityType';
+  allowReset?: boolean;
 }
-const { lang, options = [], statuses = [] } = Astro.props;
+const {
+  lang,
+  options = [],
+  statuses = [],
+  kindAttribute = 'kind',
+  allowReset = false,
+} = Astro.props;
 ---
 
-<div class="filter-bar" data-filter-root>
+<div class="filter-bar" data-filter-root data-kind-attribute={kindAttribute}>
   <label for="content-search">{lang === 'en' ? 'Search' : 'Buscar'}</label>
   <input
     id="content-search"
@@ -46,6 +54,11 @@ const { lang, options = [], statuses = [] } = Astro.props;
       </select>
     </>
   )}
+  {allowReset && (
+    <button class="button button--ghost" type="button" data-filter-clear>
+      {lang === 'pt' ? 'Limpar filtros' : 'Clear filters'}
+    </button>
+  )}
 </div>
 <p class="muted" data-filter-empty hidden>
   {lang === 'en'
@@ -60,6 +73,7 @@ const { lang, options = [], statuses = [] } = Astro.props;
     const status = root.querySelector<HTMLSelectElement>('[data-filter-status]');
     const items = [...(section?.querySelectorAll<HTMLElement>('[data-filter-item]') ?? [])];
     const empty = section?.querySelector<HTMLElement>('[data-filter-empty]');
+    const kindAttribute = (root as HTMLElement).dataset.kindAttribute ?? 'kind';
     const update = () => {
       const query = search?.value.trim().toLowerCase() ?? '';
       let shown = 0;
@@ -67,7 +81,7 @@ const { lang, options = [], statuses = [] } = Astro.props;
         const matches =
           (!query || item.dataset.search?.includes(query)) &&
           (!kind?.value ||
-            item.dataset.kind === kind.value ||
+            item.dataset[kindAttribute] === kind.value ||
             item.dataset.category === kind.value) &&
           (!status?.value || item.dataset.status === status.value);
         item.hidden = !matches;
@@ -81,6 +95,13 @@ const { lang, options = [], statuses = [] } = Astro.props;
     [search, kind, status].forEach((control) => {
       control?.addEventListener('input', update);
       control?.addEventListener('change', update);
+    });
+    root.querySelector('[data-filter-clear]')?.addEventListener('click', () => {
+      if (search) search.value = '';
+      if (kind) kind.value = '';
+      if (status) status.value = '';
+      update();
+      search?.focus();
     });
   });
 </script>

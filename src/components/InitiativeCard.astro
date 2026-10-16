@@ -4,6 +4,8 @@ import { entrySlug } from '@/utils/content';
 import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
 import { pillars, entityTypeLabels } from '@/data/pillars';
+import { developmentStageLabels, organizationRelationshipLabels } from '@/data/technology';
+import { publicOrganization } from '@/utils/relations';
 interface Props {
   initiative: Initiative;
   lang: Lang;
@@ -12,6 +14,7 @@ interface Props {
   headingLevel?: 'h3' | 'h4';
   showActivities?: boolean;
   showInstitutionalStatus?: boolean;
+  showTechnologyDetails?: boolean;
 }
 const {
   initiative,
@@ -21,10 +24,14 @@ const {
   headingLevel: Heading = 'h3',
   showActivities = false,
   showInstitutionalStatus = false,
+  showTechnologyDetails = false,
 } = Astro.props;
 const slug = entrySlug(initiative.id);
 const copy = t(lang);
 const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.data.order) % 5];
+const organization = showTechnologyDetails
+  ? publicOrganization(initiative.data.organization)
+  : undefined;
 ---
 
 <article
@@ -69,6 +76,47 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
       {pick(initiative.data.shortTitle ?? initiative.data.title, lang)}
     </Heading>
     <p>{pick(initiative.data.summary, lang)}</p>
+    {showTechnologyDetails && (initiative.data.developmentStage || organization) && (
+      <dl class="technology-details">
+        {initiative.data.developmentStage && (
+          <div data-development-stage>
+            <dt>{lang === 'pt' ? 'Estágio de desenvolvimento' : 'Development stage'}</dt>
+            <dd>{pick(developmentStageLabels[initiative.data.developmentStage], lang)}</dd>
+          </div>
+        )}
+        {organization && (
+          <div data-public-organization>
+            <dt>
+              {lang === 'pt' ? 'Organização' : 'Organization'} ·{' '}
+              {pick(
+                organizationRelationshipLabels[initiative.data.organization!.relationship],
+                lang
+              )}
+            </dt>
+            <dd>
+              {organization.website ? (
+                <a href={organization.website}>{pick(organization.label, lang)}</a>
+              ) : (
+                pick(organization.label, lang)
+              )}
+              {organization.logo && (
+                <img
+                  src={
+                    organization.logo.startsWith('/')
+                      ? withBase(organization.logo)
+                      : organization.logo
+                  }
+                  alt={pick(organization.label, lang)}
+                  loading="lazy"
+                  width="120"
+                  height="60"
+                />
+              )}
+            </dd>
+          </div>
+        )}
+      </dl>
+    )}
     {showInstitutionalStatus && (
       <p class="institutional-status">{pick(initiative.data.statusLabel, lang)}</p>
     )}
@@ -100,6 +148,28 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
 </article>
 
 <style>
+  .technology-details {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  .technology-details dt {
+    font-weight: 700;
+  }
+  .technology-details dd {
+    margin: 0.2rem 0 0;
+    color: var(--ink-soft);
+  }
+  .technology-details a {
+    position: relative;
+    z-index: 2;
+  }
+  .technology-details img {
+    margin-top: 0.5rem;
+    object-fit: contain;
+    object-position: left;
+  }
   .initiative-title {
     margin: 0 0 0.75rem;
     font-family: Georgia, 'Times New Roman', serif;

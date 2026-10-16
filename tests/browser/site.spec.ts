@@ -170,6 +170,40 @@ test('projects preserve language, active navigation and initiative detail links'
   await expect(page).toHaveURL(new RegExp('/pt/initiatives/'));
 });
 
+test('technology filters combine type, status and search while preserving execution order', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/projects`));
+    const cards = page.locator('#technology-catalog [data-filter-item]:visible');
+    await expect(cards).toHaveCount(7);
+    expect(
+      await cards.evaluateAll((items) => items.map((item) => item.getAttribute('data-status')))
+    ).toEqual(['active', 'active', 'open', 'open', 'open', 'open', 'open']);
+    await page.locator('#type-filter').selectOption('technology-solution');
+    await page.locator('#status-filter').selectOption('open');
+    await expect(cards).toHaveCount(2);
+    await page.locator('#content-search').fill('NotificationHub');
+    await expect(cards).toHaveCount(1);
+    await expect(cards.locator('.card__link')).toHaveAttribute(
+      'href',
+      route(`${prefix}/initiatives/notificationhub`)
+    );
+    await page.locator('#content-search').fill('');
+    await page.locator('#type-filter').selectOption('product');
+    await expect(cards).toHaveCount(0);
+    await expect(page.locator('[data-filter-empty]')).toBeVisible();
+    await page.locator('[data-filter-clear]').click();
+    await expect(cards).toHaveCount(7);
+    await expect(page.locator('[data-filter-empty]')).toBeHidden();
+    await expect(page.locator('#content-search')).toBeFocused();
+    await expect(cards.first()).toContainText('AgroHub');
+    await expect(
+      page.locator('[data-development-stage], [data-public-organization], #technology-results')
+    ).toHaveCount(0);
+  }
+});
+
 test('navigation works when browser storage is unavailable', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'localStorage', {
