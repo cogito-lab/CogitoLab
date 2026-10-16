@@ -4,11 +4,12 @@ shortTitle: { en: AgroHub, pt: AgroHub }
 summary:
   en: An existing agricultural marketplace with catalogs, offers, proposals, and workflows for multiple user profiles.
   pt: Um marketplace agrícola existente com catálogos, ofertas, propostas e fluxos para diferentes perfis de usuário.
+primaryPillar: technology
+entityType: product
 kind: product
 kindLabel: { en: Product · Innovation, pt: Produto · Inovação }
-status: open
-statusLabel:
-  { en: Existing platform · open for evolution, pt: Plataforma existente · aberta para evolução }
+status: active
+statusLabel: { en: In progress, pt: Em execução }
 areas: [innovation-transfer]
 people: []
 defined:
@@ -37,7 +38,7 @@ work:
       Preparar implantação e observabilidade,
       Validar o modelo operacional e comercial,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Functional improvements,

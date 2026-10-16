@@ -10,6 +10,9 @@
       'en': 'Assess real systems for quality, testing, security, architecture, maintenance, usability and risks.',
       'pt': 'Avaliar sistemas reais em qualidade, testes, segurança, arquitetura, manutenção, usabilidade e riscos.',
     },
+  'primaryPillar': 'extension',
+  'entityType': 'extension-project',
+  'program': 'cogito-transfer',
   'kind': 'extension',
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
@@ -35,7 +38,7 @@
           'Definir responsáveis, entregas e indicadores de impacto de cada atividade.',
         ],
     },
-  'deliverables':
+  'expectedResults':
     {
       'en':
         [

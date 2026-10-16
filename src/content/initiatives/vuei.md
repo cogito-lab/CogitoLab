@@ -5,6 +5,8 @@ title:
 summary:
   en: Strengthening the university innovation and entrepreneurship ecosystem by connecting university, market, and society.
   pt: Fortalecimento do ecossistema universitário de inovação e empreendedorismo por meio da conexão entre universidade, mercado e sociedade.
+primaryPillar: extension
+entityType: initiative
 kind: extension
 kindLabel: { en: Extension · Innovation, pt: Extensão · Inovação }
 status: active
@@ -33,7 +35,7 @@ work:
       Mapear oportunidades concretas para estudantes,
       Conectar projetos técnicos do laboratório à validação e inovação,
     ]
-deliverables:
+expectedResults:
   en: [To be defined from the project's official plan]
   pt: [A definir a partir do plano oficial do projeto]
 skills: [Innovation, Entrepreneurship, Project management, Communication]

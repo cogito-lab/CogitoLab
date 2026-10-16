@@ -3,6 +3,8 @@ title: { en: NotificationHub, pt: NotificationHub }
 summary:
   en: A platform that receives sensor events, validates data, applies rules, generates notifications, and maintains a traceable history.
   pt: Uma plataforma que recebe eventos de sensores, valida dados, aplica regras, gera notificações e mantém um histórico rastreável.
+primaryPillar: technology
+entityType: technology-solution
 kind: product
 kindLabel: { en: Product · Experimental platform, pt: Produto · Plataforma experimental }
 status: open
@@ -37,7 +39,7 @@ work:
       Integrar um canal real de mensageria quando necessário,
       Experimentar sensores e simuladores realistas,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Reference backend and frontend,

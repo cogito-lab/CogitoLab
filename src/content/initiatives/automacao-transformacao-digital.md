@@ -10,6 +10,9 @@
       'en': 'Identify and improve processes through automation, integrations and digital solutions, including impact assessment.',
       'pt': 'Identificar e melhorar processos por meio de automações, integrações e soluções digitais, com avaliação de impacto.',
     },
+  'primaryPillar': 'extension',
+  'entityType': 'extension-project',
+  'program': 'cogito-transfer',
   'kind': 'extension',
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
@@ -35,7 +38,7 @@
           'Definir responsáveis, entregas e indicadores de impacto de cada atividade.',
         ],
     },
-  'deliverables':
+  'expectedResults':
     {
       'en':
         [

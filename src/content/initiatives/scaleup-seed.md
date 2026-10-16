@@ -3,6 +3,8 @@ title: { en: Vertentes ScaleUp · Novo SEED, pt: Vertentes ScaleUp · Novo SEED 
 summary:
   en: A collaborative initiative concerned with the evolution and scalability of startups and innovative ventures in the Vertentes region.
   pt: Uma iniciativa colaborativa dedicada à evolução e escalabilidade de startups e empreendimentos inovadores na região das Vertentes.
+primaryPillar: extension
+entityType: initiative
 kind: extension
 kindLabel: { en: Innovation · Entrepreneurship, pt: Inovação · Empreendedorismo }
 status: planning
@@ -31,7 +33,7 @@ work:
       Identificar oportunidades concretas para estudantes,
       Conectar startups a competências e iniciativas relevantes do laboratório,
     ]
-deliverables:
+expectedResults:
   en: [To be defined according to Cogito Lab's formal responsibilities]
   pt: [A definir conforme as responsabilidades formais do Cogito Lab]
 skills: [Software, Product, Entrepreneurship, Data, Communication]

@@ -6,6 +6,8 @@ shortTitle: { en: AgroCogito, pt: AgroCogito }
 summary:
   en: Decision support for producers using market data and commercialization recommendations without automatic trade execution.
   pt: Apoio à decisão para produtores usando dados de mercado e recomendações de comercialização sem execução automática de operações.
+primaryPillar: technology
+entityType: technology-project
 kind: applied
 kindLabel: { en: Product · Applied research, pt: Produto · Pesquisa aplicada }
 status: open
@@ -43,7 +45,7 @@ work:
       Criar cenários de demonstração,
       Validar recomendações com usuários e especialistas,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Data pipeline,

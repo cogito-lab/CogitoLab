@@ -75,7 +75,7 @@ const { Content } = await render(initiative);
       </ol>
       <h2>{copy.deliverables}</h2>
       <ul>
-        {pick(initiative.data.deliverables, lang).map((item) => (
+        {pick(initiative.data.expectedResults, lang).map((item) => (
           <li>{item}</li>
         ))}
       </ul>

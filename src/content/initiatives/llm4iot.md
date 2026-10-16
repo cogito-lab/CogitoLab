@@ -5,6 +5,8 @@ title:
 summary:
   en: Research on language models for quality and interaction problems in Internet-of-Things software systems.
   pt: Pesquisa sobre modelos de linguagem para problemas de qualidade e interação em sistemas de software da Internet das Coisas.
+primaryPillar: research
+entityType: research-project
 kind: research
 kindLabel: { en: Research, pt: Pesquisa }
 status: planning
@@ -36,7 +38,7 @@ work:
       Definir protocolos de avaliação,
       Executar experimentos reproduzíveis,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Experimental protocol,

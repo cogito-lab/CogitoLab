@@ -10,6 +10,9 @@
       'en': 'Support documentation, materials, courses, workshops, digital channels and technology dissemination and adoption.',
       'pt': 'Sustentar documentação, materiais, cursos, oficinas, canais digitais e a difusão e adoção de tecnologias.',
     },
+  'primaryPillar': 'extension',
+  'entityType': 'extension-project',
+  'program': 'cogito-transfer',
   'kind': 'extension',
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
@@ -48,7 +51,7 @@
           'Definir responsáveis, entregas e indicadores de impacto de cada atividade.',
         ],
     },
-  'deliverables':
+  'expectedResults':
     {
       'en':
         [

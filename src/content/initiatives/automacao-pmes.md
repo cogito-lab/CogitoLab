@@ -6,6 +6,8 @@ shortTitle: { en: Automation for Small Businesses, pt: Automação para PMEs }
 summary:
   en: A portfolio of small automation and digitization projects for partner organizations, keeping client identities private when appropriate.
   pt: Um portfólio de pequenos projetos de automação e digitalização para organizações parceiras, preservando a identidade dos clientes quando apropriado.
+primaryPillar: technology
+entityType: technology-project
 kind: consulting
 kindLabel: { en: Consulting · Extension, pt: Consultoria · Extensão }
 status: open
@@ -36,7 +38,7 @@ work:
       Definir necessidades de relatório CRM e armazenamento,
       Estabelecer um processo leve de escopo aceite e manutenção,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Short requirements document,

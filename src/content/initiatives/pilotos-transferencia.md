@@ -10,6 +10,9 @@
       'en': 'Structure pilots to validate, mature and transfer academic technologies into real use with external organizations and users.',
       'pt': 'Estruturar pilotos para validar, amadurecer e transferir tecnologias acadêmicas em uso real, com organizaçãoes e usuários externos.',
     },
+  'primaryPillar': 'extension',
+  'entityType': 'extension-project',
+  'program': 'cogito-transfer',
   'kind': 'extension',
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
@@ -48,7 +51,7 @@
           'Definir responsáveis, entregas e indicadores de impacto de cada atividade.',
         ],
     },
-  'deliverables':
+  'expectedResults':
     {
       'en':
         [

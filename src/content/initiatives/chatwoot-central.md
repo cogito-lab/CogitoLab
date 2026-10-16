@@ -5,6 +5,8 @@ title:
 summary:
   en: A Chatwoot-centered communication hub that consolidates service channels and supports routing, triage, automation, and future AI agents.
   pt: Uma central de comunicação baseada no Chatwoot que consolida canais de atendimento e apoia roteamento, triagem, automação e futuros agentes de IA.
+primaryPillar: technology
+entityType: technology-solution
 kind: product
 kindLabel: { en: Product · Integration, pt: Produto · Integração }
 status: open
@@ -37,7 +39,7 @@ work:
       Separar ações autônomas de ações confirmadas,
       Criar observabilidade para falhas de integração,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Integration architecture,

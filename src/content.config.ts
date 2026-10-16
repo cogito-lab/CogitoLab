@@ -4,6 +4,14 @@ import { z } from 'astro/zod';
 
 const localized = z.object({ en: z.string(), pt: z.string() });
 const localizedList = z.object({ en: z.array(z.string()), pt: z.array(z.string()) });
+const pillar = z.enum(['research', 'extension', 'technology']);
+const result = z.object({
+  description: localized,
+  type: z.string().optional(),
+  date: z.iso.date().optional(),
+  url: z.url().optional(),
+  indicator: z.object({ value: z.number().nonnegative(), unit: localized }).optional(),
+});
 
 const people = defineCollection({
   loader: glob({ base: './src/content/people', pattern: '**/*.md' }),
@@ -49,6 +57,62 @@ const initiatives = defineCollection({
     shortTitle: localized.optional(),
     summary: localized,
     kind: z.enum(['research', 'applied', 'product', 'extension', 'consulting', 'internal']),
+    primaryPillar: pillar,
+    relatedPillars: z.array(pillar).default([]),
+    entityType: z.enum([
+      'program',
+      'research-project',
+      'extension-project',
+      'technology-project',
+      'tool',
+      'product',
+      'internal-project',
+      'initiative',
+      'technology-solution',
+    ]),
+    program: z.string().optional(),
+    relatedInitiatives: z
+      .array(
+        z.object({
+          initiative: z.string(),
+          relation: z.enum([
+            'originates',
+            'uses',
+            'complements',
+            'applies-knowledge-from',
+            'linked-to',
+          ]),
+        })
+      )
+      .default([]),
+    organization: z
+      .object({
+        name: z.string().min(1),
+        relationship: z.enum([
+          'client',
+          'development-partner',
+          'collaborating-institution',
+          'funder',
+        ]),
+        disclosure: z.enum(['authorized', 'anonymous', 'restricted']),
+        publicLabel: localized.optional(),
+        website: z.url().optional(),
+        logo: z.string().optional(),
+      })
+      .optional(),
+    developmentStage: z
+      .enum([
+        'concept',
+        'proof-of-concept',
+        'prototype',
+        'mvp',
+        'product-in-development',
+        'available',
+        'deployed',
+      ])
+      .optional(),
+    expectedResults: localizedList,
+    achievedResults: z.array(result).default([]),
     kindLabel: localized,
     extensionCode: z.enum(['P1', 'P2', 'P3', 'P4']).optional(),
     status: z.enum(['active', 'open', 'planning', 'paused', 'completed']),
@@ -58,9 +122,8 @@ const initiatives = defineCollection({
     funding: z
       .object({ agency: z.string(), process: z.string(), period: z.string().optional() })
       .optional(),
-    defined: localizedList,
+    defined: localizedList.default({ en: [], pt: [] }),
     work: localizedList,
-    deliverables: localizedList,
     skills: z.array(z.string()),
     participation: localizedList,
     featured: z.boolean().default(false),
@@ -130,6 +193,9 @@ const news = defineCollection({
     summary: localized,
     category: z.enum(['award', 'paper', 'event', 'talk', 'general']).default('general'),
     categoryLabel: localized,
+    initiatives: z.array(z.string()).default([]),
+    people: z.array(z.string()).default([]),
+    areas: z.array(z.string()).default([]),
     links: z
       .array(
         z.object({
@@ -143,4 +209,16 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { people, initiatives, opportunities, publications, news };
+const programs = defineCollection({
+  loader: glob({ base: './src/content/programs', pattern: '**/*.md' }),
+  schema: z.object({
+    name: localized,
+    description: localized,
+    primaryPillar: pillar,
+    objectives: localizedList,
+    institutionalStatus: localized,
+    achievedResults: z.array(result).default([]),
+  }),
+});
+
+export const collections = { people, initiatives, opportunities, publications, news, programs };

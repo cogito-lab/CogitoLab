@@ -5,6 +5,8 @@ title:
 summary:
   en: Evaluating agents and language models for test generation, with emphasis on the quality, reliability, and practical value of the resulting tests.
   pt: Avaliação de agentes e modelos de linguagem para geração de testes, com ênfase na qualidade, confiabilidade e utilidade prática dos testes resultantes.
+primaryPillar: research
+entityType: research-project
 kind: research
 kindLabel: { en: Research, pt: Pesquisa }
 status: active
@@ -36,7 +38,7 @@ work:
       Analisar falhas e limitações,
       Produzir artefatos experimentais reproduzíveis,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Experimental benchmark,

@@ -5,6 +5,8 @@ title:
 summary:
   en: A simple system for small producers to track purchases and sales, with interaction through WhatsApp.
   pt: Um sistema simples para pequenos produtores controlarem compras e vendas, com interação por WhatsApp.
+primaryPillar: technology
+entityType: technology-project
 kind: applied
 kindLabel: { en: Product · Applied project, pt: Produto · Projeto aplicado }
 status: open
@@ -37,7 +39,7 @@ work:
       Construir um MVP pequeno,
       Validar casos reais antes de ampliar o escopo,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Process and requirements map,

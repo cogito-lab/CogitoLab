@@ -6,6 +6,8 @@ shortTitle: { en: Cogito Digital Infrastructure, pt: Infraestrutura Digital do C
 summary:
   en: The lab's public digital infrastructure for presenting people, research, initiatives, publications, software, news, and opportunities.
   pt: A infraestrutura digital pública do laboratório para apresentar pessoas, pesquisa, iniciativas, publicações, software, notícias e oportunidades.
+primaryPillar: technology
+entityType: internal-project
 kind: internal
 kindLabel: { en: Internal project · Training, pt: Projeto interno · Formação }
 status: active
@@ -40,7 +42,7 @@ work:
       Automatizar validação build e implantação,
       Evoluir acessibilidade desempenho e descoberta,
     ]
-deliverables:
+expectedResults:
   en:
     [
       Published website,

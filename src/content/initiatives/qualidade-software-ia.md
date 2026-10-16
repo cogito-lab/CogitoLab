@@ -6,6 +6,8 @@ shortTitle: { en: Reliable AI-Generated Software, pt: Software Gerado por IA Con
 summary:
   en: A research umbrella for evaluating systems and code produced with AI across security, maintenance, reliability, production readiness, and human use.
   pt: Uma frente de pesquisa para avaliar sistemas e código produzidos com IA quanto a segurança, manutenção, confiabilidade, prontidão para produção e uso humano.
+primaryPillar: research
+entityType: research-project
 kind: research
 kindLabel: { en: Research · Applied research, pt: Pesquisa · Pesquisa aplicada }
 status: active
@@ -35,7 +37,7 @@ work:
     - Definir benchmarks e estudos de caso.
     - Evoluir relatórios para pesquisa e avaliação aplicada.
     - Investigar indicadores antecipados de risco de produção e manutenção.
-deliverables:
+expectedResults:
   en:
     [
       Reproducible pipeline,

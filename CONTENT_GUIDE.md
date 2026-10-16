@@ -40,6 +40,22 @@ order: 15
 
 Add `src/content/initiatives/initiative-slug.md`. The collection accepts research, applied projects, products, extension, consulting, and internal projects. Use the structured bilingual lists for established facts, work ahead, expected deliverables, and participation modes.
 
+### Classification and migration (stage 1)
+
+- `primaryPillar` is required: `research`, `extension`, or `technology`. Optional `relatedPillars` contains distinct secondary pillars, never the primary pillar. Areas describe themes and do not imply a research classification.
+- `entityType` is required: `program`, `research-project`, `extension-project`, `technology-project`, `tool`, `product`, `internal-project`, `initiative`, or `technology-solution`. VUEI and Vertentes ScaleUp use `initiative` while their specific institutional role remains unconfirmed. `kind` and `kindLabel` remain for compatibility with existing pages.
+- `status` remains `active`, `completed`, `planning`, `paused`, or legacy `open`. Collaboration availability belongs to opportunities. Keep unconfirmed `open` records unchanged; do not infer execution from funding, a working artifact, or recruitment.
+- The approved migration marks AgroHub as `active`. AgroCogito, NotificationHub (not started), Central Inteligente de Atendimento, Automação para PMEs, and Gestão Digital para Pequenos Produtores retain `open`. No secondary pillars, external organizations, development stages, or additional relationships were inferred.
+- `program` references a file in `src/content/programs/`. Cogito Transfer has four members (P1–P4), declared only in their initiative records. Obtain members through the initiative's `program` field instead of maintaining a second list. Program records contain bilingual `name`, `description`, `objectives`, `institutionalStatus`, a `primaryPillar`, and optional `achievedResults`. Do not infer formal approval or dates.
+- `relatedInitiatives` contains `{ initiative: stable-slug, relation: uses }` objects. Supported relations: `originates`, `uses`, `complements`, `applies-knowledge-from`, `linked-to`. References must exist, cannot refer to themselves, and must not repeat the same target. Do not create reciprocal copies; consumers can resolve incoming links.
+- `expectedResults: { en: [...], pt: [...] }` replaces `deliverables`. `achievedResults` is an optional array of objects with bilingual `description` and optional `type`, ISO `date`, absolute `url`, and `indicator: { value: 12, unit: { en: ..., pt: ... } }`. Record achieved results only with explicit evidence. Existing planned deliverables were migrated to expected results; no completed results were inferred. `defined` may be omitted when there are no established facts to list.
+- Optional `developmentStage`: `concept`, `proof-of-concept`, `prototype`, `mvp`, `product-in-development`, `available`, `deployed`. It does not replace execution status.
+- Optional `organization` contains `name`, `relationship` (`client`, `development-partner`, `collaborating-institution`, `funder`) and `disclosure` (`authorized`, `anonymous`, `restricted`). `website` and `logo` require `authorized`. Anonymous disclosure requires a bilingual generic `publicLabel`; restricted relationships cannot have public labels. Use `publicOrganization` from `src/utils/relations.ts` for rendering; never render raw private fields. Organization and development-stage fields require the technology pillar, primary or secondary. Do not commit confidential data merely because rendering is restricted: Markdown sources may be public.
+
+Existing people, opportunities and publications keep their explicit links. News optionally accepts `initiatives`, `people` and `areas`. Historical publications need no initiative link. Never infer links from authors, dates or keywords.
+
+Relationship validation runs when building the site through `validateContentRelations`; errors identify the responsible collection and record. Schema validation runs with `npm run check`. Run `npm test`, `npm run build` and `npm run test:browser` (the latter serves the built `dist` artifact, including the configured GitHub Pages base).
+
 ## Opportunities
 
 Add `src/content/opportunities/opportunity-slug.md`. Set `initiative` to an initiative filename and `people` to zero or more person filenames. An opportunity links to its initiative; it also appears on every linked person's profile.
