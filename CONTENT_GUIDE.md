@@ -56,6 +56,16 @@ Existing people, opportunities and publications keep their explicit links. News 
 
 Relationship validation runs when building the site through `validateContentRelations`; errors identify the responsible collection and record. Schema validation runs with `npm run check`. Run `npm test`, `npm run build` and `npm run test:browser` (the latter serves the built `dist` artifact, including the configured GitHub Pages base).
 
+## Homepage and navigation (stage 2)
+
+The main navigation presents Research, Extension, Projects & Solutions, People, Publications, News, Opportunities and About. The transversal Initiatives catalog remains linked from the homepage and footer. Both language versions use the same records and preserve the GitHub Pages base path.
+
+Pillar titles, descriptions and actions live in `src/data/pillars.ts`. The homepage selects up to three initiatives, prioritizing `active`, then `featured`, editorial `order` and title. Within the active set, it seeks different primary pillars before filling additional slots. It never promotes a planned editorial highlight above an active initiative. Homepage opportunities prioritize `open`, then expressions of interest; closed opportunities are excluded.
+
+The impact section counts only non-draft publications and explicitly includes members' historical work, without attributing it to current projects. Other results come only from `achievedResults` on initiatives and programs, grouped by their primary pillar. An empty pillar is omitted; when all groups are empty, the whole section is omitted. Expected results, initiative counts, external organizations and development stages are never treated as completed results. No extension or technology achievements have been added during this stage.
+
+`/projects` and `/pt/projects` provide the initial technology listing with links to canonical initiative details. Organizations, development stages, dedicated filters and the fuller presentation remain for stage 4.
+
 ## Opportunities
 
 Add `src/content/opportunities/opportunity-slug.md`. Set `initiative` to an initiative filename and `people` to zero or more person filenames. An opportunity links to its initiative; it also appears on every linked person's profile.

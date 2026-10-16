@@ -3,12 +3,14 @@ import type { Initiative } from '@/utils/content';
 import { entrySlug } from '@/utils/content';
 import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
+import { pillars, entityTypeLabels } from '@/data/pillars';
 interface Props {
   initiative: Initiative;
   lang: Lang;
   index?: number;
+  showClassification?: boolean;
 }
-const { initiative, lang, index } = Astro.props;
+const { initiative, lang, index, showClassification = false } = Astro.props;
 const slug = entrySlug(initiative.id);
 const copy = t(lang);
 const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.data.order) % 5];
@@ -20,6 +22,7 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
   data-search={`${pick(initiative.data.title, lang)} ${pick(initiative.data.summary, lang)} ${initiative.data.skills.join(' ')} ${initiative.data.areas.join(' ')}`.toLowerCase()}
   data-kind={initiative.data.kind}
   data-status={initiative.data.status}
+  data-pillar={initiative.data.primaryPillar}
 >
   <a class="card__link" href={withBase(localizedPath(`/initiatives/${slug}`, lang))}>
     <span class="sr-only">{pick(initiative.data.title, lang)}</span>
@@ -27,12 +30,29 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
   <div class="card__top">
     <span class="tag">
       <i class="status-dot"></i>
-      {initiative.data.extensionCode ? (lang === 'pt' ? 'Informado como registrado' : 'Reported as registered') : copy[initiative.data.status]}
+      {showClassification
+        ? initiative.data.status === 'active'
+          ? lang === 'pt'
+            ? 'Em execução'
+            : 'In progress'
+          : copy[initiative.data.status]
+        : initiative.data.extensionCode
+          ? lang === 'pt'
+            ? 'Informado como registrado'
+            : 'Reported as registered'
+          : copy[initiative.data.status]}
     </span>
     {index !== undefined && <span class="card__index">{String(index + 1).padStart(2, '0')}</span>}
   </div>
   <div class="card__body">
-    <p class="person-card__role">{pick(initiative.data.kindLabel, lang)}</p>
+    <p class="person-card__role">
+      {showClassification
+        ? pick(pillars.find((pillar) => pillar.id === initiative.data.primaryPillar)!.title, lang)
+        : pick(initiative.data.kindLabel, lang)}
+    </p>
+    {showClassification && (
+      <p class="person-card__role">{pick(entityTypeLabels[initiative.data.entityType], lang)}</p>
+    )}
     <h3>{pick(initiative.data.shortTitle ?? initiative.data.title, lang)}</h3>
     <p>{pick(initiative.data.summary, lang)}</p>
   </div>

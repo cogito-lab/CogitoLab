@@ -49,7 +49,7 @@ test('catalog search, categories, and language switching work', async ({ page })
 test('mobile menu, theme, and pages fit narrow viewports', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  for (const width of [320, 390, 1440]) {
+  for (const width of [320, 390, 1024, 1201, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of [
       '/',
@@ -57,6 +57,8 @@ test('mobile menu, theme, and pages fit narrow viewports', async ({ page }) => {
       '/people/',
       '/initiatives/',
       '/opportunities/',
+      '/projects/',
+      '/pt/projects/',
       '/initiatives/qualidade-software-ia/',
     ]) {
       await page.goto(route(path));
@@ -83,6 +85,85 @@ test('mobile menu, theme, and pages fit narrow viewports', async ({ page }) => {
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   expect(errors).toEqual([]);
+});
+
+test('home pillars, classified highlights and verified impact work in both languages', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/`));
+    await expect(page.locator('main > section').nth(1)).toHaveAttribute('id', 'pillars');
+    await expect(page.locator('[data-pillar-card]')).toHaveCount(3);
+    for (const [pillar, target] of [
+      ['research', '/research'],
+      ['extension', '/extension'],
+      ['technology', '/projects'],
+    ]) {
+      const link = page.locator(`[data-pillar-card="${pillar}"] a`);
+      await expect(link).toHaveAttribute('href', route(`${prefix}${target}`));
+      await link.click();
+      await expect(page.locator('main h1')).toBeVisible();
+      await expect(page).toHaveURL(new RegExp(`${prefix}${target}/?$`));
+      await page.goto(route(`${prefix}/`));
+    }
+    const highlights = page.locator('#featured [data-filter-item]');
+    await expect(highlights).toHaveCount(3);
+    expect(
+      await highlights.evaluateAll((cards) => cards.map((card) => card.getAttribute('data-status')))
+    ).toEqual(['active', 'active', 'active']);
+    expect(
+      new Set(
+        await highlights.evaluateAll((cards) =>
+          cards.map((card) => card.getAttribute('data-pillar'))
+        )
+      ).size
+    ).toBe(3);
+    await expect(highlights.first()).toContainText(
+      prefix ? 'Projeto de pesquisa' : 'Research project'
+    );
+    await expect(page.locator('[data-impact-pillar]')).toHaveCount(1);
+    await expect(page.locator('[data-impact-pillar="research"]')).toContainText(
+      prefix ? 'incluindo trabalhos anteriores' : 'including work predating'
+    );
+    await expect(page.locator('#featured a.button')).toHaveAttribute(
+      'href',
+      route(`${prefix}/initiatives`)
+    );
+    await expect(
+      page.locator('.site-footer a').filter({ hasText: prefix ? /^Iniciativas$/ : /^Initiatives$/ })
+    ).toHaveAttribute('href', route(`${prefix}/initiatives`));
+    const navLinks = await page
+      .locator('.desktop-nav a')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+    expect(navLinks).toEqual(
+      [
+        'research',
+        'extension',
+        'projects',
+        'people',
+        'publications',
+        'news',
+        'opportunities',
+        'about',
+      ].map((path) => route(`${prefix}/${path}`))
+    );
+  }
+});
+
+test('projects preserve language, active navigation and initiative detail links', async ({
+  page,
+}) => {
+  await page.goto(route('/projects'));
+  await expect(page.locator('.desktop-nav a[aria-current="page"]')).toHaveAttribute(
+    'href',
+    route('/projects')
+  );
+  await expect(page.locator('main [data-filter-item]')).toHaveCount(7);
+  await page.locator('.language').click();
+  await expect(page).toHaveURL(new RegExp('/pt/projects/?$'));
+  await expect(page.locator('main h1')).toHaveText('Projetos e Soluções');
+  await page.locator('main [data-filter-item]').first().locator('.card__link').click();
+  await expect(page).toHaveURL(new RegExp('/pt/initiatives/'));
 });
 
 test('navigation works when browser storage is unavailable', async ({ page }) => {

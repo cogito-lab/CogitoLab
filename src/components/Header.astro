@@ -14,7 +14,10 @@ const alternate = lang === 'en' ? 'pt' : 'en';
 <header class="site-header">
   <div class="header-inner container">
     <Logo lang={lang} />
-    <nav class="desktop-nav" aria-label="Primary navigation">
+    <nav
+      class="desktop-nav"
+      aria-label={lang === 'pt' ? 'Navegação principal' : 'Primary navigation'}
+    >
       {copy.nav.map((label, index) => {
         const route = `/${copy.routes[index]}`;
         const active = path === route || path.startsWith(`${route}/`);
@@ -56,7 +59,10 @@ const alternate = lang === 'en' ? 'pt' : 'en';
         <Icon name="close" />
       </button>
     </div>
-    <nav class="mobile-nav container" aria-label="Mobile navigation">
+    <nav
+      class="mobile-nav container"
+      aria-label={lang === 'pt' ? 'Navegação móvel' : 'Mobile navigation'}
+    >
       {copy.nav.map((label, index) => (
         <a href={withBase(localizedPath(`/${copy.routes[index]}`, lang))}>
           {label}
@@ -118,7 +124,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
         }
       }
     });
-    matchMedia('(min-width: 981px)').addEventListener('change', (event) => {
+    matchMedia('(min-width: 1201px)').addEventListener('change', (event) => {
       if (event.matches) close();
     });
   })();
@@ -141,7 +147,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
   }
   .desktop-nav {
     display: flex;
-    gap: clamp(0.75rem, 2vw, 1.7rem);
+    gap: 0.85rem;
     margin-left: auto;
   }
   .desktop-nav a {
@@ -150,6 +156,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
     font-size: 0.78rem;
     font-weight: 680;
     text-decoration: none;
+    white-space: nowrap;
   }
   .desktop-nav a::after {
     position: absolute;
@@ -234,7 +241,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
   .mobile-nav svg {
     width: 1.4rem;
   }
-  @media (max-width: 980px) {
+  @media (max-width: 1200px) {
     .desktop-nav {
       display: none;
     }

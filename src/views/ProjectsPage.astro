@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import InitiativeCard from '@/components/InitiativeCard.astro';
+import { getInitiatives } from '@/utils/content';
+import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const pt = lang === 'pt';
+const initiatives = (await getInitiatives()).filter(
+  (entry) => entry.data.primaryPillar === 'technology'
+);
+const title = pt ? 'Projetos e Soluções' : 'Projects & Solutions';
+const description = pt
+  ? 'Desenvolvemos ferramentas, protótipos, plataformas e soluções tecnológicas para problemas reais.'
+  : 'We develop tools, prototypes, platforms and technology solutions for real problems.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} path="/projects">
+  <PageHero
+    eyebrow={pt ? 'Desenvolvimento Tecnológico' : 'Technology Development'}
+    title={title}
+    description={description}
+  />
+  <section class="section container" aria-labelledby="technology-initiatives">
+    <div class="section-heading">
+      <div>
+        <h2 id="technology-initiatives">
+          {pt ? 'Nossos projetos e soluções' : 'Our projects and solutions'}
+        </h2>
+      </div>
+      <p>
+        {pt
+          ? 'Conheça os objetivos, a situação e as possibilidades de participação em cada iniciativa.'
+          : 'Explore the goals, status and ways to participate in each initiative.'}
+      </p>
+    </div>
+    {initiatives.length > 0 ? (
+      <div class="card-grid">
+        {initiatives.map((initiative) => (
+          <InitiativeCard initiative={initiative} lang={lang} showClassification />
+        ))}
+      </div>
+    ) : (
+      <p>
+        {pt
+          ? 'Nenhuma iniciativa tecnológica cadastrada no momento.'
+          : 'No technology initiatives are listed yet.'}
+      </p>
+    )}
+    <p class="catalog-link">
+      <a class="button button--ghost" href={withBase(localizedPath('/initiatives', lang))}>
+        {pt ? 'Explorar todas as iniciativas' : 'Explore all initiatives'}
+      </a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .catalog-link {
+    margin-top: 2rem;
+  }
+</style>

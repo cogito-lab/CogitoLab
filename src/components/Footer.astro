@@ -26,6 +26,7 @@ const year = new Date().getFullYear();
       {copy.nav.map((label, index) => (
         <a href={withBase(localizedPath(`/${copy.routes[index]}`, lang))}>{label}</a>
       ))}
+      <a href={withBase(localizedPath('/initiatives', lang))}>{copy.initiatives}</a>
     </nav>
     <div>
       <p class="footer-label">{lang === 'en' ? 'Contact' : 'Contato'}</p>

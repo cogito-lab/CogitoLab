@@ -11,8 +11,8 @@ const ui = {
   en: {
     nav: [
       'Research',
-      'Initiatives',
       'Extension',
+      'Projects & Solutions',
       'People',
       'Publications',
       'News',
@@ -21,8 +21,8 @@ const ui = {
     ],
     routes: [
       'research',
-      'initiatives',
       'extension',
+      'projects',
       'people',
       'publications',
       'news',
@@ -71,8 +71,8 @@ const ui = {
   pt: {
     nav: [
       'Pesquisa',
-      'Iniciativas',
       'Extensão',
+      'Projetos e Soluções',
       'Pessoas',
       'Publicações',
       'Notícias',
@@ -81,8 +81,8 @@ const ui = {
     ],
     routes: [
       'research',
-      'initiatives',
       'extension',
+      'projects',
       'people',
       'publications',
       'news',
