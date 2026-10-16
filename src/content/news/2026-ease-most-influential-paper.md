@@ -21,4 +21,3 @@ links:
 featured: true
 order: 2
 ---
-

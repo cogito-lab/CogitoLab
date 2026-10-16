@@ -71,4 +71,3 @@ Foram revisados nomes acessíveis, hierarquia de títulos, foco visível, isolam
 Os testes de acessibilidade automatizados não constituem certificação completa de conformidade; avaliação manual com tecnologias assistivas permanece uma atividade complementar. A revisão do conteúdo usa as informações confirmadas no repositório e nesta solicitação, sem validar externamente resultados, financiamentos ou parcerias.
 
 As orientações editoriais estão em [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) e [EXTENSION_CONTENT.md](./EXTENSION_CONTENT.md). Ao adicionar registros, atualizar os testes que representam o inventário atual e repetir a validação completa.
-

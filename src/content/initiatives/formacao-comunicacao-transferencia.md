@@ -31,10 +31,7 @@
         [
           'The project is underway; now it is a matter of closing partnerships with companies that want the service.',
         ],
-      'pt':
-        [
-          'Projeto está em rodando, agora é fechar parcerias com empresas que querem o serviço',
-        ],
+      'pt': ['Projeto está em rodando, agora é fechar parcerias com empresas que querem o serviço'],
     },
   'work':
     {
