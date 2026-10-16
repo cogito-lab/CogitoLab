@@ -33,11 +33,11 @@ const alternate = lang === 'en' ? 'pt' : 'en';
         class="language"
         href={withBase(localizedPath(path, alternate))}
         lang={alternate}
-        aria-label={copy.language}
+        aria-label={`${alternate.toUpperCase()} · ${copy.language}`}
       >
         {alternate.toUpperCase()}
       </a>
-      <button class="icon-button" type="button" data-theme-toggle aria-label={copy.theme}>
+      <button class="icon-button" type="button" data-theme-toggle aria-label={copy.theme} hidden>
         <Icon name="sun" />
       </button>
       <button
@@ -47,12 +47,21 @@ const alternate = lang === 'en' ? 'pt' : 'en';
         aria-label={copy.menu}
         aria-expanded="false"
         aria-controls="mobile-nav"
+        hidden
       >
         <Icon name="menu" />
       </button>
     </div>
   </div>
-  <div class="mobile-panel" id="mobile-nav" data-mobile-panel hidden>
+  <div
+    class="mobile-panel"
+    id="mobile-nav"
+    data-mobile-panel
+    role="dialog"
+    aria-modal="true"
+    aria-label={copy.menu}
+    hidden
+  >
     <div class="mobile-panel__top container">
       <Logo lang={lang} />
       <button class="icon-button" type="button" data-menu-close aria-label={copy.close}>
@@ -85,6 +94,7 @@ const alternate = lang === 'en' ? 'pt' : 'en';
     } catch {}
     if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme: dark)').matches))
       root.dataset.theme = 'dark';
+    document.querySelector('[data-theme-toggle]')?.removeAttribute('hidden');
     document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
       root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
       try {
@@ -93,15 +103,24 @@ const alternate = lang === 'en' ? 'pt' : 'en';
     });
     const panel = document.querySelector('[data-mobile-panel]');
     const opener = document.querySelector('[data-menu-open]');
+    opener?.removeAttribute('hidden');
+    const background = () =>
+      document.querySelectorAll('main, .site-footer, .header-inner, .skip-link');
     const close = () => {
       const wasOpen = panel && !panel.hidden;
       if (panel) panel.hidden = true;
+      background().forEach((element) => {
+        element.inert = false;
+      });
       opener?.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       if (wasOpen) opener?.focus();
     };
     opener?.addEventListener('click', () => {
       if (panel) panel.hidden = false;
+      background().forEach((element) => {
+        element.inert = true;
+      });
       opener.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
       panel?.querySelector('a')?.focus();

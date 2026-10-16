@@ -34,7 +34,7 @@ const description =
   <div class="container research-index">
     <span>{lang === 'en' ? 'Jump to an area' : 'Ir para uma área'}</span>
     {allAreas.map((area) => (
-      <a href={`#${area.id}`} aria-label={pick(area.title, lang)}>
+      <a href={`#${area.id}`} aria-label={`${area.number} · ${pick(area.title, lang)}`}>
         {area.number}
       </a>
     ))}

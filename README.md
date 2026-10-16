@@ -42,10 +42,27 @@ Public content lives in `src/content/`:
 
 - `people/` — one Markdown record per person
 - `initiatives/` — research, products, extension, consulting, and internal work
+- `programs/` — institutional programs with membership declared in initiative records
 - `opportunities/` — opportunities linked to initiatives and people
 - `publications/` — verified publications, grouped automatically by year
+- `news/` — news with optional explicit initiative, person and research-area links
 
 See [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) for fields, categories, relationships, and examples.
+
+## Quality and acceptance
+
+The seven implementation stages are documented in [VALIDATION.md](./VALIDATION.md), with an acceptance matrix and the reviewed content inventory. Browser tests check all generated pages for metadata, heading hierarchy and language counterparts, and run axe accessibility checks in both light and dark themes. They also cover keyboard focus, the mobile dialog, responsive layouts and the static catalog without JavaScript. `@axe-core/playwright` is used only during development and validation; it adds no runtime script to the website.
+
+To validate a repository-style Pages base path locally in PowerShell:
+
+```powershell
+$env:ASTRO_BASE = '/CogitoLab'
+npm run build
+npm run test:browser
+Remove-Item Env:ASTRO_BASE
+```
+
+Use `npm audit --audit-level=high` to run the same dependency check as CI. Commit the lockfile when updating dependencies. Automated accessibility checks cover detectable issues; manual assistive-technology evaluation remains a separate activity.
 
 ## Deployment
 

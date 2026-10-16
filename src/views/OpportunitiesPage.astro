@@ -44,6 +44,9 @@ const description =
     description={description}
   />
   <section class="section container">
+    <h2 class="sr-only">
+      {lang === 'pt' ? 'Oportunidades de participação' : 'Participation opportunities'}
+    </h2>
     <FilterBar
       lang={lang}
       options={Object.entries(types).map(([value, label]) => ({
@@ -91,6 +94,6 @@ const description =
     font-size: clamp(2rem, 4vw, 3.4rem);
   }
   .how-to .eyebrow {
-    color: #40564e;
+    color: #10231d;
   }
 </style>

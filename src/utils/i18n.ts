@@ -7,6 +7,43 @@ export function pick<T>(value: Localized<T>, lang: Lang): T {
   return value[lang];
 }
 
+const portugueseSkills: Record<string, string> = {
+  Accessibility: 'Acessibilidade',
+  Agriculture: 'Agricultura',
+  Authentication: 'Autenticação',
+  'Automated testing': 'Testes automatizados',
+  Automation: 'Automação',
+  Communication: 'Comunicação',
+  'Content design': 'Design de conteúdo',
+  Data: 'Dados',
+  'Data APIs': 'APIs de dados',
+  Databases: 'Bancos de dados',
+  'Empirical methods': 'Métodos empíricos',
+  Entrepreneurship: 'Empreendedorismo',
+  Experimentation: 'Experimentação',
+  Graphs: 'Grafos',
+  Innovation: 'Inovação',
+  Integration: 'Integração',
+  'IoT APIs': 'APIs de IoT',
+  'LLM agents': 'Agentes de modelos de linguagem',
+  LLMs: 'Modelos de linguagem',
+  'Machine learning': 'Aprendizado de máquina',
+  Messaging: 'Mensageria',
+  Product: 'Produto',
+  'Project management': 'Gestão de projetos',
+  Requirements: 'Requisitos',
+  Security: 'Segurança',
+  'Static analysis': 'Análise estática',
+  Testing: 'Testes',
+  'Web APIs': 'APIs web',
+  'WhatsApp APIs': 'APIs do WhatsApp',
+};
+
+/** Keep technology names and stored identifiers intact while translating editorial skills. */
+export function skillLabel(value: string, lang: Lang) {
+  return lang === 'pt' ? (portugueseSkills[value] ?? value) : value;
+}
+
 const ui = {
   en: {
     nav: [

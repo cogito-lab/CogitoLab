@@ -21,7 +21,7 @@
   'statusLabel':
     {
       'en': 'Reported as registered · activities subject to scoping',
-      'pt': 'Informado como registrado · atividades sujeitas a definiçãoo de escopo',
+      'pt': 'Informado como registrado · atividades sujeitas a definição de escopo',
     },
   'areas': [],
   'people': [],

@@ -27,7 +27,18 @@ export function initiativeConnections<T extends RelatedEntry>(current: T, entrie
         (link) => link.initiative === slug(current.id)
       );
       return outgoing
-        ? [{ entry, relation: outgoing.relation, incoming: false }]
+        ? [
+            {
+              entry,
+              relation: outgoing.relation,
+              incoming: false,
+              ...(incoming &&
+              (incoming.relation !== outgoing.relation ||
+                !['complements', 'linked-to'].includes(outgoing.relation))
+                ? { reverseRelation: incoming.relation }
+                : {}),
+            },
+          ]
         : incoming
           ? [{ entry, relation: incoming.relation, incoming: true }]
           : [];

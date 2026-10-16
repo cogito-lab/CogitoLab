@@ -1,6 +1,6 @@
 ---
 import type { Opportunity } from '@/utils/content';
-import { localizedPath, pick, withBase, type Lang } from '@/utils/i18n';
+import { localizedPath, skillLabel, pick, withBase, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
 import RelatedContentLinks from './RelatedContentLinks.astro';
 interface Props {
@@ -27,7 +27,7 @@ const typeLabels: Record<string, Record<Lang, string>> = {
 <article
   class="card opportunity-card"
   data-filter-item
-  data-search={`${pick(opportunity.data.title, lang)} ${pick(opportunity.data.summary, lang)} ${opportunity.data.skills.join(' ')}`.toLowerCase()}
+  data-search={`${pick(opportunity.data.title, lang)} ${pick(opportunity.data.summary, lang)} ${opportunity.data.skills.map((skill) => skillLabel(skill, lang)).join(' ')}`.toLowerCase()}
   data-kind={opportunity.data.type}
   data-status={opportunity.data.status}
 >
@@ -57,7 +57,7 @@ const typeLabels: Record<string, Record<Lang, string>> = {
   <div class="card__footer">
     <ul class="tag-list">
       {opportunity.data.skills.slice(0, 3).map((skill) => (
-        <li class="tag">{skill}</li>
+        <li class="tag">{skillLabel(skill, lang)}</li>
       ))}
     </ul>
     <span class="card__arrow">

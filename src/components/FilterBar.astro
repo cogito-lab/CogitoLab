@@ -24,7 +24,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="filter-bar" data-filter-root data-kind-attribute={kindAttribute}>
+<div class="filter-bar" data-filter-root data-kind-attribute={kindAttribute} hidden>
   <label for="content-search">{lang === 'en' ? 'Search' : 'Buscar'}</label>
   <input
     id="content-search"
@@ -93,6 +93,7 @@ const {
 </p>
 <script>
   document.querySelectorAll('[data-filter-root]').forEach((root) => {
+    root.removeAttribute('hidden');
     const section = root.parentElement;
     const search = root.querySelector<HTMLInputElement>('[data-filter-search]');
     const kind = root.querySelector<HTMLSelectElement>('[data-filter-kind]');

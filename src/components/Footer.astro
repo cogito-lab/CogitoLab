@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
           : 'Pesquisando como o software é construído — e como pode ser construído melhor.'}
       </p>
     </div>
-    <nav aria-label="Footer navigation">
+    <nav aria-label={lang === 'pt' ? 'Navegação do rodapé' : 'Footer navigation'}>
       <p class="footer-label">{lang === 'en' ? 'Explore' : 'Explore'}</p>
       {copy.nav.map((label, index) => (
         <a href={withBase(localizedPath(`/${copy.routes[index]}`, lang))}>{label}</a>

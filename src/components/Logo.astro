@@ -10,7 +10,7 @@ const { lang, compact = false } = Astro.props;
 <a
   class:list={['logo', { 'logo--compact': compact }]}
   href={withBase(localizedPath('/', lang))}
-  aria-label="Cogito Lab — Home"
+  aria-label={lang === 'pt' ? 'CogitoLab — Início' : 'CogitoLab — Home'}
 >
   <svg viewBox="0 0 42 42" aria-hidden="true">
     <path

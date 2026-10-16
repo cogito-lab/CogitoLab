@@ -139,6 +139,7 @@
   }
   h1 {
     font-size: clamp(3.25rem, 9vw, 7.7rem);
+    overflow-wrap: anywhere;
   }
   h2 {
     font-size: clamp(2.15rem, 5vw, 4.5rem);
@@ -361,7 +362,7 @@
   .page-hero h1 {
     max-width: 1050px;
     margin-bottom: 1.5rem;
-    font-size: clamp(3rem, 8vw, 6.8rem);
+    font-size: clamp(2.5rem, 8vw, 6.8rem);
   }
   .page-hero__meta {
     display: flex;

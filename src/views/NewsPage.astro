@@ -27,6 +27,7 @@ const description =
     description={description}
   />
   <section class="section container">
+    <h2 class="sr-only">{lang === 'pt' ? 'Notícias publicadas' : 'Published news'}</h2>
     {allNews.length === 0 ? (
       <div class="empty-state">
         <h2>{lang === 'en' ? 'No news published yet' : 'Nenhuma notícia publicada ainda'}</h2>

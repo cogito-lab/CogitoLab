@@ -91,7 +91,7 @@ const schema = {
       {lang === 'en' ? 'Skip to content' : 'Ir para o conteúdo'}
     </a>
     <Header lang={lang} path={noindex ? '/' : path} />
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer lang={lang} />

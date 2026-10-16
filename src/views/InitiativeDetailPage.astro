@@ -30,7 +30,7 @@ import {
   getPrograms,
 } from '@/utils/content';
 import { getArea } from '@/data/areas';
-import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
+import { localizedPath, skillLabel, pick, t, withBase, type Lang } from '@/utils/i18n';
 interface Props {
   lang: Lang;
   initiative: Initiative;
@@ -246,7 +246,7 @@ const { Content } = await render(initiative);
           <p class="eyebrow">{copy.skills}</p>
           <ul class="tag-list">
             {initiative.data.skills.map((skill) => (
-              <li class="tag">{skill}</li>
+              <li class="tag">{skillLabel(skill, lang)}</li>
             ))}
           </ul>
         </>
@@ -293,10 +293,11 @@ const { Content } = await render(initiative);
         <h2>{copy.relatedInitiatives}</h2>
       </div>
       <div class="card-grid">
-        {related.map(({ entry, relation, incoming }) => (
+        {related.map(({ entry, relation, incoming, reverseRelation }) => (
           <div>
             <p class="eyebrow">
               {pick(relationLabels[relation][incoming ? 'incoming' : 'outgoing'], lang)}
+              {reverseRelation && <> · {pick(relationLabels[reverseRelation].incoming, lang)}</>}
             </p>
             <InitiativeCard initiative={entry} lang={lang} showClassification />
           </div>

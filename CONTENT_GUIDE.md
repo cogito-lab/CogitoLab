@@ -128,3 +128,9 @@ Initiative-to-initiative connections use `relatedInitiatives` and expose incomin
 Publications retain their historical listing, newest first, with institutional copy that includes earlier work. Only non-draft publications explicitly referencing an initiative appear on that initiative's details. Their listing links back to the recorded initiative; optional associations remain optional. An explicitly linked publication already present in the content is displayed; no new publication relationships were created during this stage.
 
 Detail pages distinguish execution status from the specific institutional status label, use the normalized entity classification, and separate `achievedResults` from `expectedResults`. Achieved results can show artifact links, dates and quantitative indicators. Empty established-facts, work, result, participant, publication, news and relationship sections are omitted. Organization information uses the authorized public projection; absent stages and organizations stay hidden. A blank result array never becomes a completed outcome merely because a publication, funding or opportunity exists.
+
+## Quality review (stage 7)
+
+See `VALIDATION.md` for the acceptance matrix, content inventory and automated checks. The browser suite audits every generated page in both color themes with axe, checks heading hierarchy and bilingual metadata, and exercises keyboard focus and the static catalog without JavaScript. Run it against the built artifact before publishing, including the GitHub Pages base path.
+
+Publication type labels live in `src/data/publications.ts`; editorial skill translations live in `src/utils/i18n.ts`. Keep canonical skill values in Markdown unchanged and translate their presentation with `skillLabel`. Technology names retain their spelling. For relationships recorded in both directions, distinct directional labels are preserved on a single related initiative card; symmetric relationships are not repeated.

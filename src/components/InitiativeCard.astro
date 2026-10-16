@@ -1,7 +1,7 @@
 ---
 import type { Initiative } from '@/utils/content';
 import { entrySlug } from '@/utils/content';
-import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
+import { localizedPath, skillLabel, pick, t, withBase, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
 import { pillars, entityTypeLabels } from '@/data/pillars';
 import { developmentStageLabels, organizationRelationshipLabels } from '@/data/technology';
@@ -41,7 +41,7 @@ const organization = showTechnologyDetails
 <article
   class={`card card--${tone}`}
   data-filter-item
-  data-search={`${pick(initiative.data.title, lang)} ${pick(initiative.data.summary, lang)} ${initiative.data.skills.join(' ')} ${initiative.data.areas.join(' ')}`.toLowerCase()}
+  data-search={`${pick(initiative.data.title, lang)} ${pick(initiative.data.summary, lang)} ${initiative.data.skills.map((skill) => skillLabel(skill, lang)).join(' ')} ${initiative.data.areas.join(' ')}`.toLowerCase()}
   data-kind={initiative.data.kind}
   data-status={initiative.data.status}
   data-pillar={initiative.data.primaryPillar}
@@ -149,7 +149,7 @@ const organization = showTechnologyDetails
   <div class="card__footer">
     <ul class="tag-list">
       {initiative.data.skills.slice(0, 2).map((skill) => (
-        <li class="tag">{skill}</li>
+        <li class="tag">{skillLabel(skill, lang)}</li>
       ))}
     </ul>
     <span class="card__arrow">

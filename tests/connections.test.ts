@@ -29,6 +29,7 @@ describe('explicit contextual relationships', () => {
     ]);
     two.data.relatedInitiatives.push({ initiative: 'one', relation: 'originates' });
     expect(initiativeConnections(one, [one, two])).toHaveLength(1);
+    expect(initiativeConnections(one, [one, two])[0].reverseRelation).toBe('originates');
   });
   it('leaves historical publications and news unlinked regardless of topical similarity', () => {
     const historical = { data: { initiatives: [], draft: false }, title: 'Same topic' };

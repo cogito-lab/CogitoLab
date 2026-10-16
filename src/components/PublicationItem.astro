@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import type { Lang } from '@/utils/i18n';
+import { pick, type Lang } from '@/utils/i18n';
+import { publicationTypeLabels } from '@/data/publications';
 import Icon from './Icon.astro';
 import RelatedContentLinks from './RelatedContentLinks.astro';
 interface Props {
@@ -13,7 +14,8 @@ const { publication, lang, showInitiatives = true } = Astro.props;
 
 <article class="publication" data-publication={publication.id}>
   <p class="eyebrow">
-    {publication.data.year} · {publication.data.type} · {publication.data.venue}
+    {publication.data.year} · {pick(publicationTypeLabels[publication.data.type], lang)} ·{' '}
+    {publication.data.venue}
   </p>
   <h3>{publication.data.title}</h3>
   <p>{publication.data.authors.join(', ')}</p>
