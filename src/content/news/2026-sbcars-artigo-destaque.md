@@ -18,6 +18,8 @@ links:
     url: 'https://www.linkedin.com/posts/gustavo-vale_sbcars-cbsoft-softwareengineering-share-7504150245862412288-6yBw/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA4w_cwBMkcMZdJlcd1tvL4CVy-Uw7mdVDw'
   - label: 'DCC UFMG'
     url: 'https://dcc.ufmg.br/artigo-recebe-premio-no-sbcars/'
+  - label: 'UFLA'
+    url: 'https://ufla.br/noticias/institucional/18873-pesquisa-com-participacao-da-ufla-recebe-premio-de-melhor-artigo-em-simposio-nacional-de-engenharia-de-software'
 featured: true
 order: 1
 ---
