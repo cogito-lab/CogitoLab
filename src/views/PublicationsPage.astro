@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
-import Icon from '@/components/Icon.astro';
+import PublicationItem from '@/components/PublicationItem.astro';
 import { t, type Lang } from '@/utils/i18n';
 interface Props {
   lang: Lang;
@@ -15,8 +15,8 @@ const publications = (await getCollection('publications'))
 const years = [...new Set(publications.map((publication) => publication.data.year))];
 const description =
   lang === 'en'
-    ? 'Peer-reviewed papers, theses, preprints, and other research outputs produced by the group.'
-    : 'Artigos revisados por pares, teses, preprints e outros resultados de pesquisa produzidos pelo grupo.';
+    ? 'Scientific and academic output by Cogito Lab members and collaborators, including earlier work and research results from current initiatives.'
+    : 'Produção científica e acadêmica dos integrantes e colaboradores do Cogito Lab, incluindo trabalhos anteriores e resultados de pesquisas desenvolvidas no contexto das iniciativas atuais.';
 ---
 
 <BaseLayout lang={lang} title={copy.publications} description={description} path="/publications">
@@ -39,27 +39,7 @@ const description =
             {publications
               .filter((publication) => publication.data.year === year)
               .map((publication) => (
-                <article class="publication">
-                  <p class="eyebrow">
-                    {publication.data.type} · {publication.data.venue}
-                  </p>
-                  <h3>{publication.data.title}</h3>
-                  <p>{publication.data.authors.join(', ')}</p>
-                  {(publication.data.url || publication.data.doi) && (
-                    <a
-                      class="pub-link"
-                      href={publication.data.url ?? `https://doi.org/${publication.data.doi}`}
-                      rel="external"
-                    >
-                      {publication.data.doi
-                        ? `DOI ${publication.data.doi}`
-                        : lang === 'en'
-                          ? 'Open publication'
-                          : 'Abrir publicação'}{' '}
-                      <Icon name="external" />
-                    </a>
-                  )}
-                </article>
+                <PublicationItem publication={publication} lang={lang} />
               ))}
           </div>
         </section>
@@ -67,16 +47,3 @@ const description =
     )}
   </section>
 </BaseLayout>
-<style>
-  .pub-link {
-    display: inline-flex;
-    gap: 0.4rem;
-    align-items: center;
-    margin-top: 0.8rem;
-    font-size: 0.82rem;
-    font-weight: 720;
-  }
-  .pub-link svg {
-    width: 0.9rem;
-  }
-</style>

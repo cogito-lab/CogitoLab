@@ -1,0 +1,65 @@
+---
+import { getInitiatives, getPeople, entrySlug } from '@/utils/content';
+import { getArea } from '@/data/areas';
+import { localizedPath, withBase, pick, type Lang } from '@/utils/i18n';
+interface Props {
+  lang: Lang;
+  initiatives?: string[];
+  people?: string[];
+  areas?: string[];
+}
+const { lang, initiatives = [], people = [], areas = [] } = Astro.props;
+const [allInitiatives, allPeople] = await Promise.all([
+  initiatives.length ? getInitiatives() : Promise.resolve([]),
+  people.length ? getPeople() : Promise.resolve([]),
+]);
+const links = [
+  ...allInitiatives
+    .filter((entry) => initiatives.includes(entrySlug(entry.id)))
+    .map((entry) => ({
+      label: pick(entry.data.shortTitle ?? entry.data.title, lang),
+      path: `/initiatives/${entrySlug(entry.id)}`,
+    })),
+  ...allPeople
+    .filter((entry) => people.includes(entrySlug(entry.id)))
+    .map((entry) => ({ label: entry.data.name, path: `/people/${entrySlug(entry.id)}` })),
+  ...areas
+    .map(getArea)
+    .flatMap((area) =>
+      area ? [{ label: pick(area.title, lang), path: `/research#${area.id}` }] : []
+    ),
+];
+---
+
+{links.length > 0 && (
+  <nav
+    class="context-links"
+    aria-label={lang === 'pt' ? 'Conteúdo relacionado' : 'Related content'}
+  >
+    <ul>
+      {links.map((link) => (
+        <li>
+          <a href={withBase(localizedPath(link.path, lang))}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+<style>
+  .context-links {
+    position: relative;
+    z-index: 2;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    list-style: none;
+    padding: 0;
+  }
+  a {
+    overflow-wrap: anywhere;
+  }
+</style>

@@ -2,6 +2,7 @@
 import type { News } from '@/utils/content';
 import { pick, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
+import RelatedContentLinks from './RelatedContentLinks.astro';
 
 interface Props {
   news: News;
@@ -21,6 +22,12 @@ const { news, lang } = Astro.props;
   <div class="card__body">
     <h3>{pick(news.data.title, lang)}</h3>
     <p>{pick(news.data.summary, lang)}</p>
+    <RelatedContentLinks
+      lang={lang}
+      initiatives={news.data.initiatives}
+      people={news.data.people}
+      areas={news.data.areas}
+    />
   </div>
   {news.data.links && news.data.links.length > 0 && (
     <div class="news-links">

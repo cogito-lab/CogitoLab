@@ -1,0 +1,51 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '@/utils/i18n';
+import Icon from './Icon.astro';
+import RelatedContentLinks from './RelatedContentLinks.astro';
+interface Props {
+  publication: CollectionEntry<'publications'>;
+  lang: Lang;
+  showInitiatives?: boolean;
+}
+const { publication, lang, showInitiatives = true } = Astro.props;
+---
+
+<article class="publication" data-publication={publication.id}>
+  <p class="eyebrow">
+    {publication.data.year} · {publication.data.type} · {publication.data.venue}
+  </p>
+  <h3>{publication.data.title}</h3>
+  <p>{publication.data.authors.join(', ')}</p>
+  {(publication.data.url || publication.data.doi) && (
+    <a
+      class="pub-link"
+      href={publication.data.url ?? `https://doi.org/${publication.data.doi}`}
+      rel="external"
+    >
+      {publication.data.doi
+        ? `DOI ${publication.data.doi}`
+        : lang === 'pt'
+          ? 'Abrir publicação'
+          : 'Open publication'}{' '}
+      <Icon name="external" />
+    </a>
+  )}
+  {showInitiatives && (
+    <RelatedContentLinks lang={lang} initiatives={publication.data.initiatives} />
+  )}
+</article>
+<style>
+  .pub-link {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 720;
+  }
+  .pub-link :global(svg) {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+</style>

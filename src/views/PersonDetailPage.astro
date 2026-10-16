@@ -4,8 +4,10 @@ import { render } from 'astro:content';
 import InitiativeCard from '@/components/InitiativeCard.astro';
 import OpportunityCard from '@/components/OpportunityCard.astro';
 import Icon from '@/components/Icon.astro';
+import NewsCard from '@/components/NewsCard.astro';
+import { hasParticipation } from '@/utils/connections';
 import type { Person } from '@/utils/content';
-import { entrySlug, getInitiatives, getOpportunities } from '@/utils/content';
+import { entrySlug, getInitiatives, getOpportunities, getNews } from '@/utils/content';
 import { getArea } from '@/data/areas';
 import { localizedPath, pick, t, withBase, type Lang } from '@/utils/i18n';
 interface Props {
@@ -14,16 +16,16 @@ interface Props {
 }
 const { lang, person } = Astro.props;
 const copy = t(lang);
-const [allInitiatives, allOpportunities] = await Promise.all([
+const [allInitiatives, allOpportunities, allNews] = await Promise.all([
   getInitiatives(),
   getOpportunities(),
+  getNews(),
 ]);
-const initiatives = allInitiatives.filter((item) =>
-  person.data.initiatives.includes(entrySlug(item.id))
-);
+const initiatives = allInitiatives.filter((item) => hasParticipation(person, item));
 const opportunities = allOpportunities.filter((item) =>
   item.data.people.includes(entrySlug(person.id))
 );
+const news = allNews.filter((item) => item.data.people.includes(entrySlug(person.id)));
 const initials = person.data.name
   .split(/\s+/)
   .slice(0, 2)
@@ -76,23 +78,26 @@ const { Content } = await render(person);
     <article class="prose">
       <p class="eyebrow">{copy.topic}</p>
       <h2>{pick(person.data.topic, lang)}</h2>
-      <p>{pick(person.data.summary, lang)}</p>
       <Content />
-      <h2>{lang === 'en' ? 'Research connections' : 'Conexões de pesquisa'}</h2>
-      <div class="area-connections">
-        {person.data.areas.map((id) => {
-          const area = getArea(id);
-          return (
-            area && (
-              <a href={withBase(localizedPath(`/research#${id}`, lang))}>
-                <span>{area.number}</span>
-                {pick(area.title, lang)}
-                <Icon name="arrow" />
-              </a>
-            )
-          );
-        })}
-      </div>
+      {person.data.areas.length > 0 && (
+        <>
+          <h2>{lang === 'en' ? 'Research connections' : 'Conexões de pesquisa'}</h2>
+          <div class="area-connections">
+            {person.data.areas.map((id) => {
+              const area = getArea(id);
+              return (
+                area && (
+                  <a href={withBase(localizedPath(`/research#${id}`, lang))}>
+                    <span>{area.number}</span>
+                    {pick(area.title, lang)}
+                    <Icon name="arrow" />
+                  </a>
+                )
+              );
+            })}
+          </div>
+        </>
+      )}
     </article>
     <aside class="detail-aside">
       <dl>
@@ -104,14 +109,18 @@ const { Content } = await render(person);
           <dt>{lang === 'en' ? 'Role' : 'Vínculo'}</dt>
           <dd>{pick(person.data.role, lang)}</dd>
         </div>
-        <div>
-          <dt>{copy.areas}</dt>
-          <dd>{person.data.areas.length}</dd>
-        </div>
-        <div>
-          <dt>{copy.initiatives}</dt>
-          <dd>{initiatives.length}</dd>
-        </div>
+        {person.data.areas.length > 0 && (
+          <div>
+            <dt>{copy.areas}</dt>
+            <dd>{person.data.areas.length}</dd>
+          </div>
+        )}
+        {initiatives.length > 0 && (
+          <div>
+            <dt>{copy.initiatives}</dt>
+            <dd>{initiatives.length}</dd>
+          </div>
+        )}
       </dl>
     </aside>
   </section>
@@ -126,7 +135,7 @@ const { Content } = await render(person);
         </div>
         <div class="card-grid">
           {initiatives.map((initiative) => (
-            <InitiativeCard initiative={initiative} lang={lang} />
+            <InitiativeCard initiative={initiative} lang={lang} showClassification />
           ))}
         </div>
       </div>
@@ -143,6 +152,16 @@ const { Content } = await render(person);
       <div class="card-grid">
         {opportunities.map((opportunity) => (
           <OpportunityCard opportunity={opportunity} lang={lang} />
+        ))}
+      </div>
+    </section>
+  )}
+  {news.length > 0 && (
+    <section class="section container" id="person-news">
+      <h2>{lang === 'pt' ? 'Notícias relacionadas' : 'Related news'}</h2>
+      <div class="card-grid">
+        {news.map((item) => (
+          <NewsCard news={item} lang={lang} />
         ))}
       </div>
     </section>

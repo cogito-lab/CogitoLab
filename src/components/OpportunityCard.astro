@@ -2,6 +2,7 @@
 import type { Opportunity } from '@/utils/content';
 import { localizedPath, pick, withBase, type Lang } from '@/utils/i18n';
 import Icon from './Icon.astro';
+import RelatedContentLinks from './RelatedContentLinks.astro';
 interface Props {
   opportunity: Opportunity;
   lang: Lang;
@@ -46,6 +47,12 @@ const typeLabels: Record<string, Record<Lang, string>> = {
     <p class="person-card__role">{pick(typeLabels[opportunity.data.type], lang)}</p>
     <h3>{pick(opportunity.data.title, lang)}</h3>
     <p>{pick(opportunity.data.summary, lang)}</p>
+    {opportunity.data.commitment && <p>{pick(opportunity.data.commitment, lang)}</p>}
+    <RelatedContentLinks
+      lang={lang}
+      initiatives={[opportunity.data.initiative]}
+      people={opportunity.data.people}
+    />
   </div>
   <div class="card__footer">
     <ul class="tag-list">

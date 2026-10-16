@@ -223,6 +223,48 @@ test('navigation works when browser storage is unavailable', async ({ page }) =>
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('initiative details show only explicit publications, participants and nonempty result sections', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/initiatives/qualidade-software-ia`));
+    await expect(page.locator('#expected-results h2')).toHaveText(
+      prefix ? 'Resultados esperados' : 'Expected results'
+    );
+    await expect(page.locator('#achieved-results')).toHaveCount(0);
+    await expect(page.locator('#initiative-publications [data-publication]')).toHaveCount(1);
+    await expect(page.locator('#initiative-publications')).toContainText(
+      'How Reliable Are LLM Evaluations of Microservice Architecture Diagrams?'
+    );
+    // Gustavo's participation is registered only in his person record.
+    const person = page.locator('#initiative-people a[href$="/people/gustavo-vale"]');
+    await expect(person).toHaveCount(1);
+    await person.click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/people/gustavo-vale/?$`));
+    await expect(
+      page.locator('main a.card__link[href$="/initiatives/qualidade-software-ia"]')
+    ).toHaveCount(1);
+    await page.goto(route(`${prefix}/initiatives/notificationhub`));
+    await expect(
+      page.locator(
+        '#initiative-publications, #initiative-people, #initiative-news, #related-initiatives, #achieved-results, [data-public-organization], [data-development-stage]'
+      )
+    ).toHaveCount(0);
+    await page.goto(route(`${prefix}/initiatives/clinica-qualidade`));
+    await expect(page.locator('#established')).toHaveCount(0);
+    await expect(page.locator('main a[href$="/extension#cogito-transfer"]')).toHaveCount(1);
+    await page.goto(route(`${prefix}/publications`));
+    await expect(page.locator('.lede')).toContainText(
+      prefix ? 'incluindo trabalhos anteriores' : 'including earlier work'
+    );
+    await expect(
+      page.locator(
+        'main [data-publication] .context-links a[href$="/initiatives/qualidade-software-ia"]'
+      )
+    ).toHaveCount(1);
+  }
+});
+
 test('transversal catalog combines all filters and hides empty groups', async ({ page }) => {
   for (const prefix of ['', '/pt']) {
     await page.goto(route(`${prefix}/initiatives`));
