@@ -23,7 +23,7 @@
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.5.1",
     "prettier": "^3.8.1",
-    "prettier-plugin-astro": "^1.0.0",
+    "prettier-plugin-astro": "^1.0.1",
     "typescript": "^5.9.3",
     "vitest": "^5.0.0"
   },
