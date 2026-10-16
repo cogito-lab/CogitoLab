@@ -57,6 +57,10 @@ test('mobile menu, theme, and pages fit narrow viewports', async ({ page }) => {
       '/people/',
       '/initiatives/',
       '/opportunities/',
+      '/research/',
+      '/pt/research/',
+      '/extension/',
+      '/pt/extension/',
       '/projects/',
       '/pt/projects/',
       '/initiatives/qualidade-software-ia/',
@@ -183,4 +187,85 @@ test('navigation works when browser storage is unavailable', async ({ page }) =>
   await expect(page.locator('[data-menu-open]')).toBeFocused();
   await page.locator('[data-theme-toggle]').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('research preserves six areas and separates scientific projects from applications', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/research`));
+    await expect(page.locator('.area-section')).toHaveCount(6);
+    for (const link of await page.locator('.research-index a').all()) {
+      const anchor = await link.getAttribute('href');
+      await expect(page.locator(anchor!)).toHaveCount(1);
+      await expect(link).toHaveAttribute('aria-label', /.+/);
+    }
+    const science = page.locator('[data-research-group="scientific"] [data-filter-item]');
+    expect(await science.count()).toBeGreaterThan(0);
+    await expect(
+      page.locator(
+        '[data-research-group="scientific"] [data-filter-item]:not([data-entity-type="research-project"])'
+      )
+    ).toHaveCount(0);
+    await expect(
+      page.locator('[data-research-group="applications"] [data-entity-type="research-project"]')
+    ).toHaveCount(0);
+    const innovation = page.locator('#innovation-transfer');
+    await expect(innovation.locator('[data-research-group="scientific"]')).toHaveCount(0);
+    await expect(
+      innovation.locator('[data-research-group="applications"] [data-filter-item]')
+    ).toHaveCount(9);
+    await expect(innovation.locator('[data-research-group="applications"] h3')).toHaveText(
+      prefix ? 'Aplicações e iniciativas relacionadas' : 'Applications and related initiatives'
+    );
+    for (const group of await page.locator('[data-research-group]').all()) {
+      expect(await group.locator('[data-filter-item]').count()).toBeGreaterThan(0);
+      await expect(group.locator('h4').first()).toBeVisible();
+    }
+    await science.first().locator('.card__link').click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/initiatives/`));
+  }
+});
+
+test('extension derives program membership and keeps independent collaborations separate', async ({
+  page,
+}) => {
+  for (const prefix of ['', '/pt']) {
+    await page.goto(route(`${prefix}/extension`));
+    const program = page.locator('[data-program="cogito-transfer"]');
+    await expect(program.locator('h2')).toHaveText('Cogito Transfer');
+    await expect(program.locator('[data-program-project]')).toHaveCount(4);
+    expect(
+      await program
+        .locator('[data-program-project]')
+        .evaluateAll((items) => items.map((item) => item.getAttribute('data-program-project')))
+    ).toEqual([
+      'pilotos-transferencia',
+      'automacao-transformacao-digital',
+      'clinica-qualidade',
+      'formacao-comunicacao-transferencia',
+    ]);
+    await expect(program.locator('[data-status="planning"]')).toHaveCount(4);
+    await expect(program.locator('.activity-preview')).toHaveCount(4);
+    await expect(program.locator('#program-status')).toContainText(
+      prefix ? 'informados como registrados' : 'reported as registered'
+    );
+    await expect(program.locator('.project-note')).toContainText(
+      prefix ? 'não números de registro institucional' : 'not institutional registration numbers'
+    );
+    const other = page.locator('#other-extension');
+    await expect(other.locator('[data-filter-item]')).toHaveCount(2);
+    await expect(other.locator('[data-status="active"]')).toHaveCount(1);
+    await expect(other.locator('[data-status="planning"]')).toHaveCount(1);
+    await expect(other).toContainText(
+      prefix ? 'escopo operacional pendente' : 'operational scope pending'
+    );
+    await expect(other).toContainText(prefix ? 'Participação colaborativa' : 'Collaborative role');
+    await expect(page.locator('#extension-results, [data-program-results]')).toHaveCount(0);
+    await program.locator('[data-program-project]').first().locator('.card__link').click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/initiatives/pilotos-transferencia/?$`));
+  }
+  await page.goto(route('/extension'));
+  await page.locator('.language').click();
+  await expect(page).toHaveURL(new RegExp('/pt/extension/?$'));
 });

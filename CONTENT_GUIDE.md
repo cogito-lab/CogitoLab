@@ -66,6 +66,12 @@ The impact section counts only non-draft publications and explicitly includes me
 
 `/projects` and `/pt/projects` provide the initial technology listing with links to canonical initiative details. Organizations, development stages, dedicated filters and the fuller presentation remain for stage 4.
 
+## Research and extension pages (stage 3)
+
+Research preserves all six area identifiers and displays every explicitly linked initiative, without truncating each area's list. Only `entityType: research-project` enters “Research projects”; other linked entities enter “Applications and related initiatives”. Empty groups are omitted. A thematic link, including innovation and transfer, never promotes an initiative to a scientific project.
+
+Extension reads program descriptions, optional bilingual `audience`, objectives and institutional status from the program collection. Membership comes from the initiative's `program` reference, independently of `extensionCode`. Extension initiatives without a program appear separately. Execution status remains distinct from reported institutional registration. Planned activities use `expectedResults`; result sections use only `achievedResults` and are omitted when empty. See `EXTENSION_CONTENT.md` for the editorial treatment of Cogito Transfer and independent collaborations.
+
 ## Opportunities
 
 Add `src/content/opportunities/opportunity-slug.md`. Set `initiative` to an initiative filename and `people` to zero or more person filenames. An opportunity links to its initiative; it also appears on every linked person's profile.

@@ -4,7 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
 import { allAreas } from '@/data/areas';
 import { getInitiatives } from '@/utils/content';
-import { pick, type Lang } from '@/utils/i18n';
+import { localizedPath, withBase, pick, type Lang } from '@/utils/i18n';
 interface Props {
   lang: Lang;
 }
@@ -34,11 +34,19 @@ const description =
   <div class="container research-index">
     <span>{lang === 'en' ? 'Jump to an area' : 'Ir para uma área'}</span>
     {allAreas.map((area) => (
-      <a href={`#${area.id}`}>{area.number}</a>
+      <a href={`#${area.id}`} aria-label={pick(area.title, lang)}>
+        {area.number}
+      </a>
     ))}
   </div>
   {allAreas.map((area) => {
     const related = initiatives.filter((initiative) => initiative.data.areas.includes(area.id));
+    const scientific = related.filter(
+      (initiative) => initiative.data.entityType === 'research-project'
+    );
+    const applications = related.filter(
+      (initiative) => initiative.data.entityType !== 'research-project'
+    );
     return (
       <section class:list={['section', 'area-section', `area-section--${area.tone}`]} id={area.id}>
         <div class="container">
@@ -55,24 +63,64 @@ const description =
               </ul>
             </div>
           </div>
-          {related.length > 0 && (
-            <div class="related-work">
-              <p class="related-label">
-                {lang === 'en'
-                  ? `${related.length} connected initiative${related.length === 1 ? '' : 's'}`
-                  : `${related.length} iniciativa${related.length === 1 ? '' : 's'} relacionada${related.length === 1 ? '' : 's'}`}
-              </p>
+          {scientific.length > 0 && (
+            <section
+              class="related-work"
+              data-research-group="scientific"
+              aria-labelledby={`${area.id}-projects`}
+            >
+              <h3 class="related-label" id={`${area.id}-projects`}>
+                {lang === 'en' ? 'Research projects' : 'Projetos de pesquisa'}
+              </h3>
               <div class="card-grid">
-                {related.slice(0, 3).map((initiative) => (
-                  <InitiativeCard initiative={initiative} lang={lang} />
+                {scientific.map((initiative) => (
+                  <InitiativeCard
+                    initiative={initiative}
+                    lang={lang}
+                    showClassification
+                    headingLevel="h4"
+                  />
                 ))}
               </div>
-            </div>
+            </section>
+          )}
+          {applications.length > 0 && (
+            <section
+              class="related-work related-work--applications"
+              data-research-group="applications"
+              aria-labelledby={`${area.id}-applications`}
+            >
+              <h3 class="related-label" id={`${area.id}-applications`}>
+                {lang === 'en'
+                  ? 'Applications and related initiatives'
+                  : 'Aplicações e iniciativas relacionadas'}
+              </h3>
+              <p class="related-description">
+                {lang === 'en'
+                  ? 'Technology and extension initiatives linked to this theme, with their own goals and classifications.'
+                  : 'Iniciativas tecnológicas e extensionistas vinculadas a este tema, com objetivos e classificações próprios.'}
+              </p>
+              <div class="card-grid">
+                {applications.map((initiative) => (
+                  <InitiativeCard
+                    initiative={initiative}
+                    lang={lang}
+                    showClassification
+                    headingLevel="h4"
+                  />
+                ))}
+              </div>
+            </section>
           )}
         </div>
       </section>
     );
   })}
+  <section class="section container">
+    <a class="button button--ghost" href={withBase(localizedPath('/initiatives', lang))}>
+      {lang === 'en' ? 'Explore all initiatives' : 'Explorar todas as iniciativas'}
+    </a>
+  </section>
 </BaseLayout>
 <style>
   .research-index {
@@ -164,6 +212,14 @@ const description =
   }
   .related-work {
     margin-top: 4rem;
+  }
+  .related-work--applications {
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .related-description {
+    margin-bottom: 1.5rem;
+    color: var(--ink-soft);
   }
   .related-label {
     margin-bottom: 1rem;

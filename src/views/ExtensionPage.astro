@@ -2,67 +2,188 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import InitiativeCard from '@/components/InitiativeCard.astro';
-import { getInitiatives } from '@/utils/content';
-import { localizedPath, withBase, type Lang } from '@/utils/i18n';
+import { getInitiatives, getPrograms, entrySlug } from '@/utils/content';
+import { localizedPath, withBase, pick, type Lang } from '@/utils/i18n';
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
-const projects = (await getInitiatives()).filter((item) => item.data.extensionCode);
+const [initiatives, allPrograms] = await Promise.all([getInitiatives(), getPrograms()]);
+const programs = allPrograms.filter((program) => program.data.primaryPillar === 'extension');
+const extensionInitiatives = initiatives.filter(
+  (initiative) =>
+    initiative.data.primaryPillar === 'extension' ||
+    initiative.data.relatedPillars.includes('extension')
+);
+const independent = extensionInitiatives.filter((initiative) => !initiative.data.program);
+const achievedResults = extensionInitiatives.flatMap((initiative) =>
+  initiative.data.achievedResults.map((result) => ({
+    ...result,
+    path: `/initiatives/${entrySlug(initiative.id)}`,
+  }))
+);
 const description = pt
-  ? 'O Cogito Transfer aproxima universidade e sociedade pela aplicação de conhecimentos em Engenharia de Software, inovação e transferência tecnológica.'
-  : 'Cogito Transfer connects university and society through software engineering, innovation and technology transfer.';
+  ? 'Conectamos universidade e sociedade por meio de projetos, ações formativas e compartilhamento de conhecimento em Engenharia de Software e inovação.'
+  : 'We connect university and society through projects, educational activities and shared knowledge in software engineering and innovation.';
 ---
 
 <BaseLayout
   lang={lang}
-  title={pt ? 'Extensão · Cogito Transfer' : 'Extension · Cogito Transfer'}
+  title={pt ? 'Extensão' : 'Extension'}
   description={description}
   path="/extension"
 >
   <PageHero
-    eyebrow={pt ? 'Programa de extensão' : 'University extension program'}
-    title="Cogito Transfer"
+    eyebrow={pt ? 'Universidade e sociedade' : 'University and society'}
+    title={pt ? 'Extensão' : 'Extension'}
     description={description}
   />
-  <section class="section container prose" aria-labelledby="program-status">
-    <p class="eyebrow">{pt ? 'Universidade e sociedade' : 'University and society'}</p>
-    <h2 id="program-status">
-      {pt ? 'Problemas reais, conhecimento compartilhado' : 'Real problems, shared knowledge'}
-    </h2>
-    <p>
-      {pt
-        ? 'O programa conecta problemas reais a soluções, pilotos, avaliações e ações de disseminação, articulando formação de estudantes e transferência de conhecimento para a sociedade.'
-        : 'The program connects real problems to solutions, pilots, evaluations and dissemination, bringing together student learning and knowledge transfer to society.'}
-    </p>
-    <p>
-      {pt
-        ? 'Os quatro projetos abaixo foram informados como registrados. P1–P4 são os identificadores usados na reunião, não números de registro institucional. O registro dos projetos não representa aprovação automática de novas atividades ou parcerias.'
-        : 'The four projects below were reported as registered. P1–P4 are the identifiers used in the meeting, rather than institutional registration numbers. Project registration does not automatically approve new activities or partnerships.'}
-    </p>
-  </section>
-  <section class="section container" aria-labelledby="extension-projects">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">{pt ? 'Projetos de extensão' : 'Extension projects'}</p>
-        <h2 id="extension-projects">{pt ? 'Quatro frentes de atuação' : 'Four areas of action'}</h2>
-      </div>
-    </div>
-    <p>
-      {pt
-        ? 'As atividades e entregas descritas são possibilidades a definir em cada ação; não constituem serviços já contratados ou resultados concluídos.'
-        : 'The activities and outcomes described are possibilities to scope for each action; they do not represent commissioned services or completed results.'}
-    </p>
-    <div class="card-grid">
-      {projects.map((initiative, index) => (
-        <div>
-          <p class="eyebrow">{initiative.data.extensionCode}</p>
-          <InitiativeCard initiative={initiative} lang={lang} index={index} />
+  {programs.map((program) => {
+    const id = entrySlug(program.id);
+    const projects = extensionInitiatives.filter((initiative) => initiative.data.program === id);
+    const projectsId = id === 'cogito-transfer' ? 'extension-projects' : `${id}-projects`;
+    return (
+      <section
+        class="section container extension-program"
+        id={id}
+        data-program={id}
+        aria-labelledby={`${id}-title`}
+      >
+        <div class="prose program-intro">
+          <p class="eyebrow">{pt ? 'Programa de extensão' : 'Extension program'}</p>
+          <h2 id={`${id}-title`}>{pick(program.data.name, lang)}</h2>
+          <p>{pick(program.data.description, lang)}</p>
+          {program.data.audience && (
+            <p>
+              <strong>{pt ? 'Público: ' : 'Audience: '}</strong>
+              {pick(program.data.audience, lang)}
+            </p>
+          )}
+          {pick(program.data.objectives, lang).length > 0 && (
+            <div>
+              <h3>{pt ? 'Objetivos do programa' : 'Program objectives'}</h3>
+              <ul>
+                {pick(program.data.objectives, lang).map((objective) => (
+                  <li>{objective}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div
+            class="status-note"
+            id={id === 'cogito-transfer' ? 'program-status' : `${id}-status`}
+          >
+            <h3>{pt ? 'Situação institucional' : 'Institutional status'}</h3>
+            <p>{pick(program.data.institutionalStatus, lang)}</p>
+          </div>
         </div>
-      ))}
-    </div>
-  </section>
+        {projects.length > 0 && (
+          <section class="program-projects" aria-labelledby={projectsId}>
+            <h3 id={projectsId}>
+              {pt ? 'Projetos vinculados ao programa' : 'Projects linked to the program'}
+            </h3>
+            {id === 'cogito-transfer' && (
+              <p class="project-note">
+                {pt
+                  ? 'P1–P4 são identificadores internos, não números de registro institucional. As atividades e entregas apresentadas são possibilidades a definir; o registro dos projetos não representa aprovação automática de novas atividades ou parcerias.'
+                  : 'P1–P4 are internal identifiers, not institutional registration numbers. The activities and outcomes presented are possibilities to scope; project registration does not automatically approve new activities or partnerships.'}
+              </p>
+            )}
+            <div class="card-grid">
+              {projects.map((initiative, index) => (
+                <div class="project-item" data-program-project={entrySlug(initiative.id)}>
+                  {initiative.data.extensionCode && (
+                    <p class="eyebrow">{initiative.data.extensionCode}</p>
+                  )}
+                  <InitiativeCard
+                    initiative={initiative}
+                    lang={lang}
+                    index={index}
+                    showClassification
+                    headingLevel="h4"
+                    showActivities
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {program.data.achievedResults.length > 0 && (
+          <section
+            class="program-results"
+            data-program-results={id}
+            aria-labelledby={`${id}-results`}
+          >
+            <h3 id={`${id}-results`}>{pt ? 'Resultados consolidados' : 'Consolidated results'}</h3>
+            <ul>
+              {program.data.achievedResults.map((result) => (
+                <li>
+                  {result.url ? (
+                    <a href={result.url}>{pick(result.description, lang)}</a>
+                  ) : (
+                    pick(result.description, lang)
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </section>
+    );
+  })}
+  {independent.length > 0 && (
+    <section
+      class="section container independent-initiatives"
+      id="other-extension"
+      aria-labelledby="other-extension-title"
+    >
+      <div class="section-heading">
+        <div>
+          <h2 id="other-extension-title">
+            {pt
+              ? 'Outras iniciativas de extensão e inovação'
+              : 'Other extension and innovation initiatives'}
+          </h2>
+        </div>
+        <p>
+          {pt
+            ? 'Participações e colaborações em iniciativas independentes do Cogito Transfer. As responsabilidades específicas são apresentadas quando confirmadas em cada registro.'
+            : 'Participation and collaboration in initiatives independent of Cogito Transfer. Specific responsibilities are presented when confirmed in each record.'}
+        </p>
+      </div>
+      <div class="card-grid">
+        {independent.map((initiative) => (
+          <InitiativeCard
+            initiative={initiative}
+            lang={lang}
+            showClassification
+            showInstitutionalStatus
+          />
+        ))}
+      </div>
+    </section>
+  )}
+  {achievedResults.length > 0 && (
+    <section
+      class="section container prose"
+      id="extension-results"
+      aria-labelledby="extension-results-title"
+    >
+      <h2 id="extension-results-title">
+        {pt ? 'Resultados e impacto social' : 'Results and social impact'}
+      </h2>
+      <ul>
+        {achievedResults.map((result) => (
+          <li>
+            <a href={result.url ?? withBase(localizedPath(result.path, lang))}>
+              {pick(result.description, lang)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
   <section class="section container prose" aria-labelledby="participate">
     <h2 id="participate">{pt ? 'Como propor uma ação' : 'How to propose an activity'}</h2>
     <p>
@@ -100,6 +221,11 @@ const description = pt
     <a class="button" href={withBase(localizedPath('/about#contact', lang))}>
       {pt ? 'Converse com o Cogito Lab' : 'Contact Cogito Lab'}
     </a>
+    <p class="catalog-link">
+      <a href={withBase(localizedPath('/initiatives', lang))}>
+        {pt ? 'Explorar todas as iniciativas' : 'Explore all initiatives'}
+      </a>
+    </p>
   </section>
 </BaseLayout>
 <style>
@@ -110,5 +236,44 @@ const description = pt
   }
   .card-grid {
     margin-top: 2rem;
+  }
+  .extension-program,
+  #program-status,
+  #extension-projects,
+  #other-extension {
+    scroll-margin-top: 6rem;
+  }
+  .program-intro {
+    margin-bottom: 3rem;
+  }
+  .program-projects h3,
+  .program-results h3 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+  }
+  .project-note,
+  .catalog-link {
+    margin-top: 1.2rem;
+  }
+  .project-note {
+    max-width: 65rem;
+    color: var(--ink-soft);
+  }
+  .project-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .project-item :global(.card) {
+    flex: 1;
+  }
+  .program-results {
+    margin-top: 2rem;
+  }
+  .program-results ul {
+    padding-left: 1.2rem;
+    margin-top: 1rem;
+  }
+  .independent-initiatives {
+    border-top: 1px solid var(--line);
   }
 </style>

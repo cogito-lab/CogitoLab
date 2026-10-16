@@ -217,6 +217,7 @@ const programs = defineCollection({
     primaryPillar: pillar,
     objectives: localizedList,
     institutionalStatus: localized,
+    audience: localized.optional(),
     achievedResults: z.array(result).default([]),
   }),
 });

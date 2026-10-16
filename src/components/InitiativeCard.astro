@@ -9,8 +9,19 @@ interface Props {
   lang: Lang;
   index?: number;
   showClassification?: boolean;
+  headingLevel?: 'h3' | 'h4';
+  showActivities?: boolean;
+  showInstitutionalStatus?: boolean;
 }
-const { initiative, lang, index, showClassification = false } = Astro.props;
+const {
+  initiative,
+  lang,
+  index,
+  showClassification = false,
+  headingLevel: Heading = 'h3',
+  showActivities = false,
+  showInstitutionalStatus = false,
+} = Astro.props;
 const slug = entrySlug(initiative.id);
 const copy = t(lang);
 const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.data.order) % 5];
@@ -23,6 +34,7 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
   data-kind={initiative.data.kind}
   data-status={initiative.data.status}
   data-pillar={initiative.data.primaryPillar}
+  data-entity-type={initiative.data.entityType}
 >
   <a class="card__link" href={withBase(localizedPath(`/initiatives/${slug}`, lang))}>
     <span class="sr-only">{pick(initiative.data.title, lang)}</span>
@@ -53,8 +65,27 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
     {showClassification && (
       <p class="person-card__role">{pick(entityTypeLabels[initiative.data.entityType], lang)}</p>
     )}
-    <h3>{pick(initiative.data.shortTitle ?? initiative.data.title, lang)}</h3>
+    <Heading class="initiative-title">
+      {pick(initiative.data.shortTitle ?? initiative.data.title, lang)}
+    </Heading>
     <p>{pick(initiative.data.summary, lang)}</p>
+    {showInstitutionalStatus && (
+      <p class="institutional-status">{pick(initiative.data.statusLabel, lang)}</p>
+    )}
+    {showActivities && pick(initiative.data.expectedResults, lang).length > 0 && (
+      <div class="activity-preview">
+        <p>
+          <strong>{lang === 'pt' ? 'Possibilidades de atuação' : 'Possible activities'}</strong>
+        </p>
+        <ul>
+          {pick(initiative.data.expectedResults, lang)
+            .slice(0, 3)
+            .map((activity) => (
+              <li>{activity}</li>
+            ))}
+        </ul>
+      </div>
+    )}
   </div>
   <div class="card__footer">
     <ul class="tag-list">
@@ -67,3 +98,27 @@ const tone = ['mint', 'blue', 'amber', 'violet', 'coral'][(index ?? initiative.d
     </span>
   </div>
 </article>
+
+<style>
+  .initiative-title {
+    margin: 0 0 0.75rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+  .institutional-status,
+  .activity-preview {
+    margin-top: 1rem;
+  }
+  .activity-preview ul {
+    margin-top: 0.5rem;
+    padding-left: 1.1rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+  .activity-preview li + li {
+    margin-top: 0.35rem;
+  }
+</style>

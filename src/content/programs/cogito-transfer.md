@@ -4,6 +4,9 @@ description:
   en: Connects university and society through software engineering, innovation and knowledge transfer, articulating four extension projects.
   pt: Aproxima universidade e sociedade por meio da Engenharia de Software, inovação e transferência de conhecimento, articulando quatro projetos de extensão.
 primaryPillar: extension
+audience:
+  en: Students, collaborators and external organizations interested in sharing knowledge and addressing real problems.
+  pt: Estudantes, colaboradores e organizações externas interessados em compartilhar conhecimento e abordar problemas reais.
 objectives:
   en:
     [Apply and share knowledge with society, Support student learning through extension activities]
