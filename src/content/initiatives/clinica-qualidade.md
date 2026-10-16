@@ -17,7 +17,7 @@
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
   'extensionCode': 'P3',
-  'status': 'planning',
+  'status': 'active',
   'statusLabel':
     {
       'en': 'Reported as registered · activities subject to scoping',
@@ -25,6 +25,17 @@
     },
   'areas': [],
   'people': [],
+  'defined':
+    {
+      'en':
+        [
+          'The project is underway; now it is a matter of closing partnerships with companies that want the service.',
+        ],
+      'pt':
+        [
+          'Projeto está em rodando, agora é fechar parcerias com empresas que querem o serviço',
+        ],
+    },
   'work':
     {
       'en':

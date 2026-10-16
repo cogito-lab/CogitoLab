@@ -7,7 +7,7 @@ primaryPillar: extension
 entityType: initiative
 kind: extension
 kindLabel: { en: Innovation · Entrepreneurship, pt: Inovação · Empreendedorismo }
-status: planning
+status: active
 statusLabel:
   { en: Collaborative role · scope pending, pt: Participação colaborativa · escopo pendente }
 areas: [innovation-transfer]

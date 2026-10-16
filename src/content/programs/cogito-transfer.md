@@ -16,6 +16,6 @@ objectives:
       Apoiar a formação de estudantes por meio de atividades extensionistas,
     ]
 institutionalStatus:
-  en: Four linked projects reported as registered; activities subject to scoping and institutional permissions.
-  pt: Quatro projetos vinculados informados como registrados; atividades sujeitas à definição de escopo e permissões institucionais.
+  en: Four linked projects are running; activities subject to scoping and institutional permissions.
+  pt: Quatro projetos vinculados em vigor; atividades sujeitas à definição de escopo e permissões institucionais.
 ---

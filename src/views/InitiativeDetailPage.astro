@@ -150,7 +150,7 @@ const { Content } = await render(initiative);
       )}
       {pick(initiative.data.expectedResults, lang).length > 0 && (
         <section id="expected-results">
-          <h2>{lang === 'pt' ? 'Resultados esperados' : 'Expected results'}</h2>
+          <h2>{lang === 'pt' ? 'Resultados Esperados' : 'Expected Results'}</h2>
           <ul>
             {pick(initiative.data.expectedResults, lang).map((item) => (
               <li>{item}</li>

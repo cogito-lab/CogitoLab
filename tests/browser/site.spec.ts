@@ -239,7 +239,7 @@ test('initiative details show only explicit publications, participants and nonem
   for (const prefix of ['', '/pt']) {
     await page.goto(route(`${prefix}/initiatives/qualidade-software-ia`));
     await expect(page.locator('#expected-results h2')).toHaveText(
-      prefix ? 'Resultados esperados' : 'Expected results'
+      prefix ? 'Resultados Esperados' : 'Expected Results'
     );
     await expect(page.locator('#achieved-results')).toHaveCount(0);
     await expect(page.locator('#initiative-publications [data-publication]')).toHaveCount(1);

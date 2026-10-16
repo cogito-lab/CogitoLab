@@ -17,7 +17,7 @@
   'kindLabel':
     { 'en': 'Extension project · Cogito Transfer', 'pt': 'Projeto de extensão · Cogito Transfer' },
   'extensionCode': 'P1',
-  'status': 'planning',
+  'status': 'active',
   'statusLabel':
     {
       'en': 'Reported as registered · activities subject to scoping',
@@ -29,13 +29,11 @@
     {
       'en':
         [
-          'Reported as registered at the October 9, 2026 meeting.',
-          'Registration does not automatically approve new activities or partnerships.',
+          'The project is underway; now it is a matter of closing partnerships with companies that want the service.',
         ],
       'pt':
         [
-          'Informado como registrado na reunião de 9 de outubro de 2026.',
-          'O registro não aprova automaticamente novas atividades ou parcerias.',
+          'Projeto está em rodando, agora é fechar parcerias com empresas que querem o serviço',
         ],
     },
   'work':

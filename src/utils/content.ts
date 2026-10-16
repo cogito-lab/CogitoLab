@@ -45,14 +45,14 @@ export const categoryOrder = [
 
 export const categoryLabels: Record<string, Record<Lang, string>> = {
   faculty: { en: 'Faculty', pt: 'Docentes' },
-  postdoc: { en: 'Postdoctoral researchers', pt: 'Pós-doutorandos' },
-  phd: { en: 'PhD researchers', pt: 'Doutorandos' },
-  masters: { en: "Master's researchers", pt: 'Mestrandos' },
-  undergraduate: { en: 'Undergraduate researchers', pt: 'Pesquisadores de graduação' },
+  postdoc: { en: 'Postdoctoral Researchers', pt: 'Pós-doutorandos' },
+  phd: { en: 'PhD Researchers', pt: 'Doutorandos' },
+  masters: { en: "Master's Researchers", pt: 'Mestrandos' },
+  undergraduate: { en: 'Undergraduate Researchers', pt: 'Pesquisadores de Graduação' },
   collaborator: { en: 'Collaborators', pt: 'Colaboradores' },
-  staff: { en: 'Research staff', pt: 'Equipe de pesquisa' },
-  visiting: { en: 'Visiting researchers', pt: 'Pesquisadores visitantes' },
-  alumni: { en: 'Former members', pt: 'Ex-membros' },
+  staff: { en: 'Research Staff', pt: 'Equipe de pesquisa' },
+  visiting: { en: 'Visiting Researchers', pt: 'Pesquisadores Visitantes' },
+  alumni: { en: 'Former Members', pt: 'Ex-membros' },
 };
 
 export function entrySlug(id: string) {
